@@ -1,5 +1,5 @@
+'use strict';
 $(function() {
-
     var servicePath = $("#spnServicePath").text();
     $("#inputUserName").on("blur", () => {
         run_waitMe("userName");
@@ -8,68 +8,95 @@ $(function() {
 
     $(".signup").on("click", () => {
         run_waitMe("signUp");
-        signUp();
+        signUp(servicePath);
     });
 
 });
 
 let checkUserName = (servicePath) => {
-    servicePath = servicePath != null ? servicePath : "http://localhost:3000";
-    var url = servicePath + "/checkUserName/" + $("#inputUserName").val();
-    $.ajax({
-        url: url, // "https://www.emirates.com/api/fares/featured/uk/english/LHR",   
-        dataType: 'json',
-        success: function(data) {
-            if (data != null && data.result != null && data.result == true) {
-                $("#inputUserName").focus().parent().addClass("has-error");
-                $(".ErrorPanel").html(showMessage(" <strong>Warning!</strong> user-name already taken"));
-                showErrorPanal();
-            } else {
-                $(".ErrorPanel").addClass("hidden");
-                $("#inputUserName").parent().removeClass("has-error");
-                $(".successPanel").html(showMessage(" <strong>Good!</strong> you are on right way ."));
-                showSuccessPanal();
-            }
 
-            stop_waitMe("userName");
-        },
-        error: function(err) {
-            console.log("Error API :" + JSON.stringify(err));
-            $(".ErrorPanel").html(showMessage(" <strong>Oh sanp!</strong> there some technical error"));
-            showErrorPanal();
-            $("#inputUserName").focus();
-            stop_waitMe("userName");
-        }
-    });
+    if ($("#inputUserName").val() == "" || $("#inputUserName").val() == undefined) {
+
+        $("#inputUserName").focus().parent().addClass("has-error");
+        $(".ErrorPanel").html(showMessage("Please enter user name."));
+        stop_waitMe("userName");
+        showErrorPanal();
+
+    } else {
+
+        servicePath = servicePath != null ? servicePath : "http://localhost:3000";
+        var url = servicePath + "/checkUserName/" + $("#inputUserName").val();
+        $.ajax({
+            url: url, // "https://www.emirates.com/api/fares/featured/uk/english/LHR",   
+            dataType: 'json',
+            success: function(data) {
+                if (data != null && data.result != null && data.result == true) {
+                    $("#inputUserName").focus().parent().addClass("has-error");
+                    $(".ErrorPanel").html(showMessage(" <strong>Warning!</strong> user-name already taken"));
+                    showErrorPanal();
+                } else {
+                    $(".ErrorPanel").addClass("hidden");
+                    $("#inputUserName").parent().removeClass("has-error");
+                    $(".successPanel").html(showMessage(" <strong>Good!</strong> you are on right way ."));
+                    showSuccessPanal();
+                }
+
+                stop_waitMe("userName");
+            },
+            error: function(err) {
+                console.log("Error API :" + JSON.stringify(err));
+                $(".ErrorPanel").html(showMessage(" <strong>Oh sanp!</strong> there some technical error"));
+                showErrorPanal();
+                $("#inputUserName").focus();
+                stop_waitMe("userName");
+            }
+        });
+    }
 }
 
 let showMessage = ($message) => {
     return $("<div></div>").append($message);
 };
 
-let signUp = (data) => {
+let signUp = (servicePath) => {
     clearControlClass();
-    if (signUPValidation()) {
+    //if (signUPValidation()) {
+    if (true) {
         hideAllPanel();
+        // var result = {
+        //     "username": $("#inputUserName").val(),
+        //     "name": $("#inputName").val(),
+        //     "email": $("#inputEmail").val(),
+        //     "password": $("#inputPassword").val()
+        // };
+
         var result = {
-            "username": $("#inputUserName").val(),
-            "name": $("#inputName").val(),
-            "email": $("#inputEmail").val(),
-            "password": $("#inputPassword").val()
+            "username": 1,
+            "name": 2,
+            "email": 3,
+            "password": 4
         }
+
+        // servicePath = servicePath != null ? servicePath : "http://localhost:3000";
+        //  var url = servicePath + "/saveSignUp/"; // + $("#inputUserName").val();
 
         $.ajax({
                 method: "Post",
                 url: "/commonAPI/data/signUp",
-                data: { data: result }
+                data: {
+                    data: result
+                }
             })
             .done(function(jsonResult) {
-
+                console.log("jsonResult:" + JSON.stringify(jsonResult));
             })
             .fail(function(err) {
                 showErrorPanal();
+                console.log("post error:" + JSON.stringify(err));
             })
-            .always(function() {});
+            .always(function() {
+                stop_waitMe("signUp");
+            });
     }
 }
 

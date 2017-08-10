@@ -1,11 +1,23 @@
+"use strict";
 var express = require("express");
 var router = express.Router();
+var request = require("request");
+var config = require("config");
 module.exports = router;
+const serviceURL = config.get("app.restAPIEndpoint.v1ContractPath");
 
 router.post("/data/signUp", function(req, res) {
+    //request.post('http://service.com/upload', {form:{key:'value'}})
+    // or
+    //request.post('http://service.com/upload').form({key:'value'})
+    // or
+    //request.post({ url: 'http://service.com/upload', form: { key: 'value' } }, function(err, httpResponse, body) { /* ... */ })
 
-    var data = req.body.data;
-    console.log("data:" + JSON.stringify(data));
+    let path = serviceURL + "/saveSignUp/";
+    console.log("path:" + path);
+
+    request.post(path).form({ key: 'vaskar' });
+
 
     // if (type != null) {
     //     dataFilter = { "usernamehash": false, "password": false };
