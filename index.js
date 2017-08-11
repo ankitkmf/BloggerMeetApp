@@ -6,6 +6,7 @@ var exphbs = require("express-handlebars");
 var bodyparser = require("body-parser");
 var config = require("config");
 var log = require("./modellayer/log");
+var blog = require("./modellayer/blogs");
 app.locals.config = config.get('app.restAPIEndpoint.v1ContractPath');
 
 app.use(bodyparser.urlencoded({ extended: true }));
@@ -25,6 +26,9 @@ app.set('view engine', 'handlebars');
 app.get('/', function(req, res) {
     log.logger.error("error");
     log.logger.info("info");
+
+    console.log("Index Page : " + blog.blogs(0, "all"));
+
     res.render('home', { layout: 'default', title: 'Home Page' });
 });
 

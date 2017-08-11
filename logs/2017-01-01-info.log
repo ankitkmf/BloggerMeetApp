@@ -1,3 +1,14 @@
 {"name":"myapp","hostname":"Lenovo-PC","pid":7372,"level":50,"msg":"error","time":"2017-08-11T08:44:17.321Z","v":0}
 {"name":"myapp","hostname":"Lenovo-PC","pid":8196,"level":50,"msg":"error","time":"2017-08-11T10:45:41.470Z","v":0}
 {"name":"myapp","hostname":"Lenovo-PC","pid":10876,"level":50,"msg":"error","time":"2017-08-11T11:27:25.702Z","v":0}
+{"name":"myapp","hostname":"NB3051517587","pid":10236,"level":50,"msg":"error","time":"2017-08-11T14:07:11.672Z","v":0}
+{"name":"myapp","hostname":"NB3051517587","pid":10236,"level":50,"msg":"error","time":"2017-08-11T14:07:18.584Z","v":0}
+{"name":"myapp","hostname":"NB3051517587","pid":11084,"level":50,"msg":"error","time":"2017-08-11T14:11:35.981Z","v":0}
+{"name":"myapp","hostname":"NB3051517587","pid":2960,"level":50,"msg":"error","time":"2017-08-11T14:14:15.711Z","v":0}
+{"name":"myapp","hostname":"NB3051517587","pid":8500,"level":50,"msg":"error","time":"2017-08-11T14:16:57.137Z","v":0}
+{"name":"myapp","hostname":"NB3051517587","pid":5320,"level":50,"msg":"error","time":"2017-08-11T14:19:45.878Z","v":0}
+{"name":"myapp","hostname":"NB3051517587","pid":4332,"level":50,"msg":"error","time":"2017-08-11T14:20:28.634Z","v":0}
+{"name":"myapp","hostname":"NB3051517587","pid":7468,"level":50,"msg":"error","time":"2017-08-11T14:22:24.563Z","v":0}
+{"name":"myapp","hostname":"NB3051517587","pid":10460,"level":50,"msg":"error","time":"2017-08-11T14:24:15.962Z","v":0}
+{"name":"myapp","hostname":"NB3051517587","pid":11228,"level":50,"msg":"error","time":"2017-08-11T14:27:15.635Z","v":0}
+{"name":"myapp","hostname":"NB3051517587","pid":12280,"level":50,"msg":"error","time":"2017-08-11T14:27:58.094Z","v":0}
