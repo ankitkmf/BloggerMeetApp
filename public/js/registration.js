@@ -6,11 +6,10 @@ $(function() {
         checkUserName(servicePath);
     });
 
-    $(".signup").on("click", () => {
+    $(".signupBtn").on("click", () => {
         run_waitMe("signUp");
         signUp(servicePath);
     });
-
 });
 
 let checkUserName = (servicePath) => {
@@ -35,7 +34,7 @@ let checkUserName = (servicePath) => {
                     $(".ErrorPanel").html(showMessage(" <strong>Warning!</strong> user-name already taken"));
                     showErrorPanal();
                 } else {
-                    $(".ErrorPanel").addClass("hidden");
+                    // $(".ErrorPanel").addClass("hidden");
                     $("#inputUserName").parent().removeClass("has-error");
                     $(".successPanel").html(showMessage(" <strong>Good!</strong> you are on right way ."));
                     showSuccessPanal();
@@ -60,34 +59,28 @@ let showMessage = ($message) => {
 
 let signUp = (servicePath) => {
     clearControlClass();
-    //if (signUPValidation()) {
-    if (true) {
+    if (signUPValidation()) {
         hideAllPanel();
-        // var result = {
-        //     "username": $("#inputUserName").val(),
-        //     "name": $("#inputName").val(),
-        //     "email": $("#inputEmail").val(),
-        //     "password": $("#inputPassword").val()
-        // };
-
         var result = {
-            "username": 4,
-            "name": 2,
-            "email": 3,
-            "password": 4
-        }
-
-        // servicePath = servicePath != null ? servicePath : "http://localhost:3000";
-        //  var url = servicePath + "/saveSignUp/"; // + $("#inputUserName").val();
-
+            "username": $("#inputUserName").val(),
+            "name": $("#inputName").val(),
+            "email": $("#inputEmail").val(),
+            "password": $("#inputPassword").val()
+        };
         $.ajax({
                 method: "Post",
                 url: "/commonAPI/data/signUp",
-                data: {
-                    data: result
-                }
+                data: result
             })
             .done(function(jsonResult) {
+                if (jsonResult) {
+                    clearControlClass();
+                    $("#userRegistration").addClass("hidden");
+                    $(".successPanel").html("<strong>Well done! You have successfully signed up.</strong> <a href='/' class='alert-link'>Go to home page</a>");
+                    showSuccessPanal();
+                    clearInputFields();
+
+                } else {}
                 console.log("jsonResult:" + JSON.stringify(jsonResult));
             })
             .fail(function(err) {
@@ -179,6 +172,13 @@ let clearControlClass = () => {
 
     $("input").each(function(index) {
         $("#" + $(this).attr("id")).parent().removeClass("has-error");
-        console.log(index + ": " + $(this).attr("id"));
+        // console.log(index + ": " + $(this).attr("id"));
+    });
+};
+
+let clearInputFields = () => {
+    $("input").each(function(index) {
+        // console.log(index + ": " + $("#" + $(this).attr("id")).val());
+        $("#" + $(this).attr("id")).val("");
     });
 };
