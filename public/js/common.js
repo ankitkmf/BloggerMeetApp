@@ -1,6 +1,10 @@
 'use strict';
 $(function() {
-
+    $(".loginBtn").on("click", () => {
+        $(".modalLogin").removeClass("hidden");
+        // run_waitMe("signUp");
+        //signUp(servicePath);
+    });
 
 });
 

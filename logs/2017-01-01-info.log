@@ -12,3 +12,8 @@
 {"name":"myapp","hostname":"NB3051517587","pid":10460,"level":50,"msg":"error","time":"2017-08-11T14:24:15.962Z","v":0}
 {"name":"myapp","hostname":"NB3051517587","pid":11228,"level":50,"msg":"error","time":"2017-08-11T14:27:15.635Z","v":0}
 {"name":"myapp","hostname":"NB3051517587","pid":12280,"level":50,"msg":"error","time":"2017-08-11T14:27:58.094Z","v":0}
+{"name":"myapp","hostname":"Lenovo-PC","pid":13376,"level":50,"msg":"error","time":"2017-08-11T18:19:44.225Z","v":0}
+{"name":"myapp","hostname":"Lenovo-PC","pid":13272,"level":50,"msg":"error","time":"2017-08-11T19:14:23.446Z","v":0}
+{"name":"myapp","hostname":"Lenovo-PC","pid":13272,"level":50,"msg":"error","time":"2017-08-11T19:14:46.406Z","v":0}
+{"name":"myapp","hostname":"Lenovo-PC","pid":6252,"level":50,"msg":"error","time":"2017-08-11T20:19:03.312Z","v":0}
+{"name":"myapp","hostname":"Lenovo-PC","pid":1452,"level":50,"msg":"error","time":"2017-08-11T20:41:59.312Z","v":0}
