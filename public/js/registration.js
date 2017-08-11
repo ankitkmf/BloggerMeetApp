@@ -71,7 +71,7 @@ let signUp = (servicePath) => {
         // };
 
         var result = {
-            "username": 1,
+            "username": 4,
             "name": 2,
             "email": 3,
             "password": 4
