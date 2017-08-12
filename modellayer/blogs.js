@@ -7,16 +7,17 @@ exports.blogs = function(startindex, categorytype) {
     let path = serviceURL + "/getblogs/" + startindex + "/" + categorytype;
     console.log("path:" + path);
 
-
-    axios.get(path).then(function(response) {
-            console.log("api response:" + JSON.parse(response));
-            return response;
-        })
-        .catch(function(error) {
-            console.log("api error:" + error);
-            var err = { "Error": error };
-            return err;
-        });
+    return new Promise(function(resolve, reject) {
+        axios.get(path).then(function(response) {
+                resolve(response);
+            })
+            .catch(function(error) {
+                console.log("api error:" + error);
+                var err = { "Error": error };
+                //return err;
+                reject(err);
+            });
+    });
 }
 
 // router.post("/data/signUp", function(req, res) {

@@ -1,33 +1,31 @@
 <div class="bs-docs-section">
     <div class="row">
         <div class="col-lg-8">
-            <div class="bs-component">
+            <div class="bs-component blogdata">
+                {{#each blogs.result}}
                 <div class="panel panel-primary">
                     <div class="panel-heading">
-                        <h3 class="panel-title">Panel primary</h3>
+                        <h3 class="panel-title">{{this.topic}}</h3>
+                        <p>Written by <a href="#">{{this.createdby}}</a>, Posted on {{this.creationdate}}</p>
                     </div>
                     <div class="panel-body">
-                        Panel content
+                        <!--Content-->
+                        <span class="limitblogdata">{{{this.content}}}</span>
                     </div>
-                </div>
 
-                <div class="panel panel-success">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Panel success</h3>
-                    </div>
                     <div class="panel-body">
-                        Panel content
+                        <!--"Read more" button-->
+                        <a href="#"><button class="btn btn-info">Read more</button></a>
                     </div>
                 </div>
-
-                <div class="panel panel-warning">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Panel warning</h3>
-                    </div>
-                    <div class="panel-body">
-                        Panel content
-                    </div>
-                </div>
+                {{/each}} {{#if index}}
+                <input type="hidden" name="nextsearindex" id="nextsearindex" value={{index}} /> {{/if}}
+            </div>
+            <div id="divImage" class="hidden">
+                <img style="height: 20px; width: 20px;" id="loadmoreblog" name="loadmoreblog" alt="Load More" src="/images/loadmore.png"
+                />
+                <br/>
+                <br/>
             </div>
         </div>
         <div class="col-lg-4">

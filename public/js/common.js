@@ -6,6 +6,8 @@ $(function() {
         //signUp(servicePath);
     });
 
+    limitBlogLength();
+
 });
 
 let GetCompiledTemplate = (fileName) => {
@@ -54,4 +56,16 @@ let validateEmail = $email => {
 let validateName = $name => {
     var NameReg = /^[a-zA-Z\s]+$/;
     return NameReg.test($name);
+};
+
+let limitBlogLength = () => {
+    $('.blogdata .limitblogdata').each(function(index, value) {
+        var showlength = 100;
+        var data = $(value).text();
+        if (data.length > showlength) {
+            var c = data.substring(0, showlength);
+            $('.blogdata .limitblogdata')[index].innerHTML = "";
+            $('.blogdata .limitblogdata')[index].innerHTML = "<p>" + c + "</p>";
+        }
+    });
 };
