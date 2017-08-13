@@ -9,6 +9,7 @@ var log = require("./modellayer/log");
 var blog = require("./modellayer/blogs");
 var _ = require("lodash");
 app.locals.config = config.get('app.restAPIEndpoint.v1ContractPath');
+var pageList = require("./data/pageList.json");
 
 app.use(bodyparser.urlencoded({ extended: true }));
 app.use(bodyparser.json());
@@ -39,7 +40,41 @@ app.use(require('express-session')({
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.get('/', function(req, res) {
+let isAuthenticated = (req, res, next) => {
+    //console.log(req.route.path);
+    console.log(req);
+    console.log(req.query.url);
+    pageList.forEach(function(index, value) {
+        console.log("Index:" + index["key"] + ", value:" + index["value"]);
+    });
+    next();
+    // if (req.isAuthenticated()) {
+    //     res.locals.Info.user = req.user;
+    //     res.locals.Info.IsLogin = "true";
+
+    //     res.locals.Info = {
+    //         user: req.user,
+    //         IsLogin: "true"
+    //     };
+    //     res.locals.Info.IsLogin = "true";
+    //     console.log("Authenticated");
+    //     next();
+    //     return;
+    // } else {
+    //     console.log("Not Authenticated");
+    //     res.redirect("/");
+    // }
+};
+
+// let isLoginRequired = (req, res, next) => {
+//     if (req.isAuthenticated()) {
+//         res.locals.user = req.user;
+//         next();
+//         return;
+//     }
+// };
+
+app.get('/', isAuthenticated, function(req, res) {
     log.logger.error("error");
     log.logger.info("info");
 
@@ -73,39 +108,26 @@ app.get('/', function(req, res) {
 });
 
 var authRouter = require('./controllers/authroute');
-app.use('/auth', authRouter);
+app.use('/auth', isAuthenticated, authRouter);
 
-app.use(function(req, res, next) {
-    if (req.isAuthenticated()) {
-        res.locals.user = req.user;
-        next();
-        return;
-    }
-    res.redirect("/auth/login");
-});
-
-// let isValid = (req, res, next) => {
+// app.use(function(req, res, next) {
 //     if (req.isAuthenticated()) {
 //         res.locals.user = req.user;
-//         console.log("valid");
 //         next();
 //         return;
-//     } else {
-//         console.log("In-valid");
-//         res.redirect("/");
-//         //  return;
 //     }
-// };
+//     res.redirect("/auth/login");
+// });
 
-app.get('/dashboard', function(req, res) {
+app.get('/dashboard', isAuthenticated, function(req, res) {
     res.render('dashboard', { layout: 'default', title: 'Dashboard Page' });
 });
 
 var CommonAPI = require('./modellayer/CommonAPI');
-app.use('/commonapi', CommonAPI);
+app.use('/commonapi', isAuthenticated, CommonAPI);
 
 var userregistration = require('./controllers/userregistration');
-app.use('/auth', userregistration);
+app.use('/auth', isAuthenticated, userregistration);
 
 app.use(function(req, res, next) {
     res.render('404error', { layout: 'default', title: '404 Page' });

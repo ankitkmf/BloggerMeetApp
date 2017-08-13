@@ -94,3 +94,8 @@
 {"name":"myapp","hostname":"NB3051517587","pid":7760,"level":50,"msg":"error","time":"2017-08-13T13:47:54.800Z","v":0}
 {"name":"myapp","hostname":"NB3051517587","pid":9968,"level":50,"msg":"error","time":"2017-08-13T13:49:01.031Z","v":0}
 {"name":"myapp","hostname":"NB3051517587","pid":9968,"level":50,"msg":"error","time":"2017-08-13T13:49:23.271Z","v":0}
+{"name":"myapp","hostname":"NB3051517587","pid":17796,"level":50,"msg":"error","time":"2017-08-13T14:41:56.433Z","v":0}
+{"name":"myapp","hostname":"NB3051517587","pid":16836,"level":50,"msg":"error","time":"2017-08-13T14:42:58.573Z","v":0}
+{"name":"myapp","hostname":"NB3051517587","pid":17500,"level":50,"msg":"error","time":"2017-08-13T14:49:11.957Z","v":0}
+{"name":"myapp","hostname":"NB3051517587","pid":4760,"level":50,"msg":"error","time":"2017-08-13T14:56:51.686Z","v":0}
+{"name":"myapp","hostname":"NB3051517587","pid":11356,"level":50,"msg":"error","time":"2017-08-13T15:02:41.739Z","v":0}

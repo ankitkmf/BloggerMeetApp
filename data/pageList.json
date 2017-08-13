@@ -1,0 +1,8 @@
+[
+    { "key": "home", "value": false },
+    { "key": "dashboard", "value": true },
+    { "key": "signup", "value": false },
+    { "key": "forgot", "value": false },
+    { "key": "reset", "value": false },
+    { "key": "myprofile", "value": true }
+]
