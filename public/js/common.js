@@ -7,7 +7,7 @@ $(function() {
         startindex = $('#nextsearindex').val();
 
     $(".loginBtn").on("click", () => {
-        $(".modalLogin").removeClass("hidden");
+        //$(".modalLogin").removeClass("hidden");
         // run_waitMe("signUp");
         //signUp(servicePath);
     });

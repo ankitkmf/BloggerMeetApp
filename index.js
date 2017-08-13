@@ -16,13 +16,28 @@ app.use(bodyparser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
 var hbs = exphbs.create({
-    defaultLayout: 'layouts',
+    defaultLayout: 'default',
     helpers: {},
     partialsDir: ['views/partials/']
 });
 
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
+
+
+require("./passport/init");
+
+// Configuring Passport
+var passport = require("passport");
+var expressSession = require('express-session');
+
+app.use(require('express-session')({
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: false
+}));
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.get('/', function(req, res) {
     log.logger.error("error");
@@ -57,13 +72,37 @@ app.get('/', function(req, res) {
     });
 });
 
+var authRouter = require('./controllers/authroute');
+app.use('/auth', authRouter);
+
+app.use(function(req, res, next) {
+    if (req.isAuthenticated()) {
+        res.locals.user = req.user;
+        next();
+        return;
+    }
+    res.redirect("/auth/login");
+});
+
+// let isValid = (req, res, next) => {
+//     if (req.isAuthenticated()) {
+//         res.locals.user = req.user;
+//         console.log("valid");
+//         next();
+//         return;
+//     } else {
+//         console.log("In-valid");
+//         res.redirect("/");
+//         //  return;
+//     }
+// };
+
 app.get('/dashboard', function(req, res) {
     res.render('dashboard', { layout: 'default', title: 'Dashboard Page' });
 });
 
 var CommonAPI = require('./modellayer/CommonAPI');
 app.use('/commonapi', CommonAPI);
-
 
 var userregistration = require('./controllers/userregistration');
 app.use('/auth', userregistration);
