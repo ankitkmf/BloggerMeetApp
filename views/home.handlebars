@@ -3,22 +3,22 @@
         <div class="col-lg-8">
             <div class="bs-component blogdata">
                 {{#each blogs.result}}
-                <div class="panel panel-primary">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">{{this.topic}}</h3>
-                        <p>Written by <a href="#">{{this.createdby}}</a>, Posted on {{this.creationdate}}</p>
-                    </div>
-                    <div class="panel-body">
-                        <!--Content-->
-                        <span class="limitblogdata">{{{this.content}}}</span>
-                    </div>
 
-                    <div class="panel-body">
-                        <!--"Read more" button-->
-                        <a href="#"><button class="btn btn-info">Read more</button></a>
-                    </div>
+                <div>
+
+                    <!-- Title ,Author ,Date/Time-->
+                    <h3 class="h3-responsive"><a href="/viewblog/showdetails/{{this._id}}">
+                    <img border="0" src="/images/article.png" title="article"></a>{{this.topic}}</h3>
+                    <p>Written by <a href="#">{{this.createdby}}</a>,
+                        <span class="glyphicon glyphicon-time"></span> Posted on {{this.creationdate}}</p>
+
+                    <!--Content-->
+                    <span class="limitblogdata">{{{this.content}}}</span>
+
+                    <!--"Read more" button-->
+                    <a href="/viewblog/showdetails/{{this._id}}"><button class="btn btn-info">Read more</button></a>
                 </div>
-                {{/each}} {{#if index}}
+                <hr> {{/each}} {{#if index}}
                 <input type="hidden" name="nextsearindex" id="nextsearindex" value={{index}} /> {{/if}}
             </div>
             <div id="divImage" class="hidden">
