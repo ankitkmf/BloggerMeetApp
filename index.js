@@ -11,7 +11,7 @@ var _ = require("lodash");
 app.locals.config = config.get('app.restAPIEndpoint.v1ContractPath');
 var pageList = require("./data/pageList.json");
 
-var isAuthenticated = require('./modellayer/authentication');
+//var isAuthenticated = require('./modellayer/authentication');
 
 app.use(bodyparser.urlencoded({ extended: true }));
 app.use(bodyparser.json());
@@ -64,6 +64,20 @@ app.use(require('express-session')({
 app.use(passport.initialize());
 app.use(passport.session());
 
+
+// let authenticationMiddleware = function() {
+//     return function(req, res, next) {
+//         if (req.isAuthenticated()) {
+//             console.log("Authentication page Valid User");
+//             res.locals.user = req.user;
+//             return next();
+//             // return;
+//         }
+//         console.log("Authentication page  In-valid User");
+//         res.redirect('/');
+//     }
+// };
+
 // let isAuthenticated = (req, res, next) => {
 //     //console.log(req.route.path);
 //     console.log(req);
@@ -98,7 +112,27 @@ app.use(passport.session());
 //     }
 // };
 
-app.get('/', function(req, res) {
+let authenticationMiddleware = function(req, res, next) {
+    // return function(req, res, next) {
+    if (req.isAuthenticated()) {
+        console.log("Authentication page Valid User");
+        res.locals.user = req.user;
+        return next();
+    }
+    console.log("Authentication page  In-valid User");
+    res.redirect('/');
+
+};
+
+let authNotRequired = (req, res, next) => {
+    if (req.isAuthenticated()) {
+        console.log("Authentication page Valid User");
+        res.locals.user = req.user;
+    }
+    next();
+};
+
+app.get('/', authNotRequired, function(req, res) {
     log.logger.error("error");
     log.logger.info("info");
 
@@ -138,17 +172,18 @@ app.get("/myprofile", function(req, res) {
 var authRouter = require('./controllers/authroute');
 app.use('/auth', authRouter);
 
-app.use(function(req, res, next) {
-    if (req.isAuthenticated()) {
-        res.locals.user = req.user;
-        next();
-        return;
-    }
-    res.redirect("/");
-    //res.redirect("/auth/login");
-});
+// app.use(function(req, res, next) {
+//     if (req.isAuthenticated()) {
+//         console.log("Index page  In-valid User");
+//         res.locals.user = req.user;
+//         next();
+//         return;
+//     }
+//     res.redirect("/");
+//     //res.redirect("/auth/login");
+// });
 
-app.get('/dashboard', function(req, res) {
+app.get('/dashboard', authenticationMiddleware, function(req, res) {
     res.render('dashboard', { layout: 'default', title: 'Dashboard Page' });
 });
 

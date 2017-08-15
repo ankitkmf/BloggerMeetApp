@@ -8,7 +8,7 @@ module.exports = router;
 // });
 
 router.post("/login", passport.authenticate('local', {
-    successRedirect: '/dashboard',
+    successRedirect: '/',
     failureRedirect: '/'
 }));
 
