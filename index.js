@@ -8,7 +8,6 @@ var config = require("config");
 var log = require("./modellayer/log");
 var _ = require("lodash");
 app.locals.config = config.get('app.restAPIEndpoint.v1ContractPath');
-var pageList = require("./data/pageList.json");
 
 app.use(bodyparser.urlencoded({ extended: true }));
 app.use(bodyparser.json());
