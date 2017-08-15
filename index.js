@@ -11,6 +11,8 @@ var _ = require("lodash");
 app.locals.config = config.get('app.restAPIEndpoint.v1ContractPath');
 var pageList = require("./data/pageList.json");
 
+var isAuthenticated = require('./modellayer/authentication');
+
 app.use(bodyparser.urlencoded({ extended: true }));
 app.use(bodyparser.json());
 
@@ -32,6 +34,28 @@ require("./passport/init");
 var passport = require("passport");
 var expressSession = require('express-session');
 
+// app.use(expressSession({
+//     secret: '2C44-4D44-WppQ38S',
+//     resave: true,
+//     saveUninitialized: true
+// }));
+
+// // Authentication and Authorization Middleware
+// var auth = function(req, res, next) {
+//     if (req.session && req.session.user === "amy" && req.session.admin)
+//         return next();
+//     else
+//         return res.sendStatus(401);
+// };
+
+
+
+// // Logout endpoint
+// app.get('/logout', function(req, res) {
+//     req.session.destroy();
+//     res.send("logout success!");
+// });
+
 app.use(require('express-session')({
     secret: 'keyboard cat',
     resave: false,
@@ -40,31 +64,31 @@ app.use(require('express-session')({
 app.use(passport.initialize());
 app.use(passport.session());
 
-let isAuthenticated = (req, res, next) => {
-    //console.log(req.route.path);
-    console.log(req);
-    console.log(req.query.url);
-    pageList.forEach(function(index, value) {
-        console.log("Index:" + index["key"] + ", value:" + index["value"]);
-    });
-    next();
-    // if (req.isAuthenticated()) {
-    //     res.locals.Info.user = req.user;
-    //     res.locals.Info.IsLogin = "true";
+// let isAuthenticated = (req, res, next) => {
+//     //console.log(req.route.path);
+//     console.log(req);
+//     console.log(req.query.url);
+//     pageList.forEach(function(index, value) {
+//         console.log("Index:" + index["key"] + ", value:" + index["value"]);
+//     });
+//     next();
+//     // if (req.isAuthenticated()) {
+//     //     res.locals.Info.user = req.user;
+//     //     res.locals.Info.IsLogin = "true";
 
-    //     res.locals.Info = {
-    //         user: req.user,
-    //         IsLogin: "true"
-    //     };
-    //     res.locals.Info.IsLogin = "true";
-    //     console.log("Authenticated");
-    //     next();
-    //     return;
-    // } else {
-    //     console.log("Not Authenticated");
-    //     res.redirect("/");
-    // }
-};
+//     //     res.locals.Info = {
+//     //         user: req.user,
+//     //         IsLogin: "true"
+//     //     };
+//     //     res.locals.Info.IsLogin = "true";
+//     //     console.log("Authenticated");
+//     //     next();
+//     //     return;
+//     // } else {
+//     //     console.log("Not Authenticated");
+//     //     res.redirect("/");
+//     // }
+// };
 
 // let isLoginRequired = (req, res, next) => {
 //     if (req.isAuthenticated()) {
@@ -74,7 +98,7 @@ let isAuthenticated = (req, res, next) => {
 //     }
 // };
 
-app.get('/', isAuthenticated, function(req, res) {
+app.get('/', function(req, res) {
     log.logger.error("error");
     log.logger.info("info");
 
@@ -107,27 +131,32 @@ app.get('/', isAuthenticated, function(req, res) {
     });
 });
 
+app.get("/myprofile", function(req, res) {
+    res.render("myprofile", { layout: 'default', title: 'myprofile Page' });
+});
+
 var authRouter = require('./controllers/authroute');
-app.use('/auth', isAuthenticated, authRouter);
+app.use('/auth', authRouter);
 
-// app.use(function(req, res, next) {
-//     if (req.isAuthenticated()) {
-//         res.locals.user = req.user;
-//         next();
-//         return;
-//     }
-//     res.redirect("/auth/login");
-// });
+app.use(function(req, res, next) {
+    if (req.isAuthenticated()) {
+        res.locals.user = req.user;
+        next();
+        return;
+    }
+    res.redirect("/");
+    //res.redirect("/auth/login");
+});
 
-app.get('/dashboard', isAuthenticated, function(req, res) {
+app.get('/dashboard', function(req, res) {
     res.render('dashboard', { layout: 'default', title: 'Dashboard Page' });
 });
 
 var CommonAPI = require('./modellayer/CommonAPI');
-app.use('/commonapi', isAuthenticated, CommonAPI);
+app.use('/commonapi', CommonAPI);
 
 var userregistration = require('./controllers/userregistration');
-app.use('/auth', isAuthenticated, userregistration);
+app.use('/auth', userregistration);
 
 app.use(function(req, res, next) {
     res.render('404error', { layout: 'default', title: '404 Page' });

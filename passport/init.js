@@ -10,7 +10,7 @@ passport.use(new LocalStrategy(function(username, password, done) {
     console.log("username : " + username);
     console.log("password : " + password);
 
-    var user = { "username": username, "password": "vaskar" };
+    var user = { "username": username, "password": password };
 
     if (username === "vaskar" && password === "vaskar") {
         console.log(user);
