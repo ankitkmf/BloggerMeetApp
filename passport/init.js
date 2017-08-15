@@ -1,41 +1,42 @@
 var passport = require("passport");
 var LocalStrategy = require('passport-local').Strategy;
-//var MongoDB = require("mongodb").MongoClient;
-//var ObjectId = require("mongodb").ObjectID;
-//var db = require('../models/db');
-//var bcrypt = require('bcrypt');
+var bcrypt = require('bcrypt');
+var passportauth = require("../modellayer/passportauth");
 
 passport.use(new LocalStrategy(function(username, password, done) {
 
     console.log("username : " + username);
     console.log("password : " + password);
 
-    var user = { "username": username, "password": password };
+    var user = {};
 
-    if (username === "vaskar" && password === "vaskar") {
-        console.log(user);
-        return done(null, user);
-    } else {
-        console.log("Error user doesnot match");
+    passportauth.find(username, password).then((response) => {
+        if (response != null && response.data != null && response.data.count > 0) {
+
+            user = response.data;
+
+            console.log("Passport api response:" + user.result[0]._id);
+            console.log("Passport api response:" + user.result[0].username);
+            console.log("Passport api response:" + user.result[0].password);
+
+            bcrypt.compare(password, user.result[0].password, function(err, result) {
+                if (result) {
+                    console.log("user pwd match");
+                    return done(null, user);
+                } else {
+                    console.log("user pwd did not match");
+                    return done(null, false); //, { message: 'Incorrect password.' });
+                }
+            });
+        } else {
+            console.log("Error user doesnot match");
+            return done(null, false);
+        }
+
+    }).catch(function(err) {
+        console.log("passport.find exception:" + err);
         return done(null, false);
-    }
-
-    // db.get().collection('users').findOne({ username: username }, function(err, user) {
-    //     if (err || user == undefined) {
-    //         console.log("user not found");
-    //         return done(null, false); //'Incorrect username.'
-    //     } else {
-    //         bcrypt.compare(password, user.password, function(err, result) {
-    //             if (result) {
-    //                 console.log("user pwd match");
-    //                 return done(null, user);
-    //             } else {
-    //                 console.log("user pwd did not match");
-    //                 return done(null, false); //, { message: 'Incorrect password.' });
-    //             }
-    //         });
-    //     }
-    // });
+    });
 }));
 
 passport.serializeUser(function(user, done) {
