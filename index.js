@@ -62,6 +62,8 @@ app.get('/', authNotRequired, function(req, res) {
 
     var blogs = {};
     var blog = require("./modellayer/blogs");
+    var categoryList = blog.category;
+
     blog.blogs(0, "all").then(function(response) {
         blogs = response.data;
         //console.log("Blogs Details : " + JSON.stringify(blogs));
@@ -75,7 +77,8 @@ app.get('/', authNotRequired, function(req, res) {
             layout: 'default',
             title: 'Home Page',
             blogs: blogs,
-            index: nextIndex
+            index: nextIndex,
+            category: categoryList
         });
     }).catch(function(err) {
         console.log(err);
@@ -84,7 +87,8 @@ app.get('/', authNotRequired, function(req, res) {
             layout: 'default',
             title: 'Home Page',
             blogs: JSON.stringify(blogs),
-            index: 0
+            index: 0,
+            category: categoryList
         });
     });
 });

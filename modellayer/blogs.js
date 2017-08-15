@@ -3,6 +3,8 @@ var axios = require("axios");
 var config = require("config");
 const serviceURL = config.get("app.restAPIEndpoint.v1ContractPath");
 
+exports.category = require("../data/blogcategory.json");
+
 exports.blogs = function(startindex, categorytype) {
     let path = serviceURL + "/getblogs/" + startindex + "/" + categorytype;
     console.log("path:" + path);
@@ -14,7 +16,6 @@ exports.blogs = function(startindex, categorytype) {
             .catch(function(error) {
                 console.log("api error:" + error);
                 var err = { "Error": error };
-                //return err;
                 reject(err);
             });
     });

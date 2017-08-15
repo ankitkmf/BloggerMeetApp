@@ -30,7 +30,10 @@
         </div>
         <div class="col-lg-4">
             <div class="bs-component">
-                <div class="panel panel-primary">
+                <!-- Blog Categories Well -->
+                {{#if category}} {{> blogcategory category=category }} {{/if}}
+
+                {{!-- <div class="panel panel-primary">
                     <div class="panel-heading">
                         <h3 class="panel-title">Panel primary</h3>
                     </div>
@@ -55,9 +58,11 @@
                     <div class="panel-body">
                         Panel content
                     </div>
-                </div>
+                </div> --}}
             </div>
 
         </div>
     </div>
 </div>
+
+<script type="text/javascript" src="/js/blogs.js"></script>

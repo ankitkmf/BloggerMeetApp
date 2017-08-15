@@ -6,6 +6,7 @@ var bcrypt = require('bcrypt');
 var router = express.Router();
 module.exports = router;
 const serviceURL = config.get("app.restAPIEndpoint.v1ContractPath");
+var _ = require("lodash");
 
 router.post("/data/signUp", function(req, res) {
     console.log("signup body:" + req.body);
@@ -34,4 +35,34 @@ router.post("/data/signUp", function(req, res) {
         res.json({ "Error": "data not define" });
     }
 
+});
+
+router.post("/data/getblog", function(req, res) {
+    var data = {};
+    var blogs = {};
+    var blog = require("./blogs");
+
+    var si = req.body.si;
+    var ct = req.body.ct;
+
+    blog.blogs(si, ct).then(function(response) {
+        blogs = response.data;
+
+        var nextIndex = 0;
+        _.forEach(blogs.result, function(result) {
+            nextIndex = result.index
+        });
+
+        console.log("nextIndex " + nextIndex);
+
+        var data = { "index": nextIndex, "blogs": blogs };
+
+        res.json(data);
+    }).catch(function(err) {
+        console.log(err);
+        blogs = { "result": [], "count": 0 };
+        data = { "index": si, "blogs": blogs };
+
+        res.json(data);
+    });
 });

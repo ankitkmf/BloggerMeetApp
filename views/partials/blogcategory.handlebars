@@ -1,0 +1,9 @@
+<div class="panel panel-success blogcategory">
+    <div class="panel-heading">
+        <h3 class="panel-title">Blog Categories</h3>
+    </div>
+    <div class="list-group panel-body">
+        {{#each category}}
+        <a data-key="{{this.key}}" class="list-group-item blogctid">{{this.name}}</a> {{/each}}
+    </div>
+</div>
