@@ -27,8 +27,7 @@
   <nav class="navbar navbar-default">
     <div class="container">
       <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false"
-          aria-controls="navbar">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
             <span class="sr-only">Toggle navigation</span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
@@ -39,26 +38,49 @@
       <div id="navbar" class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
           <li class="active"><a href="/">Home</a></li>
-          <li><a href="/dashboard">Dashbboard</a></li>
+           {{#if user}}<li><a href="/dashboard">Dashbboard</a></li>{{/if}}
           <li><a href="#contact">Contact</a></li>
           <li><a href="#contact">About</a></li>
         </ul>
-        {{#if user}} user logged in
-        <a class="dropdown-item" href="/auth/logout">Log-out {{user.name}}</a> {{else}}
-        <div class="navbar-form navbar-right loginForm">
-
-          <form class="form-horizontal" action="/auth/login" method="POST">
-            <div class="form-group">
-              <input type="text" placeholder="Email" id="username" name="username" class="form-control input-sm">
-            </div>
-            <div class="form-group">
-              <input type="password" placeholder="Password" id="password" name="password" class="form-control input-sm">
-            </div>
-            <button type="submit" class="btn btn-success btn-sm loginBtn" data-toggle="modal">Sign-in</button>
-          </form>
+        {{#if user}} {{!-- <a class="dropdown-item" href="/auth/logout">Log-out {{user.name}}</a> --}} {{!--
+        <div class="navbar-right">
+          <button type="submit" class="btn btn-info btn-sm ">
+            <a href="/auth/logout">Log-Out</a>
+          </button>
+        </div> --}} {{!--
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="/auth/logout">Log-out</a></li>
+        </ul> --}}
+        <div class=" navbar-form navbar-right">
           <button type="submit" class="btn btn-info btn-sm signup">
+            <a href="/auth/logout">Log-out</a>
+          </button>
+        </div>
+        {{else}}
+        <div class="navbar-form ">
+          <div class="navbar-right">
+            {{!-- <form class="" action="/auth/login" method="POST"> --}}
+             <form class="" action="/auth/login" method="POST">
+              <div class="form-group">
+                <input type="text" placeholder="Email" id="username" name="username" required="true" class="form-control input-sm">
+              </div>
+              <div class="form-group">
+                <input type="password" placeholder="Password" id="password" name="password" required="true" class="form-control input-sm">
+              </div>
+              <button type="submit" class="btn btn-success btn-sm loginBtn" data-toggle="modal">Sign-in</button>
+            </form>
+            <div class="navbar-right">
+              <button type="submit" class="btn btn-info btn-sm signup">
             <a href="/auth/userRegistration">Sign-up</a>
           </button>
+            </div>
+          </div>
+          {{!--
+          <div class="navbar-right">
+            <button type="submit" class="btn btn-info btn-sm signup">
+            <a href="/auth/userRegistration">Sign-up</a>
+          </button>
+          </div> --}}
         </div>
         {{/if}}
 
@@ -66,7 +88,7 @@
     </div>
   </nav>
   <div class="container">
-    {{#if user}} User Logged in {{else}} User Logged out {{/if}} {{{body}}}
+    {{!-- {{#if user}} User Logged in {{else}} User Logged out {{/if}} --}} {{{body}}}
   </div>
 
   <footer class="panel-footer">
