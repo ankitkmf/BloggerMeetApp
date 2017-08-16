@@ -10,9 +10,6 @@
             "port": 2000
         }
     },
-    "mongoDB": {
-        "connectString": "mongodb://vaskar:12345678@ds161001.mlab.com:61001/mytest_mongodb"
-    },
     "nodeMailer": {
         "service": "gmail",
         "user": "nodegitapp@gmail.com",

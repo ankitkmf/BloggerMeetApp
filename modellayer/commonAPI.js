@@ -66,3 +66,43 @@ router.post("/data/getblog", function(req, res) {
         res.json(data);
     });
 });
+
+router.get('/subscribe', function(req, res) {
+
+    var service = config.get("nodeMailer.service");
+    var uid = config.get("nodeMailer.user");
+    var pwd = config.get("nodeMailer.pass");
+
+    var path = "Thanks for subscribing !! " + req.body.name;
+    var mailOptions = {
+        from: uid,
+        to: req.body.emailID,
+        subject: 'Subscribe user for node app',
+        text: path
+    };
+
+    //console.log("name: " + req.query.name + " , emailID : " + req.query.emailID + " , dateTime : " + new Date().toDateString());
+
+    var transporter = nodemailer.createTransport({
+        service: service,
+        auth: {
+            user: uid,
+            pass: pwd
+        }
+    });
+
+    transporter.sendMail(mailOptions, function(error, info) {
+        if (error) {
+            console.log("error");
+            res.json(false);
+        } else {
+            console.log("success");
+            //var filter = { "name": req.query.name, "emailID": req.query.emailID, "dateTime": new Date().toDateString() };
+            //db.Insert("subscribeUser", filter).then(function(info) {
+            res.json(true);
+            //}).catch(function(error) {
+            //    res.json(false);
+            //});
+        }
+    });
+});

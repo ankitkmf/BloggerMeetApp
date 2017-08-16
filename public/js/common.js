@@ -59,3 +59,7 @@ let validateName = $name => {
     var NameReg = /^[a-zA-Z\s]+$/;
     return NameReg.test($name);
 };
+
+let ErrorMessage = $message => {
+    return $("<div class='alert alert-warning'></div>").append($message);
+};
