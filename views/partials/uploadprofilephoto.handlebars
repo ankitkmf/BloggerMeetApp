@@ -1,0 +1,40 @@
+<div class="panel panel-info panel-border-radius bg-form uploadphotostatus">
+  <div class="col-lg-12">
+    <h4 class="text-right col-lg-12">
+      <span class="glyphicon glyphicon-edit"></span>
+    </h4>
+    <input type="checkbox" class="form-control" id="checker" value="true" />
+  </div>
+  <div class="panel-body">
+    <div>
+      <div class="text-center">
+        <div>
+          <img src="/{{user._id}}/{{user._id}}.jpg" class="user one imgCircle profile-photo reloadimage" alt="Upload Profile picture">
+          <div class="rank-label-container">
+            <span class="label label-default rank-label">{{user.username}}</span>
+          </div>
+        </div>
+        <div class="Successpanel alert alert-dismissible alert-success hidden">
+          {{!-- <button type="button" class="close" data-dismiss="alert">&times;</button> --}}
+          <strong>Well done!</strong> You have successfully updated your profile photo
+        </div>
+        <div class="uploadprofilephoto" style="display:none;">
+          <form id="uploadform" enctype="multipart/form-data">
+            <div class="form-group">
+              <input type="file" name="displayImage" id="displayImage" class="form-control form-input Profile-input-file">
+            </div>
+
+            <div class="form-group">
+              <button type="submit" class="btn btn-success btn-sm">Upload</button>
+              <button type="reset" class="btn btn-warning  btn-sm hideuploadform">Cancel</button>
+            </div>
+
+            <div class="ErrorPanel hidden">
+            </div>
+            <input type="hidden" id="_id" name="_id" value={{user._id}} />
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

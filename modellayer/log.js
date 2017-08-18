@@ -1,33 +1,38 @@
 'use strict'
 var bunyan = require('bunyan');
 var fs = require("fs");
+//var configs = require("./config");
 var config = require("config");
 
 const logDir = 'logs';
-//const env = process.env.NODE_ENV || 'development';
-
-// Create the log directory if it does not exist
 if (!fs.existsSync(logDir)) {
     fs.mkdirSync(logDir);
 }
+
+var dt = new Date();
+const tsFormat = dt.getUTCFullYear() + "-" + dt.getUTCMonth() + "-" + dt.getUTCDay();
+
 var errorFileName = "";
 var infoFileName = "";
-const tsFormat = "2017-01-01"; // () => (new Date()).toUTCString();
+
 if (config.has('logging.logFolderName')) {
-    errorFileName = config.get('logging.logFolderName') + tsFormat + "-" + config.get('logging.infoLogFileName') + ".log";
-    infoFileName = config.get('logging.logFolderName') + tsFormat + "-" + config.get('logging.errorLogFileName') + ".log";
+    infoFileName = config.get('logging.logFolderName') + tsFormat + "-" + config.get('logging.infoLogFileName') + ".log";
+    errorFileName = config.get('logging.logFolderName') + tsFormat + "-" + config.get('logging.errorLogFileName') + ".log";
 }
 
 exports.logger = bunyan.createLogger({
     name: 'myapp',
     streams: [{
             level: 'info',
-            path: infoFileName //'./logs/info.log' // log INFO and above to stdout 
+            path: infoFileName,
+            type: 'rotating-file',
+            period: '1d', // daily rotation 
+            count: 3
         },
         {
             level: 'error',
             type: 'rotating-file',
-            path: errorFileName, //'./logs/foo.log',
+            path: errorFileName,
             period: '1d', // daily rotation 
             count: 3
         }

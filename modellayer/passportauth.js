@@ -1,6 +1,7 @@
 "use strict";
 var axios = require("axios");
 var config = require("config");
+var log = require("../modellayer/log");
 const serviceURL = config.get("app.restAPIEndpoint.v1ContractPath");
 
 exports.find = function(email, password) {
@@ -12,22 +13,13 @@ exports.find = function(email, password) {
 
     return new Promise(function(resolve, reject) {
         axios.post(path, filter).then(function(response) {
+                log.logger.info("Passport Auth : find : user info retrival : success");
                 resolve(response);
             })
             .catch(function(error) {
-                console.log("Passportapi error:" + error);
                 var err = { "PassportError": error };
+                log.logger.error("Passport Auth : find : error " + error);
                 reject(err);
             });
     });
-
-    // return axios.post(path, filter)
-    //     .then(function(response) {
-    //         console.log("Passport api response:" + response);
-    //         res.json(true);
-    //     })
-    //     .catch(function(error) {
-    //         console.log("Passport api error:" + error);
-    //         res.json({ "Error": "Passport api error" });
-    //     });
 }

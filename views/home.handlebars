@@ -10,13 +10,13 @@
                     <h3 class="h3-responsive"><a href="/viewblog/showdetails/{{this._id}}">
                     <img border="0" src="/images/article.png" title="article"></a>{{this.topic}}</h3>
                     <p>Written by <a href="#">{{this.createdby}}</a>,
-                        <span></span> Posted on {{this.creationdate}}</p>
+                        <span class="glyphicon glyphicon-time"></span> Posted on {{this.creationdate}}</p>
 
                     <!--Content-->
                     <span class="limitblogdata">{{{this.content}}}</span>
 
                     <!--"Read more" button-->
-                    <a href="/viewblog/showdetails/{{this._id}}"><button class="btn btn-info">Read more</button></a>
+                    <a href="/viewblog/showdetails/{{this._id}}"><button class="btn btn-info btn-sm">Read more</button></a>
                 </div>
                 <hr> {{/each}} {{#if index}}
                 <input type="hidden" name="nextsearindex" id="nextsearindex" value={{index}} /> {{/if}}

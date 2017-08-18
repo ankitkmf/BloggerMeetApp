@@ -7,6 +7,8 @@ var router = express.Router();
 module.exports = router;
 const serviceURL = config.get("app.restAPIEndpoint.v1ContractPath");
 var _ = require("lodash");
+var nodemailer = require('nodemailer');
+var log = require("./log");
 
 router.post("/data/signUp", function(req, res) {
     console.log("signup body:" + req.body);
@@ -73,15 +75,15 @@ router.get('/subscribe', function(req, res) {
     var uid = config.get("nodeMailer.user");
     var pwd = config.get("nodeMailer.pass");
 
-    var path = "Thanks for subscribing !! " + req.body.name;
+    //console.log("name: " + req.query.name + " , emailID : " + req.query.emailID + " , dateTime : " + new Date().toDateString());
+
+    var path = "Thanks for subscribing !! " + req.query.name;
     var mailOptions = {
         from: uid,
-        to: req.body.emailID,
+        to: req.query.emailID,
         subject: 'Subscribe user for node app',
         text: path
     };
-
-    //console.log("name: " + req.query.name + " , emailID : " + req.query.emailID + " , dateTime : " + new Date().toDateString());
 
     var transporter = nodemailer.createTransport({
         service: service,
@@ -93,16 +95,27 @@ router.get('/subscribe', function(req, res) {
 
     transporter.sendMail(mailOptions, function(error, info) {
         if (error) {
-            console.log("error");
+            console.log("sendMail error");
             res.json(false);
         } else {
             console.log("success");
-            //var filter = { "name": req.query.name, "emailID": req.query.emailID, "dateTime": new Date().toDateString() };
-            //db.Insert("subscribeUser", filter).then(function(info) {
-            res.json(true);
-            //}).catch(function(error) {
-            //    res.json(false);
-            //});
+            let path = serviceURL + "/updatesubscribe/";
+            console.log("path:" + path);
+
+            var data = {
+                "name": req.query.name,
+                "emailID": req.query.emailID
+            };
+
+            axios.post(path, data)
+                .then(function(response) {
+                    console.log("api response:" + response);
+                    res.json(true);
+                })
+                .catch(function(error) {
+                    console.log("api error:" + error);
+                    res.json({ "Error": "updatesubscribe api error" });
+                });
         }
     });
 });

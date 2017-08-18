@@ -21,76 +21,81 @@
 </head>
 
 <body></body>
-  <nav class="navbar navbar-default">
-    <div class="container">
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false"
-          aria-controls="navbar">
+<nav class="navbar navbar-default">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+        aria-controls="navbar">
             <span class="sr-only">Toggle navigation</span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-        <a class="navbar-brand" href="#">Blogger's Meet</a>
-      </div>
-      <div id="navbar" class="navbar-collapse collapse">
-        <ul class="nav navbar-nav">
-          <li class="active"><a href="/">Home</a></li>
-          {{#if user}}
-          <li><a href="/dashboard">Dashbboard</a></li>
-          <li><a href="/blogs">Blogs</a></li>{{/if}}
-          <li><a href="#contact">Contact</a></li>
-          <li><a href="#contact">About</a></li>
-        </ul>
+      <a class="navbar-brand" href="#">Blogger's Meet</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="/">Home</a></li>
         {{#if user}}
-        <ul class="nav navbar-nav navbar-right">
-          <li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
+        {{user._id}}
+        <li><a href="/dashboard">Dashbboard</a></li>
+        <li><a href="/blogs">Blogs</a></li>{{/if}}
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="#contact">About</a></li>
+      </ul>
+      {{#if user}}
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
              <img src="/{{user._id}}/{{user._id}}.jpg" 
-              class="profile-image navbarimage four reloadimage"> {{user.name}} <span class="caret"></span>
+              class="profile-image navbarimage four reloadimage"> {{user.username}} <span class="caret"></span>
             </a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="/myprofile/{{user._id}}">My Profile</a></li>
-              <li class="divider"></li>
-              <li><a class="dropdown-item" href="/auth/logout">Log-out {{user.name}}</a></li>
-            </ul>
-          </li>
-        </ul>
-        {{else}}
-        <div class="navbar-form navbar-right">
-          <form class="" action="/auth/login" method="POST">
-            <div class="form-group">
-              <input type="text" placeholder="Email" id="username" name="username" required="true" class="form-control input-sm">
-            </div>
-            <div class="form-group">
-              <input type="password" placeholder="Password" id="password" name="password" required="true" class="form-control input-sm">
-            </div>
-            <button type="submit" class="btn btn-success btn-sm loginBtn" data-toggle="modal">Sign-in</button>
-            <button type="button" class="btn btn-info btn-sm signup">
-            <a href="/auth/userRegistration">Sign-up</a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="/myprofile/{{user._id}}">My Profile</a></li>
+            <li class="divider"></li>
+            <li><a class="dropdown-item" href="/auth/logout">Log-out {{user.username}}</a></li>
+          </ul>
+        </li>
+      </ul>
+      {{else}}
+      <div class="navbar-form navbar-right">
+        <form class="" action="/auth/login" method="POST">
+          <div class="form-group">
+            <input type="text" placeholder="Email" id="username" name="username" required="true" class="form-control input-sm">
+          </div>
+          <div class="form-group">
+            <input type="password" placeholder="Password" id="password" name="password" required="true" class="form-control input-sm">
+          </div>
+          <button type="submit" class="btn btn-success btn-sm loginBtn" data-toggle="modal">Sign-in</button>
+          <button type="button" class="btn btn-info btn-sm signup">
+            <a class="nav-link" href="/auth/userRegistration">Sign-up</a>
+            </button>
+          <button type="button" class="btn btn-warning btn-sm fortgotpassword">
+            <a class="nav-link" href="/auth/userRegistration">Forgot Password</a>
           </button>
-          </form>
-        </div> {{/if}}
-      </div>
+        </form>
+      </div> {{/if}}
     </div>
-  </nav>
-  <div class="container">
-    {{{body}}}
   </div>
+</nav>
+<div class="container">
+  {{{body}}}
+</div>
 
-  <footer class="panel-footer">
-    <h1>Footer</h1>
-  </footer>
-  <span id="spnServicePath" class="hidden">{{config}}</span>
-  <div id="myModal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="alert-signup alert-info">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">The username, password is not correct</h4>
-        </div>
+<footer class="panel-footer">
+  <h1>Footer</h1>
+</footer>
+<span id="spnServicePath" class="hidden">{{config}}</span>
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="alert-signup alert-info">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">The username, password is not correct</h4>
       </div>
     </div>
   </div>
+</div>
 </body>
+
 </html>

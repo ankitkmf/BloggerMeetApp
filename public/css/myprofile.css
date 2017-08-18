@@ -1,0 +1,161 @@
+/* Circualr Profile Image  */
+
+.user {
+    display: inline-block;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+}
+
+.one {
+    background-image: url('/images/default.png');
+}
+
+.two {
+    background-image: url('/images/150x150.png');
+}
+
+.three {
+    background-image: url('/images/350x750.png');
+}
+
+
+/* ############# Start My Profile Accordion #########################  */
+
+.imgCircle {
+    border-radius: 50%;
+}
+
+.form-control {
+    padding: 10px 50px;
+}
+
+.form-input {
+    height: 50px;
+    border-radius: 0px;
+    margin-top: 20px;
+}
+
+.Profile-input-file {
+    top: 0px;
+    z-index: 999;
+}
+
+.bg-form {
+    width: 100%;
+    position: relative;
+    background: url("/background/6.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin-top: 0px;
+}
+
+.custom-form {
+    float: left;
+    width: 100%;
+    border-radius: 82px;
+    box-shadow: 0 0 16px #fff;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.6);
+}
+
+.img-section {
+    float: left;
+    width: 100%;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    /* background: rgba(0, 0, 0, 0.7); */
+    position: relative;
+}
+
+.img-section h4 {
+    color: #0000ff;
+}
+
+#PicUpload {
+    color: #ffffff;
+    width: 180px;
+    height: 180px;
+    background: rgba(255, 255, 255, 0.4);
+    padding: 100px;
+    position: absolute;
+    left: 30.5%;
+    border-radius: 50%;
+    display: none;
+    top: 15px;
+}
+
+.camera {
+    font-size: 50px;
+    color: #333;
+}
+
+.custom-btn {
+    margin-top: 15px;
+    border-radius: 0px;
+    padding: 10px 60px;
+    margin-bottom: 15px;
+}
+
+#checker {
+    opacity: 0;
+    position: absolute;
+    top: 0px;
+    cursor: pointer;
+}
+
+.color {
+    color: #fff;
+}
+
+
+/*====== style for placeholder ========*/
+
+.form-control::-webkit-input-placeholder {
+    color: lightgray;
+    font-size: 18px;
+}
+
+.form-control:-moz-placeholder {
+    color: lightgray;
+    font-size: 18px;
+}
+
+.form-control::-moz-placeholder {
+    color: lightgray;
+    font-size: 18px;
+}
+
+.form-control:-ms-input-placeholder {
+    color: lightgray;
+    font-size: 18px;
+}
+
+.profile-photo {
+    margin-bottom: 10px;
+    margin-top: -28px;
+}
+
+
+/**
+ * Ranking component
+ */
+
+.rank-label-container {
+    margin-top: -19px;
+    /* z-index: 1000; */
+    text-align: center;
+}
+
+.label.label-default.rank-label {
+    background-color: #000000;
+    padding: 5px 10px 5px 10px;
+    border-radius: 27px;
+}
+
+.panel-border-radius {
+    border-radius: 28px;
+}

@@ -23,3 +23,33 @@
 .alert-signup .close {
     color: #fff !important;
 }
+
+.nav-link {
+    color: white;
+    text-decoration: none;
+}
+
+
+/* Start - Circualr Profile Image on Navigation */
+
+.navbarimage {
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+}
+
+.four {
+    background-image: url('/images/18x18.png');
+}
+
+.navbar-nav>li>a.profile-image {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+
+/* End - Circualr Profile Image on Navigation */

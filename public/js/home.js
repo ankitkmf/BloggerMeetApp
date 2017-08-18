@@ -131,17 +131,18 @@ let subscribeuser = () => {
     if (isValid) {
         $(".ErrorPanel").html("");
         $.ajax({
-            url: "/commonapi/subscribe",
-            method: "POST",
-            data: { "emailID": $('#emailSubscribe').val(), "name": $('#nameSubscribe').val() }
+            url: "/commonapi/subscribe/",
+            method: "get",
+            data: {
+                emailID: $('#emailSubscribe').val(),
+                name: $('#nameSubscribe').val()
+            }
         }).done(function(data) {
             $(".subscribeBlock").addClass("hidden");
             $(".successResult").removeClass("hidden");
         }).fail(function(err) {
             $(".subscribeBlock").addClass("hidden");
             $(".errorResult").removeClass("hidden");
-        }).always(function() {
-
         });
     } else {
         $(".ErrorPanel").html(errorPanel).removeClass("hidden");

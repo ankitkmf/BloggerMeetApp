@@ -13,6 +13,7 @@ app.use(bodyparser.urlencoded({ extended: true }));
 app.use(bodyparser.json());
 
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'profilephoto')));
 
 var hbs = exphbs.create({
     defaultLayout: 'default',
@@ -39,33 +40,28 @@ app.use(passport.session());
 
 let authenticationMiddleware = function(req, res, next) {
     if (req.isAuthenticated()) {
-        console.log("Authentication page Valid User");
-        res.locals.user = req.user;
+        res.locals.user = req.user.result[0];
         return next();
     }
-    console.log("Authentication page  In-valid User");
     res.redirect('/');
 };
 
 let authNotRequired = (req, res, next) => {
     if (req.isAuthenticated()) {
-        console.log("Auth Not Required");
-        res.locals.user = req.user;
+        res.locals.user = req.user.result[0]
     }
     next();
 };
 
 app.get('/', authNotRequired, function(req, res) {
-    log.logger.error("error");
-    log.logger.info("info");
-
     var blogs = {};
     var blog = require("./modellayer/blogs");
     var categoryList = blog.category;
 
     blog.blogs(0, "all").then(function(response) {
         blogs = response.data;
-        //console.log("Blogs Details : " + JSON.stringify(blogs));
+
+        log.logger.info("Home Page : retrieve blogs : blogs count " + blogs.count);
 
         var nextIndex = 0;
         _.forEach(blogs.result, function(result) {
@@ -80,7 +76,7 @@ app.get('/', authNotRequired, function(req, res) {
             category: categoryList
         });
     }).catch(function(err) {
-        console.log(err);
+        log.logger.error("Home Page : failed to retrieve blogs : error " + err);
         blogs = { "result": [], "count": 0 };
         res.render('home', {
             layout: 'default',
@@ -92,9 +88,12 @@ app.get('/', authNotRequired, function(req, res) {
     });
 });
 
-app.get("/myprofile", authenticationMiddleware, function(req, res) {
-    res.render("myprofile", { layout: 'default', title: 'myprofile Page' });
-});
+// app.get("/myprofile", authenticationMiddleware, function(req, res) {
+//     res.render("myprofile", { layout: 'default', title: 'My Profile Page' });
+// });
+
+var myprofileroute = require('./controllers/myprofile');
+app.use("/myprofile", authenticationMiddleware, myprofileroute);
 
 var authRouter = require('./controllers/authroute');
 app.use('/auth', authNotRequired, authRouter);
