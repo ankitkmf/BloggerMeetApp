@@ -6,27 +6,49 @@ var formidable = require('formidable');
 var path = require("path");
 var mv = require("mv");
 var mkdirp = require("mkdirp");
+var log = require("../modellayer/log");
+
+var myprofile = require("../modellayer/myprofile");
 
 router.get('/:_id', function(req, res) {
-    res.render("myprofile", { layout: 'default', title: 'My Profile Page' });
+
+    var userid = req.params._id;
+
+    var collectionCountList = {};
+
+    Promise.all([
+        myprofile.getaboutme(userid)
+    ]).then(data => {
+        var aboutme = data[0].data;
+        console.log("3");
+
+        log.logger.info("Successfully retrive my-profile data");
+        res.render("myprofile", {
+            layout: 'default',
+            title: 'My Profile Page',
+            aboutme: aboutme.result
+        });
+
+    }).catch(function(err) {
+        log.logger.error("Error while retieveing my-profile data. Error " + err);
+        res.status(500).send();
+    });
+
 });
 
 //View/Edit user details
 router.post('/uploadphoto', function(req, res) {
-    console.log("upload data");
+    log.logger.info("uploadphoto")
 
     if (req.url == '/uploadphoto') {
         var form = new formidable.IncomingForm();
         form.parse(req, function(err, fields, files) {
             var user_id = fields._id;
-            console.log("user_id " + user_id);
-
             var oldpath = files.displayImage.path;
-            console.log("oldpath : " + oldpath);
-
-            console.log(files.displayImage.name);
             var extn = getFileExtension(files.displayImage.name);
-            console.log(extn);
+
+            log.logger.info("uploadphoto : user_id " + user_id + " : oldpath " + oldpath + " : name : " +
+                files.displayImage.name + " : extn : " + extn);
 
             switch (extn) {
                 case 'jpg':
@@ -38,6 +60,7 @@ router.post('/uploadphoto', function(req, res) {
 
                     var uploadpath = path.join(__dirname, ss);
                     console.log("upload path " + uploadpath);
+                    log.logger.info("uploadphoto : upload path " + uploadpath);
 
                     mkdirp(uploadpath, function(err) {
                         if (err) {
@@ -50,13 +73,14 @@ router.post('/uploadphoto', function(req, res) {
                                     throw err;
                                 }
                                 console.log('file moved successfully. File Path : ' + uploadedfilepath);
+                                log.logger.info("uploadphoto : mv method : file moved successfully. File Path : " + uploadedfilepath);
                                 res.json({ "filepath": "/" + user_id + "/" + user_id + ".jpg" });
                             });
                         }
                     });
                     return;
                 default:
-                    console.log("not ok");
+                    log.logger.info("uploadphoto : error");
                     res.json({ "error": "IFE" });
                     return;
             }

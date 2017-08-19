@@ -17,5 +17,8 @@
         "service": "gmail",
         "user": "nodegitapp@gmail.com",
         "pass": "Node@123"
+    },
+    "profilephoto": {
+        "folder": "profilephoto"
     }
 }

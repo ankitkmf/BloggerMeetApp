@@ -15,6 +15,9 @@
         "user": "nodegitapp@gmail.com",
         "pass": "Node@123"
     },
+    "profilephoto": {
+        "folder": "profilephoto"
+    },
     "logging": {
         "infoLogFileName": "info",
         "errorLogFileName": "error",

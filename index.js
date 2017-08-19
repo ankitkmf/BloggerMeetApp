@@ -81,7 +81,7 @@ app.get('/', authNotRequired, function(req, res) {
         res.render('home', {
             layout: 'default',
             title: 'Home Page',
-            blogs: JSON.stringify(blogs),
+            blogs: blogs,
             index: 0,
             category: categoryList
         });

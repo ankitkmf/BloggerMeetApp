@@ -107,6 +107,13 @@
     cursor: pointer;
 }
 
+#checkeraboutme {
+    opacity: 0;
+    position: absolute;
+    top: 0px;
+    cursor: pointer;
+}
+
 .color {
     color: #fff;
 }

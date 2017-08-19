@@ -1,7 +1,6 @@
-<link href="/css/myprofile.css" rel="stylesheet">
-
-{{!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> --}}
-{{!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> --}}
+<link href="/css/myprofile.css" rel="stylesheet"> {{!--
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> --}} {{!--
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> --}}
 
 <div class="container-fluid">
   <div class="row">
@@ -15,7 +14,65 @@
     <!--Second column-->
     <div class="col-lg-8 col-md-8 col-sm-8">
 
-        My profile
+      <div class="row">
+        <ul class="nav nav-tabs">
+          <li class=""><a href="#aboutme" data-toggle="tab" aria-expanded="false">About Me</a></li>
+          <li class="active"><a href="#personal" data-toggle="tab" aria-expanded="true">Personal Info</a></li>
+          <li class="active"><a href="#proffessional" data-toggle="tab" aria-expanded="true">Proffessional Info</a></li>
+          <li class="active"><a href="#contact" data-toggle="tab" aria-expanded="true">Contact Info</a></li>
+          <li class="disabled"><a>Disabled</a></li>
+          <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
+      Activity <span class="caret"></span>
+    </a>
+            <ul class="dropdown-menu">
+              <li><a href="#dropdown1" data-toggle="tab">Blogs</a></li>
+              <li class="divider"></li>
+              <li><a href="#dropdown2" data-toggle="tab">Comments</a></li>
+            </ul>
+          </li>
+        </ul>
+        <div id="myTabContent" class="tab-content">
+          <div class="tab-pane fade active in" id="aboutme">
+            <p>
+              <!-- About me section -->
+              {{> aboutme aboutme=aboutme}}
+              <!-- /. About me section -->
+            </p>
+          </div>
+          <div class="tab-pane fade" id="personal">
+            <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore
+              velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee.
+              Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad vinyl cillum PBR.
+              Homo nostrud organic, assumenda labore aesthetic magna delectus mollit.</p>
+          </div>
+          <div class="tab-pane fade" id="proffessional">
+            <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore
+              velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee.
+              Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad vinyl cillum PBR.
+              Homo nostrud organic, assumenda labore aesthetic magna delectus mollit.</p>
+          </div>
+          <div class="tab-pane fade" id="contact">
+            <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore
+              velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee.
+              Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad vinyl cillum PBR.
+              Homo nostrud organic, assumenda labore aesthetic magna delectus mollit.</p>
+          </div>
+          <div class="tab-pane fade" id="dropdown1">
+            <p>Etsy mixtape wayfarers, ethical wes anderson tofu before they sold out mcsweeney's organic lomo retro fanny pack
+              lo-fi farm-to-table readymade. Messenger bag gentrify pitchfork tattooed craft beer, iphone skateboard locavore
+              carles etsy salvia banksy hoodie helvetica. DIY synth PBR banksy irony. Leggings gentrify squid 8-bit cred
+              pitchfork.
+            </p>
+          </div>
+          <div class="tab-pane fade" id="dropdown2">
+            <p>Trust fund seitan letterpress, keytar raw denim keffiyeh etsy art party before they sold out master cleanse gluten-free
+              squid scenester freegan cosby sweater. Fanny pack portland seitan DIY, art party locavore wolf cliche high
+              life echo park Austin. Cred vinyl keffiyeh DIY salvia PBR, banh mi before they sold out farm-to-table VHS viral
+              locavore cosby sweater.</p>
+          </div>
+        </div>
+      </div>
 
     </div>
     <!--/.Second column-->
