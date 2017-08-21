@@ -47,7 +47,7 @@
 .bg-form {
     width: 100%;
     position: relative;
-    background: url("/background/6.jpg");
+    /* background: url("/background/6.jpg"); */
     background-repeat: no-repeat;
     background-size: cover;
     margin-top: 0px;
@@ -105,6 +105,7 @@
     position: absolute;
     top: 0px;
     cursor: pointer;
+    color: blue;
 }
 
 #checkeraboutme {
@@ -165,4 +166,44 @@
 
 .panel-border-radius {
     border-radius: 28px;
+}
+
+
+/* .nav-tabs>li.active>a,
+.nav-tabs>li.active>a:hover,
+.nav-tabs>li.active>a:focus {
+    border: 1px solid #3498db;
+    border-bottom-color: transparent;
+} */
+
+.nav-tabs {
+    border-bottom: 1px solid #ecf0f1;
+}
+
+.panel-info {
+    border-color: #ecf0f1;
+}
+
+.panel-edit-checker {
+    margin-top: 10px;
+    margin-bottom: -10px;
+    margin-right: 15px;
+}
+
+.profile-content-panel-border-radius {
+    border-radius: 28px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+textarea {
+    background: rgba(0, 0, 0, 0);
+    border: none;
+    outline: 0;
+    cursor: text;
+}
+
+textarea {
+    resize: none;
+    border: none;
 }

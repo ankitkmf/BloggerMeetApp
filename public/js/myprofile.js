@@ -1,14 +1,24 @@
 'use strict';
 $(function() {
-
+    // Edit profile photo
     $("#checker").on("click", () => {
-        console.log('Hello ' + $("#checker").is(':checked'));
-
         if ($("#checker").is(':checked')) {
             $(".Successpanel").addClass("hidden");
             $(".uploadprofilephoto").attr("style", "display:block");
         } else {
             $(".uploadprofilephoto").attr("style", "display:none");
+        }
+    });
+
+    // Edit 'about me'
+    $("#checkeraboutme").on("click", () => {
+        console.log("hi " + $("#checkeraboutme").is(':checked'));
+        if ($("#checkeraboutme").is(':checked')) {
+            $(".Successpanel").addClass("hidden");
+            $(".ErrorPanel").addClass("hidden");
+            $(".saveaboutmeinfo").removeClass("hidden");
+        } else {
+            $(".saveaboutmeinfo").addClass("hidden");
         }
     });
 
