@@ -119,3 +119,56 @@ router.get('/subscribe', function(req, res) {
         }
     });
 });
+
+router.get('/data/fpwd', function(req, res) {
+
+    var service = config.get("nodeMailer.service");
+    var uid = config.get("nodeMailer.user");
+    var pwd = config.get("nodeMailer.pass");
+
+    //console.log("name: " + req.query.name + " , emailID : " + req.query.emailID + " , dateTime : " + new Date().toDateString());
+
+    var path = "Thanks for subscribing !! " + req.query.name;
+    var mailOptions = {
+        from: uid,
+        to: req.query.emailID,
+        subject: 'Subscribe user for node app',
+        text: path
+    };
+
+    // var transporter = nodemailer.createTransport({
+    //     service: service,
+    //     auth: {
+    //         user: uid,
+    //         pass: pwd
+    //     }
+    // });
+
+    // transporter.sendMail(mailOptions, function(error, info) {
+    //     if (error) {
+    //         console.log("sendMail error");
+    //         res.json(false);
+    //     } else {
+    //         console.log("success");
+    //         let path = serviceURL + "/updatesubscribe/";
+    //         console.log("path:" + path);
+
+    //         var data = {
+    //             "name": req.query.name,
+    //             "emailID": req.query.emailID
+    //         };
+
+    //         axios.post(path, data)
+    //             .then(function(response) {
+    //                 console.log("api response:" + response);
+    //                 res.json(true);
+    //             })
+    //             .catch(function(error) {
+    //                 console.log("api error:" + error);
+    //                 res.json({ "Error": "updatesubscribe api error" });
+    //             });
+    //     }
+    // });
+
+    res.json(true);
+});

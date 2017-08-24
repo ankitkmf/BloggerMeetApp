@@ -108,6 +108,9 @@ app.use('/commonapi', CommonAPI);
 var userregistration = require('./controllers/userregistration');
 app.use('/auth', authNotRequired, userregistration);
 
+var forgotPwd = require('./controllers/forgotPwd');
+app.use('/auth', authNotRequired, forgotPwd);
+
 //Error handling
 app.get('*', authNotRequired, function(req, res, next) {
     var err = new Error("Failed to load resource");
