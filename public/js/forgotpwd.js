@@ -11,7 +11,7 @@ let fpwd = (servicePath) => {
     var isValid = true;
     var _email = $("#inputEmail").val();
     $("#inputEmail").parent().removeClass("has-error");
-    debugger;
+    // debugger;
     // var errorPanel = $("<div></div>");
     if (_email == "" || _email == undefined) {
         isValid = false;
@@ -25,27 +25,32 @@ let fpwd = (servicePath) => {
 
     if (isValid) {
         var result = { "email": $("#inputEmail").val() };
+        console.log("step 1");
         $.ajax({
                 method: "Post",
                 url: "/commonAPI/data/fpwd",
                 data: result
             })
             .done(function(jsonResult) {
+                console.log("step 2");
                 if (jsonResult) {
-                    clearControlClass();
                     $("#forgotPassword").addClass("hidden");
+                    $("#inputEmail").val("");
                     $(".successPanel").html("<strong>Email has been send! Kindly check & click on link for updating password.</strong> <a href='/' class='alert-link'>Go to home page</a>");
                     showSuccessPanal();
-                    // clearInputFields();
-
-                } else {}
-                console.log("jsonResult:" + JSON.stringify(jsonResult));
+                } else {
+                    $("#inputEmail").focus().parent().addClass("has-error");
+                    $(".ErrorPanel").html("Email not found.");
+                    showErrorPanal();
+                }
             })
             .fail(function(err) {
+                $("#inputEmail").focus().parent().addClass("has-error");
+                $(".ErrorPanel").html("Technical error !");
                 showErrorPanal();
-                console.log("post error:" + JSON.stringify(err));
             })
             .always(function() {
+                console.log("step 6");
                 stop_waitMe("fpwd");
             });
     } else {

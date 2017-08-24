@@ -88,10 +88,6 @@ app.get('/', authNotRequired, function(req, res) {
     });
 });
 
-// app.get("/myprofile", authenticationMiddleware, function(req, res) {
-//     res.render("myprofile", { layout: 'default', title: 'My Profile Page' });
-// });
-
 var myprofileroute = require('./controllers/myprofile');
 app.use("/myprofile", authenticationMiddleware, myprofileroute);
 
@@ -110,6 +106,9 @@ app.use('/auth', authNotRequired, userregistration);
 
 var forgotPwd = require('./controllers/forgotPwd');
 app.use('/auth', authNotRequired, forgotPwd);
+
+var changepwd = require('./controllers/changepwd');
+app.use('/auth', authNotRequired, changepwd);
 
 //Error handling
 app.get('*', authNotRequired, function(req, res, next) {
