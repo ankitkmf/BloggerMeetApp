@@ -8,8 +8,10 @@ module.exports = router;
 const serviceURL = config.get("app.restAPIEndpoint.v1ContractPath");
 var _ = require("lodash");
 var nodemailer = require('nodemailer');
+var changePwd = require("../modellayer/changepwdmodel");
 var log = require("./log");
 
+// save user information 
 router.post("/data/signUp", function(req, res) {
     console.log("signup body:" + req.body);
     var isValid = (req.body != null && req.body != undefined && req.body.username != "" && req.body.name != "" && req.body.email != "" && req.body.password != "");
@@ -120,6 +122,7 @@ router.get('/subscribe', function(req, res) {
     });
 });
 
+// valdidate user & send passsword reset mail to user
 router.post('/data/fpwd', function(req, res) {
     console.log("step 1.1");
     var service = config.get("nodeMailer.service");
@@ -163,4 +166,51 @@ router.post('/data/fpwd', function(req, res) {
             console.log("validateUserEmail api error:" + error);
             res.json({ "Error": "validateUserEmail api error" });
         });
+});
+
+//validate user pwd for reseting passsword
+router.post('/data/ValidateUserPwd', function(req, res, next) {
+    if (req.body.id != null && req.body.cupwd != null && req.body.npwd != null) {
+        changePwd.findUser(req.body.id).then((response) => {
+                console.log("common=>ValidateUserPwd=>findUser step 1.1," + JSON.stringify(response.result));
+                return changePwd.validatePassword(response.result.password, req.body.cupwd);
+                // console.log("ValidateUserPwd common step 1.3.1,req.body.cupwd:" + req.body.cupwd);
+                // console.log("ValidateUserPwd common step 1.3.1,req.body.npwd:" + req.body.npwd);
+                // if (response != null && response.result != null) {
+                //     console.log("ValidateUserPwd common step 1.4,pwd:" + response.result.password);
+
+                //     bcrypt.compare(req.body.cupwd, response.result.password, function(err, res) {
+                //         if (res) {
+                //             console.log("ValidateUserPwd common step 1.5, pwd match");
+                //             return changePwd.updatePassword(req.body.id, req.body.npwd);
+                //         } else {
+                //             console.log("ValidateUserPwd common step 1.6, pwd not match");
+                //             //  res.json(false);
+                //             next();
+                //         }
+                //     });
+                //return changePwd.updatePassword(req.body.id, req.body.npwd);
+                // } else {
+                //     console.log("ValidateUserPwd common step 1.7, null respone");
+                //     next();
+                //     // res.json(false);
+                // }
+            }).then((response) => {
+                console.log("common=>ValidateUserPwd=>validatePassword step 1.1," + JSON.stringify(response.result));
+                return changePwd.updatePassword(req.body.id, req.body.npwd);
+                // res.json(true);
+            }).then((response) => {
+                console.log("common=>ValidateUserPwd=>updatePassword step 1.1," + JSON.stringify(response.result));
+                // return changePwd.updatePassword(req.body.id, req.body.npwd);
+                res.json(true);
+            })
+            .catch(function(err) {
+                console.log("ValidateUserPwd common step 1.9:" + err);
+                res.json(false);
+                // res.render('changepwd', { layout: 'default', title: 'changepwd Page', isValidReq: false });
+            });
+    } else {
+        console.log("ValidateUserPwd common step 1.10");
+        res.json(false);
+    }
 });

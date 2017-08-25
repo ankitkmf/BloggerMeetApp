@@ -107,7 +107,7 @@ app.use('/auth', authNotRequired, userregistration);
 var forgotPwd = require('./controllers/forgotPwd');
 app.use('/auth', authNotRequired, forgotPwd);
 
-var changepwd = require('./controllers/changepwd');
+var changepwd = require('./controllers/changepwdController');
 app.use('/auth', authNotRequired, changepwd);
 
 //Error handling
@@ -127,6 +127,7 @@ app.use(function(err, req, res, next) {
 });
 
 process.on('uncaughtException', function(err) {
+    console.log("uncaughtException:" + err);
     log.logger.error(err);
 });
 
