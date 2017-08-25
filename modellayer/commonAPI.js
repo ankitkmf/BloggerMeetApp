@@ -119,3 +119,48 @@ router.get('/subscribe', function(req, res) {
         }
     });
 });
+
+router.post('/data/fpwd', function(req, res) {
+    console.log("step 1.1");
+    var service = config.get("nodeMailer.service");
+    var uid = config.get("nodeMailer.user");
+    var pwd = config.get("nodeMailer.pass");
+    let path = serviceURL + "/validateUserEmail/";
+    var result = {
+        "email": req.body.email,
+    };
+    axios.post(path, result)
+        .then(function(response) {
+            if (response.data != null && response.data.count > 0) {
+                path = config.get("nodeMailer.path") + "/auth/changepwd/" + response.data.result[0]._id;
+                console.log("validateUserEmail api response:" + path);
+                var mailOptions = {
+                    from: uid,
+                    to: req.body.email,
+                    subject: 'Blogger app reset password alert!',
+                    text: path
+                };
+                var transporter = nodemailer.createTransport({
+                    service: service,
+                    auth: {
+                        user: uid,
+                        pass: pwd
+                    }
+                });
+                transporter.sendMail(mailOptions, function(error, info) {
+                    if (error) {
+                        console.log("sendMail error");
+                        res.json(false);
+                    } else {
+                        console.log("Send fpwd success");
+                        res.json(true);
+                    }
+                });
+            } else
+                res.json(false);
+        })
+        .catch(function(error) {
+            console.log("validateUserEmail api error:" + error);
+            res.json({ "Error": "validateUserEmail api error" });
+        });
+});
