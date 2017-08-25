@@ -9,10 +9,12 @@
   <meta name="description" content="Blogger's Point">
   <meta name="author" content="TechCOE">
   <link href="/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/css/jquery-ui.css" rel="stylesheet">
   <link href="/css/common.css" rel="stylesheet">
   <link href="/css/plugin/waitMe.css" rel="stylesheet">
 
   <script type="text/javascript" src="/js/jquery-2.2.3.min.js"></script>
+  <script type="text/javascript" src="/js/jquery-ui.js"></script>
   <script type="text/javascript" src="/js/bootstrap.min.js"></script>
   <script type="text/javascript" src="/js/common.js"></script>
   <script type="text/javascript" src="/js/plugin/handlebars.js"></script>
@@ -36,8 +38,7 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li class="active"><a href="/">Home</a></li>
-        {{#if user}}
-        {{user._id}}
+        {{#if user}} {{user._id}}
         <li><a href="/dashboard">Dashbboard</a></li>
         <li><a href="/blogs">Blogs</a></li>{{/if}}
         <li><a href="#contact">Contact</a></li>

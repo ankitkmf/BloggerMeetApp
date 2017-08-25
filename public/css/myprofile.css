@@ -29,9 +29,10 @@
     border-radius: 50%;
 }
 
-.form-control {
+
+/* .form-control {
     padding: 10px 50px;
-}
+} */
 
 .form-input {
     height: 50px;
@@ -51,6 +52,7 @@
     background-repeat: no-repeat;
     background-size: cover;
     margin-top: 0px;
+    background-color: aliceblue;
 }
 
 .custom-form {
@@ -109,6 +111,13 @@
 }
 
 #checkeraboutme {
+    opacity: 0;
+    position: absolute;
+    top: 0px;
+    cursor: pointer;
+}
+
+#checkerpersonalinfo {
     opacity: 0;
     position: absolute;
     top: 0px;
@@ -192,8 +201,8 @@
 
 .profile-content-panel-border-radius {
     border-radius: 28px;
-    border-bottom-left-radius: 0px;
-    border-bottom-right-radius: 0px;
+    /* border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px; */
 }
 
 textarea {
@@ -206,4 +215,9 @@ textarea {
 textarea {
     resize: none;
     border: none;
+}
+
+textarea#aboutme {
+    border-width: 1px !important;
+    margin: 0px !important;
 }

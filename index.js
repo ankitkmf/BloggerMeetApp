@@ -88,7 +88,7 @@ app.get('/', authNotRequired, function(req, res) {
     });
 });
 
-var myprofileroute = require('./controllers/myprofile');
+var myprofileroute = require('./modellayer/myprofile');
 app.use("/myprofile", authenticationMiddleware, myprofileroute);
 
 var authRouter = require('./controllers/authroute');

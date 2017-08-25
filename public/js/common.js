@@ -19,9 +19,6 @@ $(function() {
             this.style.height = "auto";
             this.style.height = this.scrollHeight + "px";
         });
-
-
-
 });
 
 let GetCompiledTemplate = (fileName) => {
