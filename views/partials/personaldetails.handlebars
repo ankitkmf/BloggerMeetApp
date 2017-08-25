@@ -1,0 +1,59 @@
+<div class="panel panel-info profile-content-panel-border-radius bg-form">
+    <div class="panel-edit-checker text-right">
+        <h4><span class="glyphicon glyphicon-edit"></span></h4>
+        <input type="checkbox" class="form-control" id="checkerpersonalinfo" value="true" />
+    </div>
+    <div class="panel-body">
+        <div class="pderrorPanel hidden">
+        </div>
+        <div class="pdsuccessResult alert alert-dismissible alert-success hidden">
+            {{!-- <button type="button" class="close" data-dismiss="alert">&times;</button> --}}
+            <strong>Thank you!</strong> You have successfully updated about personal details.
+        </div>
+        <div class="alert alert-danger hidden pderrorResult" role="alert">
+            Currently there are some technical issue . Please try again later.
+        </div>
+        <form class="form-horizontal" id="frmpersonaldetails">
+            <fieldset>
+                <div class="form-group">
+                    <label for="inputfirstname" class="col-lg-3 control-label">First Name</label>
+                    <div class="col-lg-9">
+                        <input type="text" class="form-control" id="inputfirstname" name="inputfirstname" placeholder="First Name" 
+                        value="{{personaldetails.firstname}}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputlastname" class="col-lg-3 control-label">Last Name</label>
+                    <div class="col-lg-9">
+                        <input type="text" class="form-control" id="inputlastname" name="inputlastname" placeholder="Last Name"
+                        value="{{personaldetails.lastname}}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputDOB" class="col-lg-3 control-label">DOB</label>
+                    <div class="col-lg-9">
+                        <input type="text" class="form-control" id="inputDOB" name="inputDOB" placeholder="DOB"
+                        value="{{personaldetails.dob}}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputphone" class="col-lg-3 control-label">Contact Number</label>
+                    <div class="col-lg-9">
+                        <input type="text" class="form-control" id="inputphone" name="inputphone" placeholder="Phone"
+                        value="{{personaldetails.phone}}">
+                    </div>
+                </div>
+                <div class="form-group hidden savepersonalinfo text-right">
+                    <button type="submit" class="btn btn-info btn-sm">Save</button>
+                    <button type="reset" class="btn btn-warning btn-sm hidefrmpersonaldetails">Cancel</button>
+                </div>
+
+                {{#if personaldetails}}
+                <input type="hidden" id='userid' name='userid' value="{{personaldetails.userid}}">
+                <input type="hidden" id='_id' name='_id' value="{{personaldetails._id}}"> {{else}}
+                <input type="hidden" id='userid' name='userid' value="{{user._id}}">
+                <input type="hidden" id='_id' name='_id' value=""> {{/if}}
+            </fieldset>
+        </form>
+    </div>
+</div>

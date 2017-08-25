@@ -92,8 +92,11 @@ app.get('/', authNotRequired, function(req, res) {
 //     res.render("myprofile", { layout: 'default', title: 'My Profile Page' });
 // });
 
-var myprofileroute = require('./controllers/myprofile');
+var myprofileroute = require('./modellayer/myprofile');
 app.use("/myprofile", authenticationMiddleware, myprofileroute);
+
+// var myprofileeditroute = require('./modellayer/myprofile');
+// app.use("/myprofileedit", authenticationMiddleware, myprofileeditroute);
 
 var authRouter = require('./controllers/authroute');
 app.use('/auth', authNotRequired, authRouter);
