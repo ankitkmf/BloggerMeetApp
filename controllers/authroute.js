@@ -12,6 +12,22 @@ router.post("/login", passport.authenticate('local', {
     failureRedirect: '/'
 }));
 
+router.get('/google',
+    passport.authenticate('google', { scope: ['profile', 'email'] }));
+//passport.authenticate('google', { scope: ['profile'] }));
+
+// router.get('/google/callback',
+//     passport.authenticate('google', { failureRedirect: '/forgotPwd' }),
+//     function(req, res) {
+//         // Successful authentication, redirect home.
+//         res.redirect('/');
+//     });
+
+router.get("/google/callback", passport.authenticate('google', {
+    successRedirect: '/auth/forgotPwd',
+    failureRedirect: '/'
+}));
+
 router.get('/logout', function(req, res) {
     req.logout();
     res.redirect('/');

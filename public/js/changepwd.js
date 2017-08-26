@@ -56,7 +56,7 @@ let changePwd = (servicePath) => {
                     showSuccessPanal();
                 } else {
                     $("#inputEmail").focus().parent().addClass("has-error");
-                    $(".ErrorPanel").html("Email not found.");
+                    $(".ErrorPanel").html("Current password not matching");
                     showErrorPanal();
                 }
             })
