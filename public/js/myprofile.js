@@ -27,7 +27,6 @@ $(function() {
 
     // Edit 'personal details'
     $("#checkerpersonalinfo").on("click", () => {
-        console.log("hi " + $("#checkerpersonalinfo").is(':checked'));
         if ($("#checkerpersonalinfo").is(':checked')) {
             $(".pderrorPanel").addClass("hidden");
             $(".pdsuccessResult").addClass("hidden");
@@ -35,6 +34,18 @@ $(function() {
             $(".savepersonalinfo").removeClass("hidden");
         } else {
             $(".savepersonalinfo").addClass("hidden");
+        }
+    });
+
+    // Edit 'proffessional details'
+    $("#checkerprofinfo").on("click", () => {
+        if ($("#checkerprofinfo").is(':checked')) {
+            $(".proferrorPanel").addClass("hidden");
+            $(".profsuccessResult").addClass("hidden");
+            $(".proferrorResult").addClass("hidden");
+            $(".saveprofinfo").removeClass("hidden");
+        } else {
+            $(".saveprofinfo").addClass("hidden");
         }
     });
 
@@ -49,6 +60,7 @@ $(function() {
         $(".amerrorpanel").html("");
         $(".amerrorResult").addClass("hidden");
         $(".amsuccessResult").addClass("hidden");
+        $(".saveaboutmeinfo").removeClass("hidden");
     });
 
     $("#frmaboutme .hidefrmaboutme").on("click", () => {
@@ -59,6 +71,25 @@ $(function() {
     $("#frmpersonaldetails .hidefrmpersonaldetails").on("click", () => {
         $(".savepersonalinfo").addClass("hidden");
         $("#checkerpersonalinfo").attr("checked", false);
+    });
+
+    $("#frmpersonaldetails .clearmsg").on("focus", () => {
+        $(".pderrorPanel").html("");
+        $(".pdsuccessResult").addClass("hidden");
+        $(".pderrorResult").addClass("hidden");
+        $(".savepersonalinfo").removeClass("hidden");
+    });
+
+    $("#frmprofdetails .hidefrmprofdetails").on("click", () => {
+        $(".saveprofinfo").addClass("hidden");
+        $("#checkerprofinfo").attr("checked", false);
+    });
+
+    $("#frmprofdetails .clearmsg").on("focus", () => {
+        $(".proferrorPanel").html("");
+        $(".profsuccessResult").addClass("hidden");
+        $(".proferrorResult").addClass("hidden");
+        $(".saveprofinfo").removeClass("hidden");
     });
 
     /* Code to upload profile image in the my profile page */
@@ -158,6 +189,7 @@ $(function() {
         var data = new FormData(this); // <-- 'this' is your form element
 
         if (isValid) {
+            run_waitMe("aboutmestatus");
             $(".amerrorpanel").html("");
             $.ajax({
                 url: "/myprofile/updateaboutme",
@@ -172,11 +204,13 @@ $(function() {
                     $(".amerrorResult").addClass("hidden");
                     $(".saveaboutmeinfo").addClass("hidden");
                     //$(".profileprogress").imgProgressTo(profileCompleteStatus());
+                    stop_waitMe("aboutmestatus");
                 },
                 error: function(error) {
                     console.log("error : " + error);
                     $(".amsuccessResult").addClass("hidden");
                     $(".amerrorResult").removeClass("hidden");
+                    stop_waitMe("aboutmestatus");
                 }
             });
         } else {
@@ -191,18 +225,19 @@ $(function() {
         var isValid = true;
         var errorPanel = $("<div></div>");
         var errorMessage = null;
-        var regex = /^[a-zA-Z ]+$/;
+        //var regex = /^[a-zA-Z ]+$/;
 
         var firstname = $("#inputfirstname").val();
         var lastname = $("#inputlastname").val();
         var phone = $("#inputphone").val();
+        var pinno = $("#inputpinno").val();
 
         if (firstname == "" || firstname == undefined) {
             isValid = false;
             errorPanel.append(
                 ErrorMessage("<strong>Warning!</strong> Please add your First Name.")
             );
-        } else if (firstname != firstname.match(regex)) {
+        } else if (!validateName(firstname)) {
             isValid = false;
             errorPanel.append(
                 ErrorMessage("<strong>Warning!</strong> Only alphabate for first name.")
@@ -214,7 +249,7 @@ $(function() {
             errorPanel.append(
                 ErrorMessage("<strong>Warning!</strong> Please add your last name.")
             );
-        } else if (lastname != lastname.match(regex)) {
+        } else if (!validateName(lastname)) {
             isValid = false;
             errorPanel.append(
                 ErrorMessage("<strong>Warning!</strong> Only alphabate for last name.")
@@ -228,9 +263,17 @@ $(function() {
             );
         }
 
+        if (pinno != "" && !($.isNumeric(pinno))) {
+            isValid = false;
+            errorPanel.append(
+                ErrorMessage("<strong>Warning!</strong> Only digit for PIN number.")
+            );
+        }
+
         var data = new FormData(this); // <-- 'this' is your form element
 
         if (isValid) {
+            run_waitMe("personaldetailstatus");
             $(".pderrorPanel").html("");
             $.ajax({
                 url: "/myprofile/updatepersonaldetails",
@@ -243,16 +286,101 @@ $(function() {
                     console.log("success : " + JSON.stringify(data));
                     $(".pderrorResult").addClass("hidden");
                     $(".pdsuccessResult").removeClass("hidden");
+                    $(".savepersonalinfo").addClass("hidden");
                     //$(".profileprogress").imgProgressTo(profileCompleteStatus());
+                    stop_waitMe("personaldetailstatus");
                 },
                 error: function(error) {
                     console.log("error : " + error);
                     $(".pdsuccessResult").addClass("hidden");
                     $(".pderrorResult").removeClass("hidden");
+                    stop_waitMe("personaldetailstatus");
                 }
             });
         } else {
             $(".pderrorPanel").html(errorPanel).removeClass("hidden");
+        }
+    });
+
+    /* Code to update proffessional details in the my profile page */
+    $("#frmprofdetails").submit(function(e) {
+        e.preventDefault();
+
+        var isValid = true;
+        var errorPanel = $("<div></div>");
+        var errorMessage = null;
+        var regex = /^[a-zA-Z ]+$/;
+
+        var proffession = $("#inputproffession").val();
+        var experience = $("#inputexperience").val();
+        var eduyear = $("#inputeduyear").val();
+        var compemail = $("#inputcompemail").val();
+        var compphone = $("#inputcompphone").val();
+
+        if (proffession == "" || proffession == undefined) {
+            isValid = false;
+            errorPanel.append(
+                ErrorMessage("<strong>Warning!</strong> Please add your proffession.")
+            );
+        }
+
+        if (experience != "" && !($.isNumeric(experience))) {
+            isValid = false;
+            errorPanel.append(
+                ErrorMessage("<strong>Warning!</strong> Only digit for year of experience.")
+            );
+        }
+
+        if (eduyear != "" && !($.isNumeric(eduyear))) {
+            isValid = false;
+            errorPanel.append(
+                ErrorMessage("<strong>Warning!</strong> Only digit for year of highest qualification.")
+            );
+        }
+
+        if (compemail != "" && !(validateEmail(compemail))) {
+            isValid = false;
+            errorPanel.append(
+                ErrorMessage("<strong>Warning!</strong> Please add a valid emailid.")
+            );
+        }
+
+        if (compphone != "" && !($.isNumeric(compphone))) {
+            isValid = false;
+            errorPanel.append(
+                ErrorMessage("<strong>Warning!</strong> Only digit for company phone number.")
+            );
+        }
+
+        var data = new FormData(this); // <-- 'this' is your form element
+
+        if (isValid) {
+            run_waitMe("proffessionaldetailstatus");
+            $(".proferrorPanel").html("");
+            $.ajax({
+                url: "/myprofile/updateprofdetails",
+                data: data,
+                cache: false,
+                contentType: false,
+                processData: false,
+                type: "POST",
+                success: function(data) {
+                    console.log("success : " + JSON.stringify(data));
+                    $(".proferrorResult").addClass("hidden");
+                    $(".profsuccessResult").removeClass("hidden");
+                    $(".savepersonalinfo").addClass("hidden");
+                    //$(".profileprogress").imgProgressTo(profileCompleteStatus());
+                    stop_waitMe("proffessionaldetailstatus");
+                },
+                error: function(error) {
+                    console.log("error : " + error);
+                    $(".profsuccessResult").addClass("hidden");
+                    $(".proferrorResult").removeClass("hidden");
+                    stop_waitMe("proffessionaldetailstatus");
+                }
+            });
+        } else {
+            $(".proferrorPanel").html(errorPanel).removeClass("hidden");
         }
     });
 

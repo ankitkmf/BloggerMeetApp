@@ -26,15 +26,15 @@ exports.logger = bunyan.createLogger({
             level: 'info',
             path: infoFileName,
             type: 'rotating-file',
-            period: '1d', // daily rotation 
-            count: 3
+            period: '1d' // daily rotation 
+                //count: 3
         },
         {
             level: 'error',
             type: 'rotating-file',
             path: errorFileName,
-            period: '1d', // daily rotation 
-            count: 3
+            period: '1d' // daily rotation 
+                //count: 3
         }
     ]
 });

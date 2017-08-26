@@ -30,22 +30,41 @@ let getaboutme = function(userid) {
 }
 
 let getpersonaldetails = function(userid) {
-    let path = serviceURL + "/getaboutme/" + userid;
+    let path = serviceURL + "/getpersonaldetails/" + userid;
     console.log("path:" + path);
-    log.logger.info("Model layer getaboutme method : service call : " + path);
+    log.logger.info("Model layer getpersonaldetails method : service call : " + path);
 
     return new Promise(function(resolve, reject) {
         axios.get(path).then(function(response) {
-                log.logger.info("Model layer getaboutme method : service call : success");
+                log.logger.info("Model layer getpersonaldetails method : service call : success");
                 resolve(response);
             })
             .catch(function(error) {
                 var err = { "Error": error };
-                log.logger.error("Model layer getaboutme method : service call : error : " + error);
+                log.logger.error("Model layer getpersonaldetails method : service call : error : " + error);
                 reject(err);
             });
     });
 }
+
+let getproffessionaldetails = function(userid) {
+    let path = serviceURL + "/getproffessionaldetails/" + userid;
+    console.log("path:" + path);
+    log.logger.info("Model layer getproffessionaldetails method : service call : " + path);
+
+    return new Promise(function(resolve, reject) {
+        axios.get(path).then(function(response) {
+                log.logger.info("Model layer getproffessionaldetails method : service call : success");
+                resolve(response);
+            })
+            .catch(function(error) {
+                var err = { "Error": error };
+                log.logger.error("Model layer getproffessionaldetails method : service call : error : " + error);
+                reject(err);
+            });
+    });
+}
+
 
 router.post('/updateaboutme', function(req, res) {
 
@@ -65,7 +84,7 @@ router.post('/updateaboutme', function(req, res) {
                 var data = {
                     "userid": userid,
                     "data": data,
-                    "id": id
+                    "_id": id
                 };
 
                 axios.post(path, data)
@@ -96,16 +115,20 @@ router.get('/:_id', function(req, res) {
     var collectionCountList = {};
 
     Promise.all([
-        getaboutme(userid)
+        getaboutme(userid),
+        getpersonaldetails(userid),
+        getproffessionaldetails(userid)
     ]).then(data => {
         var aboutme = data[0].data;
-        console.log("3");
+        var personaldetails = data[1].data;
+        var proffessionaldetails = data[2].data;
 
         log.logger.info("Successfully retrive my-profile data");
         res.render("myprofile", {
             layout: 'default',
             title: 'My Profile Page',
-            aboutme: aboutme.result
+            aboutme: aboutme.result,
+            proffessionaldetails: proffessionaldetails.result
         });
 
     }).catch(function(err) {
@@ -185,6 +208,10 @@ router.post('/updatepersonaldetails', function(req, res) {
             var fname = fields.inputfirstname;
             var lname = fields.inputlastname;
             var dob = fields.inputDOB;
+            var address1 = fields.inputaddress1;
+            var address2 = fields.inputaddress2;
+            var country = fields.inputcountry;
+            var pinno = fields.inputpinno;
             var phone = fields.inputphone;
             var id = fields._id;
 
@@ -200,6 +227,10 @@ router.post('/updatepersonaldetails', function(req, res) {
                     "firstname": fname,
                     "lastname": lname,
                     "dob": dob,
+                    "address1": address1,
+                    "address2": address2,
+                    "country": country,
+                    "pinno": pinno,
                     "phone": phone,
                     "_id": id
                 };
@@ -216,6 +247,64 @@ router.post('/updatepersonaldetails', function(req, res) {
                     });
             } else {
                 log.logger.error("Model layer blogs : updatepersonaldetails call : Error : data not define");
+                res.json({ "Error": "data not define" });
+            }
+        });
+    }
+    return;
+});
+
+router.post('/updateprofdetails', function(req, res) {
+    if (req.url == '/updateprofdetails') {
+
+        var form = new formidable.IncomingForm();
+
+        form.parse(req, function(err, fields, files) {
+            var userid = fields.userid;
+            var proffession = fields.inputproffession;
+            var experience = fields.inputexperience;
+            var deptname = fields.inputdepartment;
+            var companyname = fields.inputcompanyname;
+            var compemailid = fields.inputcompemail;
+            var compphone = fields.inputcompphone;
+            var qualification = fields.inputqualification;
+            var educationyear = fields.inputeduyear;
+            var location = fields.inputlocation;
+            var id = fields._id;
+
+            var isValid = (userid != null && proffession != null);
+
+            if (isValid) {
+
+                let path = serviceURL + "/updateproffessionaldetails/";
+                console.log("path:" + path);
+
+                var data = {
+                    "userid": userid,
+                    "proffession": proffession,
+                    "experience": experience,
+                    "deptname": deptname,
+                    "companyname": companyname,
+                    "compemailid": compemailid,
+                    "compphone": compphone,
+                    "qualification": qualification,
+                    "educationyear": educationyear,
+                    "location": location,
+                    "_id": id
+                };
+
+                axios.post(path, data)
+                    .then(function(response) {
+                        log.logger.info("Model layer updateprofdetails method : service call : success");
+                        res.json(true);
+                    })
+                    .catch(function(error) {
+                        console.log("api error:" + error);
+                        log.logger.error("Model layer blogs : updateprofdetails call : error : " + error);
+                        res.json({ "Error": "updateprofdetails api error" });
+                    });
+            } else {
+                log.logger.error("Model layer blogs : updateprofdetails call : Error : data not define");
                 res.json({ "Error": "data not define" });
             }
         });

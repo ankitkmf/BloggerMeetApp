@@ -214,3 +214,7 @@ router.post('/data/ValidateUserPwd', function(req, res, next) {
         res.json(false);
     }
 });
+
+router.get("/data/countries", function(req, res) {
+    res.json(require("../data/countries.json"));
+});

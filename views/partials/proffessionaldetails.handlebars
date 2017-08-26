@@ -1,0 +1,119 @@
+<div class="panel panel-info profile-content-panel-border-radius bg-form proffessionaldetailstatus">
+    <div class="panel-edit-checker text-right">
+        <h4><span class="glyphicon glyphicon-edit"></span></h4>
+        <input type="checkbox" class="form-control" id="checkerprofinfo" value="true" />
+    </div>
+    <div class="panel-body">
+        <div class="proferrorPanel hidden">
+        </div>
+        <div class="profsuccessResult alert alert-dismissible alert-success hidden">
+            {{!-- <button type="button" class="close" data-dismiss="alert">&times;</button> --}}
+            <strong>Thank you!</strong> You have successfully updated about your proffessioanl/educational details.
+        </div>
+        <div class="alert alert-danger hidden proferrorResult" role="alert">
+            Currently there are some technical issue . Please try again later.
+        </div>
+        <form class="form-horizontal" id="frmprofdetails">
+            <fieldset>
+
+                <div class="form-group">
+                    <label for="inputproffession" class="col-lg-3 control-label">Current Proffession</label>
+                    <div class="col-lg-8">
+                        <input type="text" class="form-control clearmsg" maxlength="100" id="inputproffession" name="inputproffession" placeholder="Current proffession"
+                            value="{{proffessionaldetails.proffession}}">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputexperience" class="col-lg-3 control-label">Experience (in year)</label>
+                    <div class="col-lg-8">
+                        <input type="text" class="form-control clearmsg" maxlength="100" id="inputexperience" name="inputexperience" placeholder="Year of experience"
+                            value="{{proffessionaldetails.experience}}">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputdepartment" class="col-lg-3 control-label">Department Name</label>
+                    <div class="col-lg-8">
+                        <input type="text" class="form-control clearmsg" maxlength="100" id="inputdepartment" name="inputdepartment" placeholder="Department Name"
+                            value="{{proffessionaldetails.deptname}}">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputcompanyname" class="col-lg-3 control-label">Company Name</label>
+                    <div class="col-lg-8">
+                        <input type="text" class="form-control clearmsg" maxlength="100" id="inputcompanyname" name="inputcompanyname" placeholder="Current Company Name"
+                            value="{{proffessionaldetails.companyname}}">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputcompemail" class="col-lg-3 control-label">Company Email ID</label>
+                    <div class="col-lg-8">
+                        <input type="text" class="form-control clearmsg" maxlength="100" id="inputcompemail" name="inputcompemail" placeholder="Company Email ID"
+                            value="{{proffessionaldetails.compemailid}}">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputcompphone" class="col-lg-3 control-label">Company Contact Number</label>
+                    <div class="col-lg-8">
+                        <input type="text" class="form-control clearmsg" maxlength="15" id="inputcompphone" name="inputcompphone" placeholder="Company Contact Number"
+                            value="{{proffessionaldetails.compphone}}">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputqualification" class="col-lg-3 control-label">Highest Qualification</label>
+                    <div class="col-lg-8">
+
+                        {{!-- <select class="form-control dropdown clearmsg" id="inputqualification" name="inputqualification">
+                            <option value="" selected="selected" disabled="disabled">-- Select Highest Qualification --</option>
+                            <option value="No formal education">No formal education</option>
+                            <option value="Primary education">Primary education</option>
+                            <option value="Secondary education">Secondary education or high school</option>
+                            <option value="GED">GED</option>
+                            <option value="Vocational qualification">Vocational qualification</option>
+                            <option value="Bachelor degree">Bachelor's degree</option>
+                            <option value="Master degree">Master's degree</option>
+                            <option value="Doctorate or higher">Doctorate or higher</option>
+                        </select> --}}
+                        <input type="text" class="form-control clearmsg" maxlength="50" id="inputqualification" name="inputqualification" placeholder="Highest Qualification"
+                            value="{{proffessionaldetails.qualification}}">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputeduyear" class="col-lg-3 control-label">Year of Passout</label>
+                    <div class="col-lg-8">
+                        <input type="text" class="form-control clearmsg" maxlength="50" id="inputeduyear" name="inputeduyear" placeholder="Year of Passout"
+                            value="{{proffessionaldetails.educationyear}}">
+                    </div>
+                </div>
+
+                <div class="form-group" id="bloodhound">
+                    <label for="inputlocation" class="col-lg-3 control-label">Current Location</label>
+                    <div class="col-lg-8">
+                        <input class="form-control typeahead defaultfontweight clearmsg" placeholder="Current Location" type="text" id="inputlocation"
+                            name="inputlocation" value="{{proffessionaldetails.location}}">
+                    </div>
+                </div>
+
+                <div class="form-group hidden saveprofinfo">
+                    <div class="col-lg-3"></div>
+                    <div class="text-right col-lg-8">
+                        <button type="submit" class="btn btn-info btn-sm">Save</button>
+                        <button type="reset" class="btn btn-warning btn-sm hidefrmprofdetails">Cancel</button>
+                    </div>
+                </div>
+
+                {{#if proffessionaldetails}}
+                <input type="hidden" id='userid' name='userid' value="{{proffessionaldetails.userid}}">
+                <input type="hidden" id='_id' name='_id' value="{{proffessionaldetails._id}}"> {{else}}
+                <input type="hidden" id='userid' name='userid' value="{{user._id}}">
+                <input type="hidden" id='_id' name='_id' value=""> {{/if}}
+            </fieldset>
+        </form>
+    </div>
+</div>
