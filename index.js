@@ -104,6 +104,13 @@ app.use('/commonapi', CommonAPI);
 var userregistration = require('./controllers/userregistration');
 app.use('/auth', authNotRequired, userregistration);
 
+// app.get('/auth/google/callback',
+//     passport.authenticate('google', { failureRedirect: '/' }),
+//     function(req, res) {
+//         // Successful authentication, redirect home.
+//         res.redirect('/');
+//     });
+
 var forgotPwd = require('./controllers/forgotPwd');
 app.use('/auth', authNotRequired, forgotPwd);
 
@@ -126,10 +133,10 @@ app.use(function(err, req, res, next) {
         next();
 });
 
-process.on('uncaughtException', function(err) {
-    console.log("uncaughtException:" + err);
-    log.logger.error(err);
-});
+// process.on('uncaughtException', function(err) {
+//     console.log("uncaughtException:" + err);
+//     log.logger.error(err);
+// });
 
 var port = 2000;
 app.listen(port, function() {
