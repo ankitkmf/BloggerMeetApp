@@ -4,7 +4,7 @@ var config = require("config");
 var log = require("../modellayer/log");
 const serviceURL = config.get("app.restAPIEndpoint.v1ContractPath");
 
-exports.find = function(email, password) {
+exports.find = function(email) {
     let path = serviceURL + "/validateUserEmail"; ///" + startindex + "/" + categorytype;
     console.log("path:" + path);
     var filter = {
