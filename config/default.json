@@ -13,7 +13,7 @@
     "nodeMailer": {
         "service": "gmail",
         "user": "nodegitapp@gmail.com",
-        "pass": "Node@123",
+        "pass": "Node#123",
         "path": "http://localhost:2000"
     },
     "profilephoto": {

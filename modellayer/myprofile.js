@@ -128,6 +128,7 @@ router.get('/:_id', function(req, res) {
             layout: 'default',
             title: 'My Profile Page',
             aboutme: aboutme.result,
+            personaldetails: personaldetails.result,
             proffessionaldetails: proffessionaldetails.result
         });
 
