@@ -3,6 +3,7 @@ var express = require("express");
 var axios = require("axios");
 var config = require("config");
 var bcrypt = require('bcrypt');
+var uniqid = require('uniqid');
 var router = express.Router();
 module.exports = router;
 const serviceURL = config.get("app.restAPIEndpoint.v1ContractPath");
@@ -24,6 +25,8 @@ router.post("/data/signUp", function(req, res) {
             "name": req.body.name,
             "email": req.body.email,
             "password": bcrypt.hashSync(req.body.password, 10),
+            "authType": "local",
+            "profileID": uniqid()
         };
 
         axios.post(path, result)

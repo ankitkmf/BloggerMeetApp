@@ -1,18 +1,18 @@
 var passport = require("passport");
+var axios = require("axios");
 var LocalStrategy = require('passport-local').Strategy;
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 var FacebookStrategy = require('passport-facebook').Strategy;
 var bcrypt = require('bcrypt');
 var passportauth = require("../modellayer/passportauth");
 var log = require("../modellayer/log");
+var config = require("config");
+const serviceURL = config.get("app.restAPIEndpoint.v1ContractPath");
 
 passport.use(new LocalStrategy(function(username, password, done) {
-
     log.logger.info("Passport Init : User Name : " + username + " , Password : " + password);
-
     var user = {};
-
-    passportauth.find(username, password).then((response) => {
+    passportauth.find(username).then((response) => {
         if (response != null && response.data != null && response.data.count > 0) {
 
             user = response.data;
@@ -50,20 +50,47 @@ passport.use(new GoogleStrategy({
         callbackURL: "http://localhost:2000/auth/google/callback"
     },
     function(accessToken, refreshToken, profile, done) {
-        console.log("profile.id:" + profile.id);
-        //var user = new user();
-        var user = {};
-        user._id = profile.id;
-        user.username = "ankit";
-        console.log("user :" + JSON.stringify(user));
-        return done(null, user);
-        // user.token = accessToken;
-        //  user.name = profile.displyName;
-        //  user.email = profile.emails[0].value;
-        //return cb(err, user);
-        // User.findOrCreate({ googleId: profile.id }, function(err, user) {
-        //     return cb(err, user);
-        // });
+        if (profile.emails[0].value != null && profile.id != null) {
+            passportauth.find(profile.emails[0].value).then((response) => {
+                if (response != null && response.data != null && response.data.count > 0) {
+                    var user = {};
+                    user = response.data;
+                    console.log("Google user found in DB");
+                    return done(null, user);
+                } else {
+                    console.log("Google user doesn't found");
+                    let path = serviceURL + "/saveSignUp/";
+                    var user = {
+                        "id": profile.id,
+                        "name": profile.displyName,
+                        "imageURL": profile.photos != null ? profile.photos[0].value : "",
+                        "authType": "google"
+                    };
+                    var result = {
+                        "username": profile.displayName,
+                        "name": profile.displayName,
+                        "email": profile.emails[0].value,
+                        "password": bcrypt.hashSync("test", 10),
+                        "authType": "google",
+                        "profileID": profile.id
+                    };
+
+                    axios.post(path, result)
+                        .then(function(response) {
+                            console.log("Google user inserted in db ");
+                            return done(null, user);
+                        })
+                        .catch(function(error) {
+                            console.log("Error in inseration Google user in db ");
+                            return done(null, false);
+                        });
+                }
+            }).catch(function(err) {
+                console.log("passport.find exception:" + err);
+                log.logger.error("Passport Init : passportauth find : User Name : " + username + " Error : " + err);
+                return done(null, false);
+            });
+        }
     }
 ));
 
