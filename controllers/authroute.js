@@ -3,10 +3,6 @@ var passport = require("passport");
 var router = express.Router();
 module.exports = router;
 
-// router.get("/login", function(req, res) {
-//     res.render('login'); //, { title: 'Login Page' });
-// });
-
 router.post("/login", passport.authenticate('local', {
     successRedirect: '/',
     failureRedirect: '/'
@@ -21,7 +17,7 @@ router.get("/google/callback", passport.authenticate('google', {
 }));
 
 router.get("/facebook",
-    passport.authenticate("facebook", { scope: ["public_profile", "email"] })); //, { scope: ['public_profile', 'email'] }));
+    passport.authenticate("facebook", { scope: ["public_profile", "email"] }));
 
 router.get("/facebook/callback", passport.authenticate("facebook", {
     successRedirect: '/',

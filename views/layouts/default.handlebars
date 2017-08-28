@@ -40,7 +40,7 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li class="active"><a href="/">Home</a></li>
-        {{#if user}} {{user._id}}
+        {{#if user}}
         <li><a href="/dashboard">Dashbboard</a></li>
         <li><a href="/blogs">Blogs</a></li>{{/if}}
         <li><a href="#contact">Contact</a></li>
@@ -49,6 +49,15 @@
       {{#if user}}
       <ul class="nav navbar-nav navbar-right">
         <li class="dropdown">
+          {{#Compare ./user.authType "!==" "local" }}
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
+             <img src="{{user.userImage}}" 
+              class="profile-image navbarimage four reloadimage"> {{user.username}} <span class="caret"></span>
+            </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="/auth/logout">Log-out {{user.username}}</a></li>
+          </ul>
+          {{else}}
           <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
              <img src="/{{user._id}}/{{user._id}}.jpg" 
               class="profile-image navbarimage four reloadimage"> {{user.username}} <span class="caret"></span>
@@ -59,14 +68,8 @@
             <li><a class="dropdown-item" href="/auth/changepwd/{{user._id}}">Change Password</a></li>
             <li class="divider"></li>
             <li><a class="dropdown-item" href="/auth/logout">Log-out {{user.username}}</a></li>
- {{#Compare "1" "1"}}
-  equal
-  {{else}}
-  not equal
-  {{/Compare}}
-
-
           </ul>
+          {{/Compare}}
         </li>
       </ul>
       {{else}}
@@ -86,7 +89,7 @@
             <a class="nav-link" href="/auth/forgotPwd">Forgot Password</a>
           </button>
           <a href="/auth/google" class="fa fa-google"></a>
-          <a href="/auth/facebook" class="fa fa-facebook"></a>         
+          <a href="/auth/facebook" class="fa fa-facebook"></a>
         </form>
       </div> {{/if}}
     </div>

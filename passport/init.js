@@ -54,7 +54,7 @@ passport.use(new GoogleStrategy({
             passportauth.find(profile.emails[0].value).then((response) => {
                 if (response != null && response.data != null && response.data.count > 0) {
                     var user = {};
-                    user = response.data;
+                    user = response.data.result[0];
                     console.log("Google user found in DB");
                     return done(null, user);
                 } else {
@@ -62,8 +62,8 @@ passport.use(new GoogleStrategy({
                     let path = serviceURL + "/saveSignUp/";
                     var user = {
                         "id": profile.id,
-                        "name": profile.displyName,
-                        "imageURL": profile.photos != null ? profile.photos[0].value : "",
+                        "username": profile.displayName,
+                        "userImage": profile.photos != null ? profile.photos[0].value : "",
                         "authType": "google"
                     };
                     var result = {
@@ -72,7 +72,8 @@ passport.use(new GoogleStrategy({
                         "email": profile.emails[0].value,
                         "password": bcrypt.hashSync("test", 10),
                         "authType": "google",
-                        "profileID": profile.id
+                        "profileID": profile.id,
+                        "userImage": profile.photos != null ? profile.photos[0].value : ""
                     };
 
                     axios.post(path, result)
@@ -95,19 +96,17 @@ passport.use(new GoogleStrategy({
 ));
 
 passport.use(new FacebookStrategy({
-        clientID: "",
-        clientSecret: "",
+        clientID: "gt6hy",
+        clientSecret: "dsfdsfdffdsf",
         callbackURL: "http://localhost:2000/auth/facebook/callback"
     },
     function(accessToken, refreshToken, profile, done) {
-        //User.findOrCreate({ facebookId: profile.id }, function(err, user) {
         console.log("profile.id:" + profile.id);
         var user = {};
         user._id = profile.id;
-        user.username = "facebook";
-        console.log("FB user :" + JSON.stringify(user));
+        user.username = "vaskarfb";
+        user.authType = "facebook";
         return done(null, user);
-        //});
     }
 ));
 
