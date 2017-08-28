@@ -28,6 +28,14 @@ router.get("/google/callback", passport.authenticate('google', {
     failureRedirect: '/'
 }));
 
+router.get("/facebook",
+    passport.authenticate("facebook", { scope: ["public_profile", "email"] })); //, { scope: ['public_profile', 'email'] }));
+
+router.get("/facebook/callback", passport.authenticate("facebook", {
+    successRedirect: '/',
+    failureRedirect: '/'
+}));
+
 router.get('/logout', function(req, res) {
     req.logout();
     res.redirect('/');

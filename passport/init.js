@@ -1,6 +1,7 @@
 var passport = require("passport");
 var LocalStrategy = require('passport-local').Strategy;
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+var FacebookStrategy = require('passport-facebook').Strategy;
 var bcrypt = require('bcrypt');
 var passportauth = require("../modellayer/passportauth");
 var log = require("../modellayer/log");
@@ -63,6 +64,23 @@ passport.use(new GoogleStrategy({
         // User.findOrCreate({ googleId: profile.id }, function(err, user) {
         //     return cb(err, user);
         // });
+    }
+));
+
+passport.use(new FacebookStrategy({
+        clientID: "",
+        clientSecret: "",
+        callbackURL: "http://localhost:2000/auth/facebook/callback"
+    },
+    function(accessToken, refreshToken, profile, done) {
+        //User.findOrCreate({ facebookId: profile.id }, function(err, user) {
+        console.log("profile.id:" + profile.id);
+        var user = {};
+        user._id = profile.id;
+        user.username = "facebook";
+        console.log("FB user :" + JSON.stringify(user));
+        return done(null, user);
+        //});
     }
 ));
 

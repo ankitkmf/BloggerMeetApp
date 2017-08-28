@@ -17,7 +17,12 @@ app.use(express.static(path.join(__dirname, 'profilephoto')));
 
 var hbs = exphbs.create({
     defaultLayout: 'default',
-    helpers: {},
+    helpers: {
+        IsAdmin: require("./public/js/helper/isadmin"),
+        CheckIsAdmin: require("./public/js/helper/checkisadmin"),
+        Compare: require("./public/js/helper/compare")
+            //GetBlogStatus: require("./public/js/helper/getblogstatus")
+    },
     partialsDir: ['views/partials/']
 });
 
