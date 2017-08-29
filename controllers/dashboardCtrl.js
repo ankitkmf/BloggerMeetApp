@@ -26,6 +26,7 @@ router.get("/dashboard", function(req, res) {
             "totalGoogleUser": data[2].data.count,
             "totalFBUser": data[3].data.count
         };
+        console.log(JSON.stringify(collection));
         res.render('dashboard', { layout: 'default', title: 'Dashboard Page', result: collection });
     }).catch(function(err) {
         console.log("err:" + err);

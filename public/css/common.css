@@ -115,3 +115,16 @@ input {
 .fa:hover {
     opacity: 0.7;
 }
+
+button.close {
+    padding: 6px !important;
+    cursor: pointer;
+    background: transparent;
+    color: black;
+    border: 0;
+    -webkit-appearance: none;
+}
+
+button.close:hover {
+    color: black !important;
+}
