@@ -123,8 +123,21 @@ button.close {
     color: black;
     border: 0;
     -webkit-appearance: none;
+    font-family: 'Glyphicons Halflings' !important;
+    font-size: 16.5px !important;
 }
 
-button.close:hover {
+.close:hover,
+.close:focus {
     color: black !important;
+}
+
+button.glyphicons {
+    padding: 6px !important;
+    cursor: pointer;
+    background: transparent;
+    color: black;
+    border: 0;
+    font-family: 'Glyphicons Halflings' !important;
+    -webkit-appearance: none;
 }

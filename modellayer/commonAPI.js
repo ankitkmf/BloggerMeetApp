@@ -10,6 +10,7 @@ const serviceURL = config.get("app.restAPIEndpoint.v1ContractPath");
 var _ = require("lodash");
 var nodemailer = require('nodemailer');
 var changePwd = require("../modellayer/changepwdmodel");
+var dashbordModel = require("../modellayer/dashboardModel");
 var log = require("./log");
 
 // save user information 
@@ -220,4 +221,17 @@ router.post('/data/ValidateUserPwd', function(req, res, next) {
 
 router.get("/data/countries", function(req, res) {
     res.json(require("../data/countries.json"));
+});
+
+router.get("/data/usergraph", function(req, res) {
+    dashbordModel.GetAllUserCount().then(data => {
+        if (data != null) {
+            res.render('dashboard', { layout: 'default', title: 'Dashboard Page', result: data });
+        } else
+            res.status(500).send();
+    }).catch(function(err) {
+        console.log("err:" + err);
+        res.status(500).send();
+    });
+    //  res.json(require("../data/countries.json"));
 });
