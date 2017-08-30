@@ -1,0 +1,44 @@
+<link href="/css/blogs.css" rel="stylesheet" />
+
+<div class="bs-docs-section">
+  <div class="row">
+    <h3>List of Blogs</h3>
+    {{#Compare blogs.count ">" 0}}
+    <div id="accordion">
+      {{#each blogs.result}}
+      <div class="group">
+        <h3>
+          {{this.topic}} || Posted on {{this.creationdate}} 
+          
+          <div id="editblog" class="editblog">
+           <span class="edit glyphicon glyphicon-edit"></span>
+           <span class="remove glyphicon glyphicon-remove"></span>
+          </div>
+
+        </h3>
+        <div>
+          <p>
+            {{{this.content}}}
+          </p>
+        </div>
+      </div>
+      {{/each}}
+    </div>
+    {{else}}
+    <h3>No Blogs found. Please click here to <a href="#" id="addblog">Add Blog</a></h3>
+    {{/Compare}}
+
+  </div>
+</div>
+
+<br/>
+
+<script src="/js/blogs.js"></script>
+
+{{!--
+<script src="/ckeditor/ckeditor.js"></script>
+
+<script>
+  CKEDITOR.replace('content');
+
+</script> --}}

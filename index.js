@@ -109,6 +109,9 @@ app.get('/', authNotRequired, function(req, res) {
 var myprofileroute = require('./modellayer/myprofile');
 app.use("/myprofile", authenticationMiddleware, myprofileroute);
 
+var blogroute = require('./controllers/blog');
+app.use("/blogs", authenticationMiddleware, blogroute);
+
 var authRouter = require('./controllers/authroute');
 app.use('/auth', authNotRequired, authRouter);
 

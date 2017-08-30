@@ -1,0 +1,17 @@
+.row {
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+
+/* span.glyphicon.glyphicon-edit {
+    float: right;
+}
+
+span.glyphicon.glyphicon-remove {
+    float: right;
+} */
+
+.editblog {
+    float: right;
+}

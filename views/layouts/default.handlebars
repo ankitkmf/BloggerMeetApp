@@ -42,9 +42,7 @@
         <li class="active"><a href="/">Home</a></li>
         {{#if user}}
         <li><a href="/dashboard">Dashbboard</a></li>
-        <li><a href="/blogs">Blogs</a></li>{{/if}}
-        <li><a href="#contact">Contact</a></li>
-        <li><a href="#contact">About</a></li>
+        <li><a href="/blogs/profile/{{user._id}}">Blogs</a></li>{{/if}}
       </ul>
       {{#if user}}
       <ul class="nav navbar-nav navbar-right">
@@ -99,9 +97,8 @@
   {{{body}}}
 </div>
 
-<footer class="panel-footer">
-  <h1>Footer</h1>
-</footer>
+{{> footer}}
+
 <span id="spnServicePath" class="hidden">{{config}}</span>
 <div id="myModal" class="modal fade" role="dialog">
   <div class="modal-dialog">

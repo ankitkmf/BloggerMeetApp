@@ -23,3 +23,23 @@ exports.blogs = function(startindex, categorytype) {
             });
     });
 }
+
+exports.blogsbyuserid = function(startindex, userid) {
+    let path = serviceURL + "/getblogsbyuserid/" + userid + "/" + startindex;
+    console.log("path:" + path);
+    log.logger.info("Model layer blogsbyuserid : service call : " + path);
+    //console.log("111");
+    return new Promise(function(resolve, reject) {
+        axios.get(path).then(function(response) {
+                //console.log("2");
+                log.logger.info("Model layer blogsbyuserid : service call : success");
+                resolve(response);
+            })
+            .catch(function(error) {
+                //console.log("3");
+                var err = { "Error": error };
+                log.logger.error("Model layer blogsbyuserid : service call : error : " + error);
+                reject(err);
+            });
+    });
+}
