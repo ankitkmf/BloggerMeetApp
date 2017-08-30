@@ -15,22 +15,17 @@ let GetUserGraph = (path) => {
         })
         .done(function(data) {
             if (data != null) {
-                // console.log("step 2:" + JSON.stringify(data));
                 var result = CreateGraphCollection(data);
-                console.log("step 2:" + JSON.stringify(result));
                 userGraphContainer(result);
             }
         })
         .fail(function(err) {})
         .always(function() {
-            console.log("step 6");
             stop_waitMe("divRegUserGraph");
         });
 };
 
 let userGraphContainer = results => {
-    // var collection = [];
-    // collection.push(results);
     if ($('#graphContainer').length) {
         Highcharts.chart("graphContainer", {
             title: {
