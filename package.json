@@ -4,6 +4,7 @@
   "description": "Test App",
   "main": "index.js",
   "dependencies": {
+    "alasql": "^0.4.2",
     "axios": "^0.16.2",
     "bcrypt": "^1.0.2",
     "body-parser": "^1.17.2",

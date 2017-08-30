@@ -115,9 +115,9 @@ app.use("/blogs", authenticationMiddleware, blogroute);
 var authRouter = require('./controllers/authroute');
 app.use('/auth', authNotRequired, authRouter);
 
-app.get('/dashboard', authenticationMiddleware, function(req, res) {
-    res.render('dashboard', { layout: 'default', title: 'Dashboard Page' });
-});
+// app.get('/dashboard', authenticationMiddleware, function(req, res) {
+//     res.render('dashboard', { layout: 'default', title: 'Dashboard Page' });
+// });
 
 var CommonAPI = require('./modellayer/CommonAPI');
 app.use('/commonapi', CommonAPI);
@@ -125,18 +125,14 @@ app.use('/commonapi', CommonAPI);
 var userregistration = require('./controllers/userregistration');
 app.use('/auth', authNotRequired, userregistration);
 
-// app.get('/auth/google/callback',
-//     passport.authenticate('google', { failureRedirect: '/' }),
-//     function(req, res) {
-//         // Successful authentication, redirect home.
-//         res.redirect('/');
-//     });
-
 var forgotPwd = require('./controllers/forgotPwd');
 app.use('/auth', authNotRequired, forgotPwd);
 
-var changepwd = require('./controllers/changepwdController');
-app.use('/auth', authNotRequired, changepwd);
+var changepwdCtrl = require('./controllers/changepwdCtrl');
+app.use('/auth', authNotRequired, changepwdCtrl);
+
+var dashboardCtrl = require('./controllers/dashboardCtrl');
+app.use('/auth', authenticationMiddleware, dashboardCtrl);
 
 //Error handling
 app.get('*', authNotRequired, function(req, res, next) {
@@ -154,10 +150,10 @@ app.use(function(err, req, res, next) {
         next();
 });
 
-// process.on('uncaughtException', function(err) {
-//     console.log("uncaughtException:" + err);
-//     log.logger.error(err);
-// });
+process.on('uncaughtException', function(err) {
+    console.log("uncaughtException:" + err);
+    log.logger.error(err);
+});
 
 var port = 2000;
 app.listen(port, function() {
