@@ -1,36 +1,68 @@
 'use strict';
 $(function() {
     var servicePath = $("#spnServicePath").text();
-
+    GetUserGraph(servicePath);
     $(".regUserGraph").on("click", () => {
         run_waitMe("divRegUserGraph");
-        CreateUserGraph(servicePath);
+        GetUserGraph(servicePath);
     });
 });
 
-let CreateUserGraph = (path) => {
+let GetUserGraph = (path) => {
     $.ajax({
-            method: "Post",
+            method: "Get",
             url: "/commonAPI/data/usergraph"
         })
-        .done(function(jsonResult) {
-            console.log("step 2");
-            // if (jsonResult) {
-            //     $("#forgotPassword").addClass("hidden");
-            //     $("#inputEmail").val("");
-            //     $(".successPanel").html("<strong>Email has been send! Kindly check & click on link for updating password.</strong> <a href='/' class='alert-link'>Go to home page</a>");
-            //     showSuccessPanal();
-            // } else {
-            //     $("#inputEmail").focus().parent().addClass("has-error");
-            //     $(".ErrorPanel").html("Email not found.");
-            //     showErrorPanal();
-            // }
+        .done(function(data) {
+            if (data != null) {
+                // console.log("step 2:" + JSON.stringify(data));
+                var result = CreateGraphCollection(data);
+                console.log("step 2:" + JSON.stringify(result));
+                userGraphContainer(result);
+            }
         })
         .fail(function(err) {})
         .always(function() {
             console.log("step 6");
             stop_waitMe("divRegUserGraph");
         });
+};
+
+let userGraphContainer = results => {
+    // var collection = [];
+    // collection.push(results);
+    if ($('#graphContainer').length) {
+        Highcharts.chart("graphContainer", {
+            title: {
+                text: "2016-2017"
+            },
+            yAxis: {
+                title: {
+                    text: "Number of Users"
+                }
+            },
+            xAxis: {
+                type: "datetime",
+                dateTimeLabelFormats: {
+                    day: "%e. %b",
+                    month: "%b '%y",
+                    year: "%Y"
+                }
+            },
+            legend: {
+                // layout: 'vertical',
+                // align: 'right',
+                // verticalAlign: 'middle'
+                backgroundColor: "#FCFFC5"
+            },
+            plotOptions: {
+                series: {
+                    pointStart: 0
+                }
+            },
+            series: results
+        });
+    }
 };
 
 let CreateGraphCollection = results => {
@@ -59,42 +91,5 @@ let CreateGraphCollection = results => {
             collectionList.push({ name: collectionName, data: collection });
         });
         return collectionList;
-    }
-};
-
-let userGraphContainer = results => {
-    var collection = [];
-    collection.push(results);
-    if ($('#container').length) {
-        Highcharts.chart("container", {
-            title: {
-                text: "Users growth by day, 2016-2017"
-            },
-            yAxis: {
-                title: {
-                    text: "Number of Users"
-                }
-            },
-            xAxis: {
-                type: "datetime",
-                dateTimeLabelFormats: {
-                    day: "%e. %b",
-                    month: "%b '%y",
-                    year: "%Y"
-                }
-            },
-            legend: {
-                // layout: 'vertical',
-                // align: 'right',
-                // verticalAlign: 'middle'
-                backgroundColor: "#FCFFC5"
-            },
-            plotOptions: {
-                series: {
-                    pointStart: 0
-                }
-            },
-            series: results
-        });
     }
 };

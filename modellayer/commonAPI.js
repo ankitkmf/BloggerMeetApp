@@ -224,14 +224,18 @@ router.get("/data/countries", function(req, res) {
 });
 
 router.get("/data/usergraph", function(req, res) {
-    dashbordModel.GetAllUserCount().then(data => {
+    dashbordModel.GetUserGraph().then(data => {
+        // console.log("Common :usergraph:data:" + JSON.stringify(data));
         if (data != null) {
-            res.render('dashboard', { layout: 'default', title: 'Dashboard Page', result: data });
-        } else
-            res.status(500).send();
+            res.json(data);
+            //  res.render('dashboard', { layout: 'default', title: 'Dashboard Page', result: data });
+        } else {
+            //res.status(500).send();
+            res.json(false);
+        }
     }).catch(function(err) {
         console.log("err:" + err);
-        res.status(500).send();
+        res.json(false);
     });
     //  res.json(require("../data/countries.json"));
 });
