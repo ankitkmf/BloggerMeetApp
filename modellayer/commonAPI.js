@@ -248,3 +248,16 @@ router.get("/data/userBlogs", function(req, res) {
         res.json(false);
     });
 });
+
+router.get("/data/userComments", function(req, res) {
+    dashbordModel.GetUserComments().then(data => {
+        if (data != null) {
+            res.json(data);
+        } else {
+            res.json(false);
+        }
+    }).catch(function(err) {
+        console.log("err:" + err);
+        res.json(false);
+    });
+});

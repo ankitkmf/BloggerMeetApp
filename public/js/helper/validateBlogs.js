@@ -1,11 +1,17 @@
-module.exports = function(fieldvalue) {
-    if (fieldvalue != undefined && fieldvalue == true) {
-        return '<li class="nav-item dropdown btn-group">' +
-            '<a class="nav-link dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">User</a>' +
-            '<div class="dropdown-menu dropdown" aria-labelledby="dropdownMenu1">' +
-            '<a class="dropdown-item" href="/admin/add">Add</a>' +
-            '<a class="dropdown-item" href="/admin/list">Show</a>' +
-            '</div></li>' +
-            '<li class="nav-item"><a class="nav-link" href="/dashboard">Dashboard</a></li>';
-    }
-}
+module.exports = (match) => {
+    console.log("step 1");
+    // var node = null;
+    // $.each(categoryJSON, function(i, data) {
+    //     if (data["key"] === match) {
+    //         node = data["name"];
+    //     }
+    // });
+    return match;
+};
+
+// var categoryJSON = [
+//     { key: "0", name: "Technical Blog" },
+//     { key: "1", name: "Beginner Blog" },
+//     { key: "2", name: "Beginner Blog 1" },
+//     { key: "3", name: "Beginner Blog 2" }
+// ];

@@ -3,10 +3,12 @@
     <li class="list-group-item panel-heading">
       <span class="close  regUserBlogs ">&#xe031;</span>Blogger info
     </li>
-     {{#each user}}         
-     <li class="list-group-item hover">
-      <span class="badge">{{total}}</span> {{categorykey}}
+    {{#each user}} {{#each this}}
+    <li class="list-group-item hover">
+      <span class="badge">{{total}}</span> {{categorykey}} 
+      {{!-- {{#validateBlogs categorykey}} {{/validateBlogs}} --}} {{!-- <span class="badge">{{total}}</span>      {{#Compare "ankit" "!==" "local" }} true {{else}} false {{/Compare}} --}} {{!-- {{#IsAdmin true}} {{/IsAdmin}} --}} {{!-- {{#ValidateBlogs ankit}}
+      {{/ValidateBlogs}} --}} {{!-- {{this.categorykey}} --}}
     </li>
-     {{/each}}   
+    {{/each}} {{/each}}
   </ul>
 </div>

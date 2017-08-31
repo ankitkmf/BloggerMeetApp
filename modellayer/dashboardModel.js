@@ -59,6 +59,21 @@ exports.GetUserBlogs = function() {
     });
 };
 
+exports.GetUserComments = function() {
+    let findUserComments = serviceURL + "/findall/comments/all";
+    return new Promise(function(resolve, reject) {
+        findAll(findUserComments)
+            .then(data => {
+                var collectionList = userCommentCollection(data.data);
+                resolve(collectionList);
+            }).catch(function(err) {
+                console.log("err:" + err);
+                reject(err);
+            });
+    });
+};
+
+
 let findAll = function(path) {
     return new Promise(function(resolve, reject) {
         axios.get(path).then(function(response) {
@@ -100,7 +115,7 @@ let userCommentCollection = (data) => {
     var collection = [];
     // get Total blogs 
     collection.push(alasql(
-        "SELECT count(*) as total , 'Total blogs' as text FROM ?", [data.result]
+        "SELECT count(*) as total , 'Total comments' as text FROM ?", [data.result]
     ));
 
     // get Total approved blogs 
@@ -112,14 +127,51 @@ let userCommentCollection = (data) => {
     collection.push(alasql(
         "SELECT count(*) as total, 'Total disapproved' as text FROM ? where IsApproved=false", [data.result]
     ));
+    //console.log("userCommentCollection:" + JSON.stringify(collection));
     return collection;
 };
 
 let userBlogsCollection = (data) => {
+    // console.log(JSON.stringify(data));
     var collection = [];
     // get Total blogs 
     collection.push(alasql(
         "SELECT categorykey , count(*) as total FROM ? GROUP BY categorykey", [data.result]
     ));
+
+    console.log("userBlogsCollection:" + JSON.stringify(collection));
+    // $.each(collection, function(i, data) {
+    //     if (data["key"] === match) {
+    //         node = data["name"];
+    //     }
+    // });
+    // for (var i in collection[0]) {
+    //     console.log(JSON.stringify(i));
+    //     validateCategory(i["categorykey"]);
+    // }
     return collection;
+};
+
+let validateCategory = (match) => {
+    console.log("Match:" + JSON.stringify(match));
+    var node = null;
+    var categoryJSON = [
+        { key: "0", name: "Technical Blog" },
+        { key: "1", name: "Beginner Blog" },
+        { key: "2", name: "Beginner Blog 1" },
+        { key: "3", name: "Beginner Blog 2" }
+    ];
+    for (var i in categoryJSON) {
+        if (i["key"] === match) {
+            node = i["name"];
+        }
+    }
+    console.log("Node:" + node);
+    return node;
+    // $.each(categoryJSON, function(i, data) {
+    //     if (data["key"] === match) {
+    //         node = data["name"];
+    //     }
+    // });
+    // return node;
 };

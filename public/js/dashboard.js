@@ -1,21 +1,23 @@
 'use strict';
 $(function() {
-    // var servicePath = $("#spnServicePath").text();
     GetUserGraph();
     GetUserBlogs();
-    //GetDashboardBlockJSON("/commonAPI/data/userBlogs");
+    GetUserComments();
     $(".regUserGraph").on("click", () => {
-        run_waitMe("divRegUserGraph");
         GetUserGraph();
     });
 
-    // $(".userTableDiv").on("click", "td>button", function() {
     $(".divUserBlogs").on("click", "li>span.regUserBlogs", () => {
         GetUserBlogs();
+    });
+
+    $(".divUserComments").on("click", "li>span.regUserComments", () => {
+        GetUserComments();
     });
 });
 
 let GetUserGraph = () => {
+    run_waitMe("divRegUserGraph");
     $.ajax({
             method: "Get",
             url: "/commonAPI/data/usergraph"
@@ -30,6 +32,16 @@ let GetUserGraph = () => {
         .always(function() {
             stop_waitMe("divRegUserGraph");
         });
+};
+
+let GetUserBlogs = () => {
+    var path = "/commonAPI/data/userBlogs";
+    fillDashboardBlock("dashboardBlogsInfo", path, "divUserBlogs", "divUserBlogs");
+};
+
+let GetUserComments = () => {
+    var path = "/commonAPI/data/userComments";
+    fillDashboardBlock("dashboardComments", path, "divUserComments", "divUserComments");
 };
 
 let userGraphContainer = results => {
@@ -96,11 +108,6 @@ let CreateGraphCollection = results => {
     }
 };
 
-let GetUserBlogs = () => {
-    var path = "/commonAPI/data/userBlogs";
-    fillDashboardBlock("dashboardBlogsInfo", path, "divUserBlogs", "divUserBlogs");
-};
-
 /* 
     comments:
     tName: template name
@@ -113,7 +120,7 @@ let fillDashboardBlock = (tName, path, dName, wDiv) => {
     $.when(GetCompiledTemplate(tName), GetDashboardBlockJSON(path))
         .done(function(template, json) {
             if (json != null) {
-                var data = { "user": json[0] };
+                var data = { "user": json };
                 var compiledTemplate = Handlebars.compile(template);
                 var html = compiledTemplate(data);
                 $("." + dName).html(html).show();
