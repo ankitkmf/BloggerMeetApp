@@ -73,6 +73,19 @@ exports.GetUserComments = function() {
     });
 };
 
+exports.GetuserInfo = function() {
+    let findUserInfo = serviceURL + "/findall/users/all";
+    return new Promise(function(resolve, reject) {
+        findAll(findUserInfo)
+            .then(data => {
+                var collectionList = userInfoCollection(data.data);
+                resolve(collectionList);
+            }).catch(function(err) {
+                console.log("err:" + err);
+                reject(err);
+            });
+    });
+};
 
 let findAll = function(path) {
     return new Promise(function(resolve, reject) {
@@ -131,6 +144,27 @@ let userCommentCollection = (data) => {
     return collection;
 };
 
+let userInfoCollection = (data) => {
+    var collection = [];
+    collection.push(
+        alasql("SELECT count(*) as total, 'Total' as text,'totalUser' as key FROM ?", [data.result])
+    );
+    collection.push(
+        alasql("SELECT count(*) as total, 'Admin' as text ,'adminUser' as key FROM ? where admin=true", [data.result])
+    );
+    collection.push(
+        alasql("SELECT count(*) as total, 'Active' as text ,'activeUser' as key FROM ? where active=true", [data.result])
+    );
+    collection.push(
+        alasql("SELECT count(*) as total, 'Deactive' as text ,'deactiveUser' as key FROM ? where active=false", [data.result])
+    );
+    collection.push(
+        alasql("SELECT count(*) as total, 'Email verification pending' as text ,'emailVeriPending' as key FROM ? where IsEmailVerified=false", [data.result])
+    );
+    // console.log("userInfoCollection:" + JSON.stringify(collection));
+    return collection;
+};
+
 let userBlogsCollection = (data) => {
     // console.log(JSON.stringify(data));
     var collection = [];
@@ -139,7 +173,7 @@ let userBlogsCollection = (data) => {
         "SELECT categorykey , count(*) as total FROM ? GROUP BY categorykey", [data.result]
     ));
 
-    console.log("userBlogsCollection:" + JSON.stringify(collection));
+    //console.log("userBlogsCollection:" + JSON.stringify(collection));
     // $.each(collection, function(i, data) {
     //     if (data["key"] === match) {
     //         node = data["name"];
@@ -153,7 +187,7 @@ let userBlogsCollection = (data) => {
 };
 
 let validateCategory = (match) => {
-    console.log("Match:" + JSON.stringify(match));
+    //console.log("Match:" + JSON.stringify(match));
     var node = null;
     var categoryJSON = [
         { key: "0", name: "Technical Blog" },

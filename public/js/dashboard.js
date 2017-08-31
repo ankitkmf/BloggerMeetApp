@@ -3,6 +3,7 @@ $(function() {
     GetUserGraph();
     GetUserBlogs();
     GetUserComments();
+    GetUserInfo();
     $(".regUserGraph").on("click", () => {
         GetUserGraph();
     });
@@ -13,6 +14,10 @@ $(function() {
 
     $(".divUserComments").on("click", "li>span.regUserComments", () => {
         GetUserComments();
+    });
+
+    $(".divUserInfo").on("click", "li>span.regUserInfo", () => {
+        GetUserInfo();
     });
 });
 
@@ -42,6 +47,11 @@ let GetUserBlogs = () => {
 let GetUserComments = () => {
     var path = "/commonAPI/data/userComments";
     fillDashboardBlock("dashboardComments", path, "divUserComments", "divUserComments");
+};
+
+let GetUserInfo = () => {
+    var path = "/commonAPI/data/userInfo";
+    fillDashboardBlock("dashboardUserInfo", path, "divUserInfo", "divUserInfo");
 };
 
 let userGraphContainer = results => {

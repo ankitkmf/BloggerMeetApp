@@ -261,3 +261,16 @@ router.get("/data/userComments", function(req, res) {
         res.json(false);
     });
 });
+
+router.get("/data/userInfo", function(req, res) {
+    dashbordModel.GetuserInfo().then(data => {
+        if (data != null) {
+            res.json(data);
+        } else {
+            res.json(false);
+        }
+    }).catch(function(err) {
+        console.log("err:" + err);
+        res.json(false);
+    });
+});
