@@ -235,3 +235,16 @@ router.get("/data/usergraph", function(req, res) {
         res.json(false);
     });
 });
+
+router.get("/data/userBlogs", function(req, res) {
+    dashbordModel.GetUserBlogs().then(data => {
+        if (data != null) {
+            res.json(data);
+        } else {
+            res.json(false);
+        }
+    }).catch(function(err) {
+        console.log("err:" + err);
+        res.json(false);
+    });
+});

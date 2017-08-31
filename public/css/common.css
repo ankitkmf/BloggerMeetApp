@@ -144,3 +144,33 @@ input {
     font-family: 'Glyphicons Halflings' !important;
     -webkit-appearance: none;
 }
+
+.dashboard .panel-info>.panel-heading:hover {
+    color: #ffffff !important;
+    background-color: #8BC34A !important;
+    border-color: #8BC34A !important;
+}
+
+.dashboard .list-group>.hover:hover {
+    background-color: #ecf0f1 !important;
+}
+
+.dashboard .list-group-item {
+    position: relative;
+    display: block;
+    padding: 4px 15px;
+    margin-bottom: -1px;
+    background-color: #ffffff;
+    border: none !important;
+    background-color: #8BC34A !important;
+}
+
+.dashboard .alert-success {
+    background-color: #8BC34A !important;
+    border-color: #8BC34A !important;
+    color: #ffffff;
+}
+
+.col-lg-4.divUserBlogs {
+    min-height: 100px;
+}

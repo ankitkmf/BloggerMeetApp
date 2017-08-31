@@ -6,7 +6,7 @@ var alasql = require("alasql");
 //var log = require("./log");
 const serviceURL = config.get("app.restAPIEndpoint.v1ContractPath");
 
-exports.GetAllUserCount = function(id) {
+exports.GetAllUserCount = function() {
     let findAllUserPath = serviceURL + "/findall/users/all/";
     let findSubscribeUserAllPath = serviceURL + "/findall/subscribeUser/all";
     return new Promise(function(resolve, reject) {
@@ -20,18 +20,15 @@ exports.GetAllUserCount = function(id) {
                     //  "totalGoogleUser": data[2].data.count,
                     // "totalFBUser": data[3].data.count
             };
-            console.log(JSON.stringify(collection));
             resolve(collection);
-            //res.render('dashboard', { layout: 'default', title: 'Dashboard Page', result: collection });
         }).catch(function(err) {
             console.log("err:" + err);
             reject(err);
-            // res.status(500).send();
         });
     });
-}
+};
 
-exports.GetUserGraph = function(id) {
+exports.GetUserGraph = function() {
     let findAllUserPath = serviceURL + "/findall/users/all/";
     let findSubscribeUserAllPath = serviceURL + "/findall/subscribeUser/all";
     return new Promise(function(resolve, reject) {
@@ -46,7 +43,21 @@ exports.GetUserGraph = function(id) {
             reject(err);
         });
     });
-}
+};
+
+exports.GetUserBlogs = function() {
+    let findUserBlogs = serviceURL + "/findall/blogs/all";
+    return new Promise(function(resolve, reject) {
+        findAll(findUserBlogs)
+            .then(data => {
+                var collectionList = userBlogsCollection(data.data);
+                resolve(collectionList);
+            }).catch(function(err) {
+                console.log("err:" + err);
+                reject(err);
+            });
+    });
+};
 
 let findAll = function(path) {
     return new Promise(function(resolve, reject) {
@@ -59,7 +70,7 @@ let findAll = function(path) {
                 reject(err);
             });
     });
-}
+};
 
 let userGraphCollection = (data) => {
     var collection = [];
@@ -81,6 +92,34 @@ let userGraphCollection = (data) => {
     // get Subscribe user 
     collection.push(alasql(
         "SELECT count(*) as total, dateTime, 'Subscribe Users' as text FROM ? GROUP BY  dateTime ", [data[1].data.result]
+    ));
+    return collection;
+};
+
+let userCommentCollection = (data) => {
+    var collection = [];
+    // get Total blogs 
+    collection.push(alasql(
+        "SELECT count(*) as total , 'Total blogs' as text FROM ?", [data.result]
+    ));
+
+    // get Total approved blogs 
+    collection.push(alasql(
+        "SELECT count(*) as total, 'Total approved' as text FROM ? where IsApproved=true", [data.result]
+    ));
+
+    // get Total disapproved blogs
+    collection.push(alasql(
+        "SELECT count(*) as total, 'Total disapproved' as text FROM ? where IsApproved=false", [data.result]
+    ));
+    return collection;
+};
+
+let userBlogsCollection = (data) => {
+    var collection = [];
+    // get Total blogs 
+    collection.push(alasql(
+        "SELECT categorykey , count(*) as total FROM ? GROUP BY categorykey", [data.result]
     ));
     return collection;
 };

@@ -384,6 +384,26 @@ $(function() {
         }
     });
 
+    $.getJSON("/commonapi/data/countries")
+        .done(function(data) {
+            var result = new Bloodhound({
+                datumTokenizer: Bloodhound.tokenizers.whitespace,
+                queryTokenizer: Bloodhound.tokenizers.whitespace,
+                local: data
+            });
+            $("#bloodhound .typeahead").typeahead({
+                hint: true,
+                highlight: true,
+                minLength: 1
+            }, {
+                name: "states",
+                source: result
+            });
+        })
+        .fail(function(jqxhr, textStatus, error) {
+            var err = textStatus + ", " + error;
+        });
+
 });
 
 // function readURL(input) {
