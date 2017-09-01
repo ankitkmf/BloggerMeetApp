@@ -20,7 +20,7 @@ $(function() {
         GetUserInfo();
     });
 
-    $("#divUserInfo").on("click", "li", function() {
+    $("#divUserInfo").on("click", "li.hover", function() {
         var type = $(this).data("type");
         if (type != null)
             GetUserTableData(type);
@@ -45,7 +45,6 @@ $(function() {
             }
         });
         jsonObj.push(item);
-        console.log("Json:" + JSON.stringify(jsonObj));
         UpdateTableRecords(jsonObj, userName);
     });
 });
@@ -84,6 +83,7 @@ let GetUserInfo = () => {
 };
 
 let UpdateTableRecords = (record, userName) => {
+    console.log("record:" + JSON.stringify(record));
     swal({
         title: "Are you sure?",
         text: "Are you sure that you want to update this records?",
@@ -95,12 +95,12 @@ let UpdateTableRecords = (record, userName) => {
     }, function() {
         $.ajax({
                 method: "Post",
-                url: "/authorizedAPI/data/UpdateTableRecords",
+                url: "/commonAPI/data/updateTableRecords",
                 data: record[0]
             })
             .done(function(data) {
                 userName = userName != null ? userName : "Your record";
-                LoadDashboardUserInfo();
+                GetUserInfo();
                 swal("Updated!", userName + " is successfully updated!", "success");
             })
             .error(function(data) {
@@ -118,7 +118,7 @@ let GetUserTableData = type => {
                 var data = { "user": json };
                 var compiledTemplate = Handlebars.compile(template);
                 var html = compiledTemplate(data);
-                $(".divUserTable").html(html).show();
+                $(".divUserInnerTable").html(html).show();
                 $('.tbUserTable').DataTable({
                     "order": [
                         [3, "desc"]

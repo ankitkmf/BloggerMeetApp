@@ -176,36 +176,10 @@ router.post('/data/fpwd', function(req, res) {
 router.post('/data/ValidateUserPwd', function(req, res, next) {
     if (req.body.id != null && req.body.cupwd != null && req.body.npwd != null) {
         changePwd.findUser(req.body.id).then((response) => {
-                console.log("common=>ValidateUserPwd=>findUser step 1.1," + JSON.stringify(response.result));
                 return changePwd.validatePassword(response.result.password, req.body.cupwd);
-                // console.log("ValidateUserPwd common step 1.3.1,req.body.cupwd:" + req.body.cupwd);
-                // console.log("ValidateUserPwd common step 1.3.1,req.body.npwd:" + req.body.npwd);
-                // if (response != null && response.result != null) {
-                //     console.log("ValidateUserPwd common step 1.4,pwd:" + response.result.password);
-
-                //     bcrypt.compare(req.body.cupwd, response.result.password, function(err, res) {
-                //         if (res) {
-                //             console.log("ValidateUserPwd common step 1.5, pwd match");
-                //             return changePwd.updatePassword(req.body.id, req.body.npwd);
-                //         } else {
-                //             console.log("ValidateUserPwd common step 1.6, pwd not match");
-                //             //  res.json(false);
-                //             next();
-                //         }
-                //     });
-                //return changePwd.updatePassword(req.body.id, req.body.npwd);
-                // } else {
-                //     console.log("ValidateUserPwd common step 1.7, null respone");
-                //     next();
-                //     // res.json(false);
-                // }
             }).then((response) => {
-                console.log("common=>ValidateUserPwd=>validatePassword step 1.1," + JSON.stringify(response.result));
                 return changePwd.updatePassword(req.body.id, req.body.npwd);
-                // res.json(true);
             }).then((response) => {
-                console.log("common=>ValidateUserPwd=>updatePassword step 1.1," + JSON.stringify(response.result));
-                // return changePwd.updatePassword(req.body.id, req.body.npwd);
                 res.json(true);
             })
             .catch(function(err) {
@@ -287,4 +261,29 @@ router.get("/data/userDatatable/:type", function(req, res) {
         console.log("err:" + err);
         res.json(false);
     });
+});
+
+router.post("/data/updateTableRecords", function(req, res) {
+    console.log("Step 1")
+    if (req.body.id != null) {
+        let path = serviceURL + "/updateUsersRecord/";
+        console.log("Step 2");
+        var result = {
+            "id": req.body.id,
+            "IsEmailVerified": (req.body.email === 'true'),
+            "active": (req.body.active === 'true'),
+            "admin": (req.body.admin === 'true')
+        };
+        console.log("UpdateTableRecords collection:" + JSON.stringify(result));
+        axios.post(path, result)
+            .then(function(response) {
+                console.log("updateUsersRecord api response:" + response);
+                res.json(true);
+            })
+            .catch(function(error) {
+                console.log(" updateUsersRecord api error:" + error);
+                res.json({ "Error": "signUp api error" });
+            });
+    } else
+        res.json(false);
 });
