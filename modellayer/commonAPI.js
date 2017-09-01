@@ -274,3 +274,17 @@ router.get("/data/userInfo", function(req, res) {
         res.json(false);
     });
 });
+
+router.get("/data/userDatatable/:type", function(req, res) {
+    var type = req.params.type;
+    dashbordModel.GetUserTableData(type).then(data => {
+        if (data != null) {
+            res.json(data);
+        } else {
+            res.json(false);
+        }
+    }).catch(function(err) {
+        console.log("err:" + err);
+        res.json(false);
+    });
+});

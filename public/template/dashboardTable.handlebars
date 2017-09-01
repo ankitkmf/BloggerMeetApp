@@ -1,0 +1,41 @@
+<table class="table table-striped table-hover tbUserTable">
+  <thead>
+    <tr>
+      <th>NAME</th>
+      <th>EMAIL</th>
+      <th>EMAIL VERIFIED</th>
+      <th>ACTIVE</th>
+      <th>ADMIN</th>
+      <th>CREATION DATE</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each user}}
+    {{#each this}}
+    <tr data-id={{_id}} data-name={{name}}>
+      <td>{{name}}</td>
+      <td>{{email}}</td>
+      <td>
+        {{#if IsEmailVerified}}
+        <input type="checkbox" data-type="email" checked> {{else}}
+        <input type="checkbox" data-type="email"> {{/if}}
+      </td>
+      <td>
+        {{#if active}}
+        <input type="checkbox" data-type="active" checked> {{else}}
+        <input type="checkbox" data-type="active"> {{/if}}
+      </td>
+      <td>
+        {{#if admin}}
+        <input type="checkbox" data-type="admin" checked> {{else}}
+        <input type="checkbox" data-type="admin"> {{/if}}
+
+      </td>
+      <td>{{dateTime}}</td>
+      <td> <button type="button" class="btn btn-primary btn-xs userDataColumn">Update</button></td>
+    </tr>
+    {{/each}}
+    {{/each}}
+  </tbody>
+</table>

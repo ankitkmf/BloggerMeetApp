@@ -19,6 +19,35 @@ $(function() {
     $(".divUserInfo").on("click", "li>span.regUserInfo", () => {
         GetUserInfo();
     });
+
+    $("#divUserInfo").on("click", "li", function() {
+        var type = $(this).data("type");
+        if (type != null)
+            GetUserTableData(type);
+        else
+            console.log("type is not define:");
+        // GetUserInfo();
+    });
+
+    $(".divUserTable").on("click", "td>button", function() {
+        //console.log("click");
+        var item = {};
+        var jsonObj = [];
+        item["id"] = $(this).closest("tr").data("id");
+        var userName = $(this).closest("tr").data("name");
+        $(this).closest("tr").find('input:checkbox').each(function() {
+            if ($(this).data('type') === "email") {
+                item["email"] = $(this).is(':checked');
+            } else if ($(this).data('type') === "admin") {
+                item["admin"] = $(this).is(':checked');
+            } else if ($(this).data('type') === "active") {
+                item["active"] = $(this).is(':checked');
+            }
+        });
+        jsonObj.push(item);
+        console.log("Json:" + JSON.stringify(jsonObj));
+        UpdateTableRecords(jsonObj, userName);
+    });
 });
 
 let GetUserGraph = () => {
@@ -53,6 +82,58 @@ let GetUserInfo = () => {
     var path = "/commonAPI/data/userInfo";
     fillDashboardBlock("dashboardUserInfo", path, "divUserInfo", "divUserInfo");
 };
+
+let UpdateTableRecords = (record, userName) => {
+    swal({
+        title: "Are you sure?",
+        text: "Are you sure that you want to update this records?",
+        type: "warning",
+        showCancelButton: true,
+        closeOnConfirm: false,
+        confirmButtonText: "Yes, update it!",
+        confirmButtonColor: "#ec6c62"
+    }, function() {
+        $.ajax({
+                method: "Post",
+                url: "/authorizedAPI/data/UpdateTableRecords",
+                data: record[0]
+            })
+            .done(function(data) {
+                userName = userName != null ? userName : "Your record";
+                LoadDashboardUserInfo();
+                swal("Updated!", userName + " is successfully updated!", "success");
+            })
+            .error(function(data) {
+                swal("Oops", "We couldn't connect to the server!", "error");
+            });
+    });
+}
+
+let GetUserTableData = type => {
+    if (type != null) {
+        run_waitMe("divUserTable");
+        var path = "/commonAPI/data/userDatatable/" + type;
+        $.when(GetCompiledTemplate("dashboardTable"), GetDashboardBlockJSON(path))
+            .done(function(template, json) {
+                var data = { "user": json };
+                var compiledTemplate = Handlebars.compile(template);
+                var html = compiledTemplate(data);
+                $(".divUserTable").html(html).show();
+                $('.tbUserTable').DataTable({
+                    "order": [
+                        [3, "desc"]
+                    ],
+                    "aLengthMenu": [
+                        [5, 10, 20],
+                        [5, 10, 20]
+                    ]
+                });
+                stop_waitMe("divUserTable");
+            });
+    } else
+        console.log("type is null");
+}
+
 
 let userGraphContainer = results => {
     if ($('#graphContainer').length) {

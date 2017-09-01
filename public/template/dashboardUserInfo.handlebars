@@ -4,7 +4,7 @@
       <span class="close  regUserInfo ">&#xe031;</span>User info
     </li>
     {{#each user}} {{#each this}}
-    <li class="list-group-item hover">
+    <li class="list-group-item hover" data-type="{{key}}">
       <span class="badge">{{total}}</span> {{text}} 
       {{!-- {{#validateBlogs categorykey}} {{/validateBlogs}} --}} {{!-- <span class="badge">{{total}}</span>      {{#Compare "ankit" "!==" "local" }} true {{else}} false {{/Compare}} --}} {{!-- {{#IsAdmin true}} {{/IsAdmin}} --}} {{!-- {{#ValidateBlogs ankit}}
       {{/ValidateBlogs}} --}} {{!-- {{this.categorykey}} --}}

@@ -58,16 +58,8 @@ let authenticationMiddleware = function(req, res, next) {
 };
 
 let authNotRequired = (req, res, next) => {
-    //res.locals.user = req.user;
     if (req.isAuthenticated()) {
         res.locals.user = req.user;
-        //     //res.locals.user = req.user.result[0]
-        //     if (req.user != undefined) {
-        //         if (req.user.result.length > 0)
-        //             res.locals.user = req.user.result[0];
-        //         else
-        //             res.locals.user = req.user;
-        //     }
     }
     next();
 };

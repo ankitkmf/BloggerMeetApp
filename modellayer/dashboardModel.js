@@ -87,6 +87,49 @@ exports.GetuserInfo = function() {
     });
 };
 
+exports.GetUserTableData = function(type) {
+    return new Promise(function(resolve, reject) {
+        if (type != null) {
+            let findUserTableData = serviceURL; //+ "/findall/users/all";
+            switch (type) {
+                case "totalUser":
+                    // whereFilter = { "admin": true };
+                    findUserTableData += "/findall/users/all";
+                    break;
+                case "adminUser":
+                    //whereFilter = { "admin": true };
+                    findUserTableData += "/findall/users/admin/true";
+                    break;
+                case "activeUser":
+                    // whereFilter = { "active": true };
+                    findUserTableData += "/findall/users/active/true";
+                    break;
+                case "deactiveUser":
+                    //whereFilter = { "active": false };
+                    findUserTableData += "/findall/users/active/false";
+                    break;
+                case "emailVeriPending":
+                    //whereFilter = { "IsEmailVerified": false };
+                    findUserTableData += "/findall/users/IsEmailVerified/false";
+                    break;
+            }
+
+            // console.log("findUserTableData path:" + findUserTableData);
+            findAll(findUserTableData)
+                .then(data => {
+                    // var collectionList = userInfoCollection(data.data);
+                    //console.log("GetUserTableData:" + JSON.stringify(data.data));
+                    resolve(data.data);
+                }).catch(function(err) {
+                    console.log("err:" + err);
+                    reject(err);
+                });
+        } else
+            reject({ "err": "type is not define" });
+    });
+};
+
+
 let findAll = function(path) {
     return new Promise(function(resolve, reject) {
         axios.get(path).then(function(response) {
