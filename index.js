@@ -8,6 +8,7 @@ var config = require("config");
 var log = require("./modellayer/log");
 var _ = require("lodash");
 app.locals.config = config.get('app.restAPIEndpoint.v1ContractPath');
+console.log(app.locals.config);
 
 app.use(bodyparser.urlencoded({ extended: true }));
 app.use(bodyparser.json());
@@ -112,7 +113,7 @@ app.use('/auth', authNotRequired, authRouter);
 //     res.render('dashboard', { layout: 'default', title: 'Dashboard Page' });
 // });
 
-var CommonAPI = require('./modellayer/CommonAPI');
+var CommonAPI = require('./modellayer/commonAPI');
 app.use('/commonapi', CommonAPI);
 
 var userregistration = require('./controllers/userregistration');

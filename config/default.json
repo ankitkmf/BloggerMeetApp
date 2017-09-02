@@ -10,6 +10,11 @@
             "port": 2000
         }
     },
+    "google": {
+        "clientID": "953892900929-tvldpm1p7c0d3ak5atanrhdufj0mca2r.apps.googleusercontent.com",
+        "clientSecret": "ZH-GU8fMKxJhZsKopce7jfG3",
+        "callbackURL": "http://localhost:2000/auth/google/callback"
+    },
     "nodeMailer": {
         "service": "gmail",
         "user": "nodegitapp@gmail.com",

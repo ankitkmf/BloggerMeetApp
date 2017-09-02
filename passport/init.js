@@ -45,9 +45,9 @@ passport.use(new LocalStrategy(function(username, password, done) {
 }));
 
 passport.use(new GoogleStrategy({
-        clientID: "953892900929-tvldpm1p7c0d3ak5atanrhdufj0mca2r.apps.googleusercontent.com",
-        clientSecret: "ZH-GU8fMKxJhZsKopce7jfG3",
-        callbackURL: "http://localhost:2000/auth/google/callback"
+        clientID: config.get("google.clientID"),
+        clientSecret: config.get("google.clientSecret"),
+        callbackURL: config.get("google.callbackURL")
     },
     function(accessToken, refreshToken, profile, done) {
         if (profile.emails[0].value != null && profile.id != null) {
