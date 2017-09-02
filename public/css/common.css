@@ -175,6 +175,22 @@ input {
     min-height: 100px;
 }
 
+.customDiv {
+    margin-bottom: 14px;
+}
+
+.list-inline>li {
+    margin: 24px 100px 0px 50px;
+}
+
+.dashboard .list-group-item {
+    font-weight: bold;
+}
+
+.dashboard .alert {
+    padding: 12px !important;
+}
+
 
 /* .table-responsive {
     background-color: #8BC34A;
