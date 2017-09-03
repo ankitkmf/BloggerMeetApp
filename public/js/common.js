@@ -77,35 +77,35 @@ let setSuccessFeedbackIcon = ($controlID) => {
     var successSpanIcon = "<span class='glyphicon glyphicon-ok form-control-feedback feedbackOK '/>";
     removeErrorClass($controlID);
     removeSpanErrorMsgAndIcon($controlID);
-    $("#" + $controlID).parent().find(".msg").html(successSpanIcon);
+    $("#" + $controlID).parent().parent().find(".msg").html(successSpanIcon);
 };
 
 let setSpanErrorMessage = ($controlID, $message) => {
     setSpanRequiredErrorIcon($controlID);
     var errorSpan = "<span class='help-block'>" + $message + "</span>";
-    $("#" + $controlID).parent().find(".msg").append(errorSpan);
+    $("#" + $controlID).parent().parent().find(".msg").append(errorSpan);
 };
 
 let removeSpanErrorMsgAndIcon = ($controlID) => {
     setSpanRequiredErrorIcon($controlID);
     // var errorSpan = "<span class='help-block'>" + $message + "</span>";
-    $("#" + $controlID).parent().find(".msg").html('');
+    $("#" + $controlID).parent().parent().find(".msg").html('');
 };
 
 let setSpanRequiredErrorIcon = ($controlID) => {
     var errorSpan = "<span class='glyphicon glyphicon-exclamation-sign  form-control-feedback'/>";
-    $("#" + $controlID).parent().find(".msg").append(errorSpan);
+    $("#" + $controlID).parent().parent().find(".msg").append(errorSpan);
 };
 
 let setSpanErrorMsgAndErrorIcon = ($controlID, $message) => {
     var errorSpanIcon = "<span class='glyphicon glyphicon-exclamation-sign  form-control-feedback'/>";
     var errorSpanMsg = "<span class='help-block'>" + $message + "</span>";
-    $("#" + $controlID).parent().find(".msg").html('').append(errorSpanIcon).append(errorSpanMsg);
+    $("#" + $controlID).parent().parent().find(".msg").html('').append(errorSpanIcon).append(errorSpanMsg);
 };
 
 let setErrorClass = $div => {
-    $("#" + $div).parent().find(".msg").html('');
-    return $("#" + $div).closest(".form-group").addClass("has-error").addClass("has-feedback");
+    $("#" + $div).parent().parent().find(".msg").html('');
+    return $("#" + $div).closest(".form-group").addClass("has-error").addClass("has-feedback").removeClass("has-success");
 };
 
 let setSuccessClass = $div => {
@@ -122,7 +122,7 @@ let removeFeedbackClass = $div => {
 
 let clearAllControls = $div => {
     $("." + $div).find(':input').each(function(index) {
-        $("#" + $(this).attr("id")).parent().find(".msg").html('');
+        $("#" + $(this).attr("id")).parent().parent().find(".msg").html('');
         $("#" + $(this).attr("id")).closest(".form-group")
             .removeClass("has-error")
             .removeClass("has-success")

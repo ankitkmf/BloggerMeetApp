@@ -67,11 +67,6 @@ let checkUserEmail = (servicePath) => {
 let checkUserName = (servicePath) => {
 
     if ($("#inputUserName").val() == "" || $("#inputUserName").val() == undefined) {
-
-        // $("#inputUserName").focus().parent().addClass("has-error");
-        // $(".ErrorPanel").html(showMessage("Please enter user name."));
-        // stop_waitMe("userName");
-        // showErrorPanal();
         setErrorClass("inputUserName");
         setSpanErrorMsgAndErrorIcon("inputUserName", "Please enter user name.");
         stop_waitMe("userName");
@@ -111,7 +106,7 @@ let showMessage = ($message) => {
 
 let signUp = (servicePath) => {
     clearControlClass();
-    signUPValidation();
+    // signUPValidation();
     if (signUPValidation()) {
         //if (false) {
         // hideAllPanel();
@@ -197,7 +192,7 @@ let signUPValidation = () => {
     if (_pwd != _cpwd) {
         isValid = false;
         setErrorClass("inputCPassword");
-        setSpanErrorMsgAndErrorIcon("inputCPassword", "Password are not matching");
+        setSpanErrorMsgAndErrorIcon("inputCPassword", "Password is not matching");
     }
     if (!isValid) {
         stop_waitMe("signUp");

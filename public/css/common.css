@@ -191,6 +191,10 @@ input {
     padding: 12px !important;
 }
 
+body {
+    padding-top: 70px;
+}
+
 
 /* .table-responsive {
     background-color: #8BC34A;
