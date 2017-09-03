@@ -77,7 +77,6 @@ let setSuccessFeedbackIcon = ($controlID) => {
     var successSpanIcon = "<span class='glyphicon glyphicon-ok form-control-feedback feedbackOK '/>";
     removeErrorClass($controlID);
     removeSpanErrorMsgAndIcon($controlID);
-    //var errorSpanMsg = "<span class='help-block'>" + $message + "</span>";
     $("#" + $controlID).parent().find(".msg").html(successSpanIcon);
 };
 
@@ -101,11 +100,11 @@ let setSpanRequiredErrorIcon = ($controlID) => {
 let setSpanErrorMsgAndErrorIcon = ($controlID, $message) => {
     var errorSpanIcon = "<span class='glyphicon glyphicon-exclamation-sign  form-control-feedback'/>";
     var errorSpanMsg = "<span class='help-block'>" + $message + "</span>";
-    // $("#" + $(this).attr("id")).parent().find(".msg").html('');
     $("#" + $controlID).parent().find(".msg").html('').append(errorSpanIcon).append(errorSpanMsg);
 };
 
 let setErrorClass = $div => {
+    $("#" + $div).parent().find(".msg").html('');
     return $("#" + $div).closest(".form-group").addClass("has-error").addClass("has-feedback");
 };
 

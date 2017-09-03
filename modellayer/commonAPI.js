@@ -172,6 +172,38 @@ router.post('/data/fpwd', function(req, res) {
         });
 });
 
+// valdidate user & send passsword reset mail to user
+router.post('/data/checkUserEmail', function(req, res) {
+    console.log("checkUserEmail 1");
+    let path = serviceURL + "/validateUserEmail/";
+    var result = {
+        "email": req.body.email,
+    };
+    axios.post(path, result)
+        .then(function(response) {
+            console.log("checkUserEmail 2");
+            if (response.data != null && response.data.count > 0) {
+                console.log("checkUserEmail 3:response.data.count:" + response.data.count);
+                res.json(false);
+                // if (error) {
+                //     console.log("checkUserEmail 3");
+                //     res.json(false);
+                // } else {
+                //     console.log("checkUserEmail 4");
+                //     res.json(true);
+                // }
+            } else {
+                console.log("checkUserEmail 5");
+                res.json(true);
+            }
+        })
+        .catch(function(error) {
+            console.log("checkUserEmail 6:" + error);
+            res.json(false);
+            // res.json({ "Error": "validateUserEmail api error" });
+        });
+});
+
 //validate user pwd for reseting passsword
 router.post('/data/ValidateUserPwd', function(req, res, next) {
     if (req.body.id != null && req.body.cupwd != null && req.body.npwd != null) {

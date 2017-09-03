@@ -6,11 +6,63 @@ $(function() {
         checkUserName(servicePath);
     });
 
+    $("#inputEmail").on("blur", () => {
+        run_waitMe("userEmail");
+        checkUserEmail(servicePath);
+    });
+
     $(".signupBtn").on("click", () => {
         run_waitMe("signUp");
         signUp(servicePath);
     });
 });
+
+let checkUserEmail = (servicePath) => {
+
+    if ($("#inputEmail").val() == "" || $("#inputEmail").val() == undefined) {
+
+        setErrorClass("inputEmail");
+        setSpanErrorMsgAndErrorIcon("inputEmail", "Please enter email.");
+        $("#inputEmail").focus();
+        stop_waitMe("userEmail");
+    } else if (!validateEmail($("#inputEmail").val())) {
+        setErrorClass("inputEmail");
+        setSpanErrorMsgAndErrorIcon("inputEmail", "Please enter valid email.");
+        $("#inputEmail").focus();
+        stop_waitMe("userEmail");
+    } else {
+
+        servicePath = servicePath != null ? servicePath : "http://localhost:3000";
+        var url = "/commonAPI/data/checkUserEmail"; // servicePath + "/validateUserEmail";
+        var result = {
+            "email": $("#inputEmail").val()
+        };
+        $.ajax({
+            method: "Post",
+            url: url, // "https://www.emirates.com/api/fares/featured/uk/english/LHR",   
+            // dataType: 'json',
+            data: result,
+            success: function(data) {
+                console.log("Data:" + JSON.stringify(data));
+                if (!data) {
+                    setErrorClass("inputEmail");
+                    $("#inputEmail").focus();
+                    setSpanErrorMsgAndErrorIcon("inputEmail", "Email already taken");
+                } else {
+                    setSuccessClass("inputEmail");
+                    setSuccessFeedbackIcon("inputEmail");
+                }
+                stop_waitMe("userEmail");
+            },
+            error: function(err) {
+                $("#inputEmail").focus();
+                setErrorClass("inputEmail");
+                setSpanErrorMsgAndErrorIcon("inputEmail", "<strong>Oh sanp!</strong> there some technical error");
+                stop_waitMe("userEmail");
+            }
+        });
+    }
+}
 
 let checkUserName = (servicePath) => {
 
@@ -34,20 +86,12 @@ let checkUserName = (servicePath) => {
             dataType: 'json',
             success: function(data) {
                 if (data != null && data.result != null && data.result == true) {
-                    // $("#inputUserName").focus().parent().addClass("has-error");
-                    // $(".ErrorPanel").html(showMessage(" <strong>Warning!</strong> user-name already taken"));
-                    // showErrorPanal();
                     setErrorClass("inputUserName");
                     $("#inputUserName").focus();
                     setSpanErrorMsgAndErrorIcon("inputUserName", "User-name already taken");
                 } else {
-                    // // $(".ErrorPanel").addClass("hidden");
-                    // $("#inputUserName").parent().removeClass("has-error");
-                    // $(".successPanel").html(showMessage(" <strong>Good!</strong> you are on right way ."));
-                    // showSuccessPanal();
                     setSuccessClass("inputUserName");
                     setSuccessFeedbackIcon("inputUserName");
-                    // setSpanErrorMsgAndErrorIcon("inputUserName", "Please enter user name.");
                 }
 
                 stop_waitMe("userName");
@@ -55,10 +99,6 @@ let checkUserName = (servicePath) => {
             error: function(err) {
                 setErrorClass("inputUserName");
                 setSpanErrorMsgAndErrorIcon("inputUserName", "<strong>Oh sanp!</strong> there some technical error");
-                // console.log("Error API :" + JSON.stringify(err));
-                // $(".ErrorPanel").html(showMessage(" <strong>Oh sanp!</strong> there some technical error"));
-                // showErrorPanal();
-                // $("#inputUserName").focus();
                 stop_waitMe("userName");
             }
         });
