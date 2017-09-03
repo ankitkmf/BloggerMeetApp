@@ -2,38 +2,44 @@
     <h2>DASHBOARD</h2>
     {{!-- dashboard header count --}}
     <div class="row dashboard">
-        <div class="col-md-6 col-lg-3">
+        <div class="col-sm-6 col-md-6 col-lg-3">
             <div class="bs-component">
                 <div class="alert alert-success list-group">
-                    {{!-- <strong>Total user</strong> --}}
-                    {{!-- <span class="glyphicon glyphicon-envelope"></span> Total user
-                    <span class="list-group-item badge">{{result.totalUser}}</span> --}}
-                    <span class="list-group-item">Total user<span class="badge">{{result.totalUser}}</span></span>
-                    {{!-- <a href="#" class="list-group-item">Total user<span class="badge">{{result.totalUser}}</span></a> --}}
+                    <div class="list-group list-group-item">
+                        <span class="glyphicon glyphicon-home"></span>  
+                        Total user<span class="badge">{{result.totalUser}}</span>
+                    </div>                    
                 </div>
             </div>
         </div>
-        <div class="col-md-6 col-lg-3">
+        <div class=" col-sm-6 col-md-6 col-lg-3">
             <div class="bs-component">
                 <div class="alert alert-success list-group">
-                     <span class="list-group-item">Total subscriber<span class="badge">{{result.totalUser}}</span></span>
-                    {{!-- <strong>Total subscriber</strong>
-                    <a href="#"><span class="badge">{{result.totalSbUser}}</span></a> --}}
+                    {{!-- <span class="list-group-item">Total subscriber<span class="badge">{{result.totalUser}}</span></span> --}}
+                    <div class="list-group list-group-item">
+                        <span class="glyphicon glyphicon-user"></span> Total subscriber<span class="badge">{{result.totalUser}}</span>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-6 col-lg-3">
+        <div class="col-sm-6 col-md-6 col-lg-3">
             <div class="bs-component">
                 <div class="alert alert-success">
                     {{!-- <span class="list-group-item">Total google visitors<span class="badge">{{result.totalGoogleUser}}</span></span>                    --}}
-                    <span class="list-group-item">Total google visitors<span class="badge">To Do</span></span>                   
+                    {{!-- <span class="list-group-item">Total google visitors<span class="badge">To Do</span></span>                    --}}
+                    <div class="list-group list-group-item">
+                        <span class="glyphicon glyphicon-map-marker"></span> Total google visitors<span class="badge">{{result.totalUser}}</span>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-6 col-lg-3">
+        <div class=" col-sm-6 col-md-6 col-lg-3">
             <div class="bs-component">
                 <div class="alert alert-success">
-                     <span class="list-group-item">Total FB visitors<span class="badge">To Do</span></span>                   
+                     <div class="list-group list-group-item">
+                        <span class="glyphicon glyphicon-thumbs-up"></span> Total FB visitors<span class="badge">{{result.totalUser}}</span>
+                    </div>
+                     {{!-- <span class="list-group-item">Total FB visitors<span class="badge">To Do</span></span>                    --}}
                      {{!-- <span class="list-group-item">Total FB visitors<span class="badge">{{result.totalFBUser}}</span></span>   --}}
                 </div>
             </div>

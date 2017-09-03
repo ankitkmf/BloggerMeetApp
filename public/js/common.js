@@ -72,3 +72,34 @@ let validateName = $name => {
 let ErrorMessage = $message => {
     return $("<div class='alert alert-warning'></div>").append($message);
 };
+let setSpanErrorMessage = ($controlID, $message) => {
+    setSpanRequiredErrorIcon($controlID);
+    var errorSpan = "<span class='help-block'>" + $message + "</span>";
+    $("#" + $controlID).parent().find(".msg").append(errorSpan);
+};
+
+let setSpanRequiredErrorIcon = ($controlID) => {
+    var errorSpan = "<span class='glyphicon glyphicon-exclamation-sign  form-control-feedback'/>";
+    $("#" + $controlID).parent().find(".msg").append(errorSpan);
+};
+
+let setSpanErrorMsgAndErrorIcon = ($controlID, $message) => {
+    var errorSpanIcon = "<span class='glyphicon glyphicon-exclamation-sign  form-control-feedback'/>";
+    var errorSpanMsg = "<span class='help-block'>" + $message + "</span>";
+    $("#" + $controlID).parent().find(".msg").append(errorSpanIcon).append(errorSpanMsg);
+};
+
+let setErrorClass = $div => {
+    return $("#" + $div).closest(".form-group").addClass("has-error").addClass("has-feedback");
+};
+
+
+let clearAllControls = $div => {
+    $("." + $div).find(':input').each(function(index) {
+        $("#" + $(this).attr("id")).parent().find(".msg").html('');
+        $("#" + $(this).attr("id")).closest(".form-group")
+            .removeClass("has-error")
+            .removeClass("has-success")
+            .removeClass("has-feedback");
+    });
+};

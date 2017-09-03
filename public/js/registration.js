@@ -59,7 +59,9 @@ let showMessage = ($message) => {
 
 let signUp = (servicePath) => {
     clearControlClass();
-    if (signUPValidation()) {
+    signUPValidation();
+    // if (signUPValidation()) {
+    if (false) {
         hideAllPanel();
         var result = {
             "username": $("#inputUserName").val(),
@@ -101,53 +103,51 @@ let signUPValidation = () => {
     var _email = $("#inputEmail").val();
     var _pwd = $("#inputPassword").val();
     var _cpwd = $("#inputCPassword").val();
-    // var errorMessage = null;
+    clearAllControls("signUp");
     if (_userName == "" || _userName == undefined) {
         isValid = false;
-        $("#inputUserName").parent().addClass("has-error");
-        errorPanel.append(showMessage("Please enter user name."));
+        setErrorClass("inputUserName");
+        setSpanErrorMsgAndErrorIcon("inputUserName", "Please enter user name.");
     }
 
     if (_name == "" || _name == undefined) {
         isValid = false;
-        $("#inputName").parent().addClass("has-error");
-        errorPanel.append(showMessage("Please enter name."));
+        setErrorClass("inputName");
+        setSpanErrorMsgAndErrorIcon("inputName", "Please enter name.");
     } else if (!validateName(_name)) {
         isValid = false;
-        $("#inputName").parent().addClass("has-error");
-        errorPanel.append(showMessage("Please enter valid Name."));
+        setErrorClass("inputName");
+        setSpanErrorMsgAndErrorIcon("inputName", "Please enter valid name.");
     }
 
     if (_email == "" || _email == undefined) {
         isValid = false;
-        $("#inputEmail").parent().addClass("has-error");
-        errorPanel.append(showMessage("Please enter email."));
+        setErrorClass("inputEmail");
+        setSpanErrorMsgAndErrorIcon("inputEmail", "Please enter email.");
     } else if (!validateEmail(_email)) {
         isValid = false;
-        $("#inputEmail").parent().addClass("has-error");
-        errorPanel.append(showMessage("Please enter valid email."));
+        setErrorClass("inputEmail");
+        setSpanErrorMsgAndErrorIcon("inputEmail", "Please enter valid email.");
     }
 
     if (_pwd == "" || _pwd == undefined) {
         isValid = false;
-        $("#inputPassword").parent().addClass("has-error");
-        errorPanel.append(showMessage("Please enter password."));
+        setErrorClass("inputPassword");
+        setSpanErrorMsgAndErrorIcon("inputPassword", "Please enter password.");
     }
 
     if (_cpwd == "" || _cpwd == undefined) {
         isValid = false;
-        $("#inputCPassword").parent().addClass("has-error");
-        errorPanel.append(showMessage("Please enter confirm password."));
+        setErrorClass("inputCPassword");
+        setSpanErrorMsgAndErrorIcon("inputCPassword", "Please enter confirm password.");
     }
 
     if (_pwd != _cpwd) {
         isValid = false;
-        $("#inputCPassword").parent().addClass("has-error");
-        errorPanel.append(showMessage("Password are not matching"));
+        setErrorClass("inputCPassword");
+        setSpanErrorMsgAndErrorIcon("inputCPassword", "Password are not matching");
     }
     if (!isValid) {
-        $(".ErrorPanel").html(errorPanel);
-        showErrorPanal();
         stop_waitMe("signUp");
     }
     return isValid;
