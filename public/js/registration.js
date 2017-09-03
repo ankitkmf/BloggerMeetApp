@@ -16,10 +16,14 @@ let checkUserName = (servicePath) => {
 
     if ($("#inputUserName").val() == "" || $("#inputUserName").val() == undefined) {
 
-        $("#inputUserName").focus().parent().addClass("has-error");
-        $(".ErrorPanel").html(showMessage("Please enter user name."));
+        // $("#inputUserName").focus().parent().addClass("has-error");
+        // $(".ErrorPanel").html(showMessage("Please enter user name."));
+        // stop_waitMe("userName");
+        // showErrorPanal();
+        setErrorClass("inputUserName");
+        setSpanErrorMsgAndErrorIcon("inputUserName", "Please enter user name.");
         stop_waitMe("userName");
-        showErrorPanal();
+        $("#inputUserName").focus()
 
     } else {
 
@@ -30,23 +34,31 @@ let checkUserName = (servicePath) => {
             dataType: 'json',
             success: function(data) {
                 if (data != null && data.result != null && data.result == true) {
-                    $("#inputUserName").focus().parent().addClass("has-error");
-                    $(".ErrorPanel").html(showMessage(" <strong>Warning!</strong> user-name already taken"));
-                    showErrorPanal();
+                    // $("#inputUserName").focus().parent().addClass("has-error");
+                    // $(".ErrorPanel").html(showMessage(" <strong>Warning!</strong> user-name already taken"));
+                    // showErrorPanal();
+                    setErrorClass("inputUserName");
+                    $("#inputUserName").focus();
+                    setSpanErrorMsgAndErrorIcon("inputUserName", "User-name already taken");
                 } else {
-                    // $(".ErrorPanel").addClass("hidden");
-                    $("#inputUserName").parent().removeClass("has-error");
-                    $(".successPanel").html(showMessage(" <strong>Good!</strong> you are on right way ."));
-                    showSuccessPanal();
+                    // // $(".ErrorPanel").addClass("hidden");
+                    // $("#inputUserName").parent().removeClass("has-error");
+                    // $(".successPanel").html(showMessage(" <strong>Good!</strong> you are on right way ."));
+                    // showSuccessPanal();
+                    setSuccessClass("inputUserName");
+                    setSuccessFeedbackIcon("inputUserName");
+                    // setSpanErrorMsgAndErrorIcon("inputUserName", "Please enter user name.");
                 }
 
                 stop_waitMe("userName");
             },
             error: function(err) {
-                console.log("Error API :" + JSON.stringify(err));
-                $(".ErrorPanel").html(showMessage(" <strong>Oh sanp!</strong> there some technical error"));
-                showErrorPanal();
-                $("#inputUserName").focus();
+                setErrorClass("inputUserName");
+                setSpanErrorMsgAndErrorIcon("inputUserName", "<strong>Oh sanp!</strong> there some technical error");
+                // console.log("Error API :" + JSON.stringify(err));
+                // $(".ErrorPanel").html(showMessage(" <strong>Oh sanp!</strong> there some technical error"));
+                // showErrorPanal();
+                // $("#inputUserName").focus();
                 stop_waitMe("userName");
             }
         });
@@ -60,9 +72,9 @@ let showMessage = ($message) => {
 let signUp = (servicePath) => {
     clearControlClass();
     signUPValidation();
-    // if (signUPValidation()) {
-    if (false) {
-        hideAllPanel();
+    if (signUPValidation()) {
+        //if (false) {
+        // hideAllPanel();
         var result = {
             "username": $("#inputUserName").val(),
             "name": $("#inputName").val(),
