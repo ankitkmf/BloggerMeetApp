@@ -27,7 +27,7 @@ router.post("/data/signUp", function(req, res) {
             "email": req.body.email,
             "password": bcrypt.hashSync(req.body.password, 10),
             "authType": "local",
-            "profileID": uniqid()
+            "dateTime": new Date().toDateString()
         };
 
         axios.post(path, result)
