@@ -3,6 +3,7 @@ var router = express.Router();
 module.exports = router;
 var log = require("../modellayer/log");
 var _ = require("lodash");
+//var formidable = require('formidable');
 
 //var MongoDB = require("mongodb").MongoClient;
 //var ObjectId = require("mongodb").ObjectID;
@@ -22,8 +23,6 @@ router.get('/profile/:_id', function(req, res) {
     var blogs = {};
     var userid = req.params._id;
 
-    //console.log("route 2 " + userid);
-    //console.log("route 3 " + JSON.stringify(categoryList));
 
     blogger.blogsbyuserid(0, userid).then(function(response) {
 
@@ -57,8 +56,111 @@ router.get('/profile/:_id', function(req, res) {
     });
 });
 
-//================== Save Data =================
-router.post("/savedata", function(req, res) {
+router.post('/profile', function(req, res) {
+
+    console.log("route 1 " + req.body.userid);
+
+    var blogs = {};
+    var si = req.body.si;
+    var userid = req.body.userid;
+
+    //console.log("route 2 " + userid);
+    //console.log("route 3 " + JSON.stringify(categoryList));
+
+    blogger.blogsbyuserid(si, userid).then(function(response) {
+
+        console.log("route 4 " + req.body.userid + " , " + req.body.si);
+
+        blogs = response.data;
+
+        log.logger.info("Blogger Page : retrieve blogs : blogs count " + blogs.count);
+
+        //console.log(blogs.result);
+
+        var nextIndex = 0;
+        _.forEach(blogs.result, function(result) {
+            //console.log(1);
+            nextIndex = result.index
+        });
+
+        console.log("Blogger Page post : retrieve blogs : blogs count " + blogs.count + " , nextIndex : " + nextIndex);
+
+        var data = {};
+        if (blogs.count == 0) {
+            blogs = { "result": [], "count": 0 };
+
+            data = { "index": nextIndex, "category": categoryList, "blogs": blogs };
+
+
+            //console.log(blogs.count);
+            //res.render('blogs', { title: 'Blogs', category: categoryList, blogs: blogs, index: 0 });
+            res.json(data);
+        } else {
+
+            data = { "index": nextIndex, "category": categoryList, "blogs": blogs };
+            res.json(data);
+            //console.log(blogs.count);
+            //res.render('blogs', { title: 'Blogs', category: categoryList, blogs: blogs, index: nextIndex });
+        }
+    }).catch(function(err) {
+        console.log(err);
+        blogs = { "result": [], "count": 0 };
+        data = { "index": si, "category": categoryList, "blogs": blogs };
+
+        res.json(data);
+    });
+});
+
+
+//================== add blog =================
+router.post("/savedata/add", function(req, res) {
+
+    if (req.url == '/savedata/add') {
+        //var form = new formidable.IncomingForm();
+        // form.parse(req, function(err, fields, files) {
+        //     console.log("savedata " + fields.topic + " , " + fields.content + " , " + fields.category);
+        //     res.json(true);
+        // });
+        //console.log("savedata/add " + req.body.topic + " , " + req.body.content + " , " + req.body.category);
+
+        var topic = req.body.topic;
+        var content = req.body.content;
+        var category = req.body.category;
+        var userid = req.body.userid;
+        var createdby = req.body.createdby;
+
+        var isValid = (topic != null && content != null && category != null && createdby != null && userid != null);
+
+        if (isValid) {
+            var data = {
+                "topic": topic,
+                "content": content,
+                "category": category,
+                "userid": userid,
+                "createdby": createdby
+            }
+
+            console.log("add " + JSON.stringify(data));
+
+            blogger.addblog(data).then(function(results) {
+
+                //console.log("savedata/add " + JSON.stringify(data));
+                res.json(true);
+
+            }).catch(function(err) {
+
+                console.log(err);
+                res.json(false);
+
+            });
+
+        } else {
+            log.logger.error("Model layer blogs : updateaboutme call : error : data not define");
+            res.json({ "Error": "data not define" });
+        }
+    }
+    return;
+
 
     // if (req.body._id != undefined && req.body._id != null) {
     //     var id = req.body._id;
@@ -172,8 +274,88 @@ router.post("/savedata", function(req, res) {
     // //});
 });
 
+//================== edit blog =================
+router.post("/savedata/edit", function(req, res) {
+
+    if (req.url == '/savedata/edit') {
+        var _id = req.body._id;
+        var topic = req.body.topic;
+        var content = req.body.content;
+        var category = req.body.category;
+        var userid = req.body.userid;
+        var createdby = req.body.createdby;
+
+        var isValid = (topic != null && content != null && category != null && userid != null);
+
+        if (isValid) {
+            var data = {
+                "_id": _id,
+                "topic": topic,
+                "content": content,
+                "category": category
+                    //"userid": userid,
+                    //"createdby": createdby
+            }
+
+            console.log("add " + JSON.stringify(data));
+
+            blogger.editblog(data).then(function(results) {
+
+                //console.log("savedata/add " + JSON.stringify(data));
+                res.json(true);
+
+            }).catch(function(err) {
+
+                console.log(err);
+                res.json(false);
+
+            });
+
+        } else {
+            log.logger.error("Model layer blogs : editblog call : error : data not define");
+            res.json({ "Error": "data not define" });
+        }
+    }
+    return;
+});
+
 //================== Delete Blog =================
 router.get('/delete/:_id', function(req, res) {
+
+    var id = req.params._id;
+
+    console.log("id " + id);
+
+    //var blog = {};
+
+    blogger.deleteblogbyblogid(id).then(function(response) {
+        //console.log("edit " + response);
+        //var blog = response.data;
+        //console.log("info " + JSON.stringify(blog));
+
+        //var data = {};
+        //if (blog.count == 0) {
+        //    blog = { "result": [], "count": 0 };
+
+        //    data = { "category": categoryList, "blogs": blog };
+
+        //console.log(blogs.count);
+        //res.render('blogs', { title: 'Blogs', category: categoryList, blogs: blogs, index: 0 });
+        //     res.json(data);
+        //} else {
+        //    data = { "category": categoryList, "blogs": blog };
+        res.json(true);
+        //console.log(blogs.count);
+        //res.render('blogs', { title: 'Blogs', category: categoryList, blogs: blogs, index: nextIndex });
+        //}
+    }).catch(function(err) {
+        console.log(err);
+        //blog = { "result": [], "count": 0 };
+        //data = { "category": categoryList, "blogs": blog };
+
+        res.json(false);
+    });
+
     // var id = req.params._id;
 
     // db.get().collection('blogs').findOne({ _id: ObjectId(id) }, function(err, info) {
@@ -226,9 +408,53 @@ router.get('/delete/:_id', function(req, res) {
     // });
 });
 
-//================== Edit User =================
+//================== Edit Blog =================
 router.get('/edit/:_id', function(req, res) {
-    // var id = req.params._id;
+    var id = req.params._id;
+
+    console.log("id " + id);
+
+    //var blog = {};
+
+    blogger.getblogbyblogid(id).then(function(response) {
+        console.log("edit " + response);
+        var blog = response.data;
+        console.log("info " + JSON.stringify(blog));
+
+        var data = {};
+        if (blog.count == 0) {
+            blog = { "result": [], "count": 0 };
+
+            data = { "category": categoryList, "blogs": blog };
+
+            //console.log(blogs.count);
+            //res.render('blogs', { title: 'Blogs', category: categoryList, blogs: blogs, index: 0 });
+            res.json(data);
+        } else {
+            data = { "category": categoryList, "blogs": blog };
+            res.json(data);
+            //console.log(blogs.count);
+            //res.render('blogs', { title: 'Blogs', category: categoryList, blogs: blogs, index: nextIndex });
+        }
+    }).catch(function(err) {
+        console.log(err);
+        blog = { "result": [], "count": 0 };
+        data = { "category": categoryList, "blogs": blog };
+
+        res.json(data);
+    });
+
+
+    // res.json()
+
+    //         //res.render('blogs', { title: 'Blogs', selectedBlogForEdit: true, category: categoryList, blogs: info, index: info.result.index });
+    //     }).catch(function(err) {
+    //         console.log(err);
+    //         res.status(500).send();
+    //     });
+
+
+
 
     // db.get().collection('blogs').findOne({ _id: ObjectId(id) }, function(err, info) {
     //     if (err) {
@@ -237,4 +463,11 @@ router.get('/edit/:_id', function(req, res) {
     //         res.render('bloggers', { title: 'Blogs', selectedBlogForEdit: true, category: categoryList, blogs: info, index: info.index });
     //     }
     // });
+});
+
+//================== Load add Blog Form =================
+router.get('/loadaddfrm', function(req, res) {
+    var data = {};
+    data = { selectedBlogForEdit: false, "category": categoryList };
+    res.json(data);
 });

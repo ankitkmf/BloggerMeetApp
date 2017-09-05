@@ -73,6 +73,10 @@ let ErrorMessage = $message => {
     return $("<div class='alert alert-warning'></div>").append($message);
 };
 
+let SuccessMessage = $message => {
+    return $("<div class='alert alert-success'></div>").append($message);
+};
+
 $.getJSON("/commonapi/data/countries")
     .done(function(data) {
         var result = new Bloodhound({

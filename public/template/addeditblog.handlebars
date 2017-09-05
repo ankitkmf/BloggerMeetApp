@@ -1,0 +1,187 @@
+<div class="panel-heading">
+  <h4> {{#if selectedBlogForEdit}} Edit Blog {{else}} Add Blog {{/if}}
+    <span class="canceladdeditblog glyphicon glyphicon-remove-sign"></span>
+  </h4>
+</div>
+<div class="panel-body">
+  <form id="addeditblogfrm" class="form-horizontal">
+    <div class="blogsuccesserrorpanel hidden">
+    </div>
+    {{!--
+    <div class="amsuccessResult alert alert-dismissible alert-success hidden">
+      <strong>Thank you!</strong> You have successfully updated about yourself.
+    </div>
+    <div class="alert alert-danger hidden amerrorResult" role="alert">
+      Currently there are some technical issue . Please try again later.
+    </div> --}}
+
+    <div class="form-group">
+      <label class="control-label" for="topic">Blog Topic</label>
+      <div>
+        <input type="text" class="form-control" maxlength="100" id="topic" name="topic" autofocus="autofocus" value="{{blogs.result.topic}}">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label" for="content">Content</label>
+      <div>
+        <textarea class="input" rows="10" cols="85" maxlength="5000" id="content" name="content" autofocus="autofocus">{{blogs.result.content}}</textarea>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label" for="category">Blog Category</label>
+      <div>
+        <select name="category" id="category" class="form-control">
+          {{#each category}}
+            {{#if ../selectedBlogForEdit}}
+              {{#Compare ../blogs.result.categorykey this.key}} 
+                <option selected="selected" value="{{this.key}}">{{this.name}}</option>
+              {{else}}
+                <option value="{{this.key}}">{{this.name}}</option>
+              {{/Compare}}
+           {{else}}
+           <option value="{{this.key}}">{{this.name}}</option>
+           {{/if}}
+          {{/each}} 
+          </select>
+      </div>
+    </div>
+
+    {{#if selectedBlogForEdit}}
+    <input type="hidden" id="modifiedby" name="modifiedby" value={{user.username}} />
+    <input type="hidden" id="createdby" name="createdby" value={{blogs.result.createdby}} />
+    <input type="hidden" id="_id" name="_id" value={{blogs.result._id}} />
+    <input type="hidden" id="status" name="status" value={{blogs.result.status}} />
+    <input type="hidden" id="index" name="index" value={{index}} />
+    <input type="hidden" id="userid" name="userid" value={{user._id}} />
+    <input type="hidden" id="actiontype" name="actiontype" value="edit" /> {{else}}
+    <input type="hidden" id="modifiedby" name="modifiedby" value="" />
+    <input type="hidden" id="createdby" name="createdby" value={{user.username}} />
+    <input type="hidden" id="_id" name="_id" value="" />
+    <input type="hidden" id="status" name="status" value="" />
+    <input type="hidden" id="index" name="index" value="" />
+    <input type="hidden" id="userid" name="userid" value={{user._id}} />
+    <input type="hidden" id="actiontype" name="actiontype" value="add" /> {{/if}}
+
+    <div class="form-group">
+      <div>
+        {{#if selectedBlogForEdit}}
+        <button type="submit" class="btn btn-info btn-sm">Save</button>
+        <button type="button" class="btn btn-info btn-sm cancel">Cancel</button> {{else}}
+        <button type="submit" class="btn btn-info  btn-sm">Add</button>
+        <button type="reset" class="btn btn-info  btn-sm">Reset</button> {{/if}}
+      </div>
+    </div>
+  </form>
+</div>
+{{!--
+<script src="/ckeditor/ckeditor.js"></script>
+<link href="/css/blogs.css" rel="stylesheet" />
+<script src="/js/blogs.js"></script>
+<script>
+  CKEDITOR.replace('content');
+
+</script> --}}
+
+<script src="/ckeditor/ckeditor.js"></script>
+<script>
+  CKEDITOR.replace('content');
+
+  $(function () {
+    $(".canceladdeditblog").click("on", function () {
+      $('.addeditblogfrm').addClass("hidden");
+      $('.canceladdeditblog').addClass("hidden");
+      $('.addblog').removeClass("hidden");
+    });
+
+        /* Code to add new blog */
+    $("#addeditblogfrm").submit(function(e) {
+        e.preventDefault();
+
+        console.log("add");
+
+        var isValid = true;
+        var msgPanel = $("<div></div>");
+        var message = null;
+
+        var modifiedby = $("#modifiedby").val();
+        var createdby = $("#createdby").val();
+        var _id = $("#_id").val();
+        var status = $("#status").val();
+        var index = $("#index").val();
+        var userid = $("#userid").val();
+        var actiontype = $("#actiontype").val();
+        var topic = $("#topic").val();
+        var content = CKEDITOR.instances['content'].getData();
+        var category = $("#category").val();
+
+        console.log(topic + "," + content + " , " + category + " , " + userid + " , " + actiontype);
+
+        if (topic == "" || topic == undefined) {
+            isValid = false;
+            msgPanel.append(
+                ErrorMessage("<strong>Warning!</strong> Please add blog topic.")
+            );
+        }
+
+        if (content == "" || content == undefined) {
+            isValid = false;
+            msgPanel.append(
+                ErrorMessage("<strong>Warning!</strong> Please add blog content.")
+            );
+        }
+
+        //var data = new FormData(this); // <-- 'this' is your form element
+
+        var data = {};
+
+        if (actiontype == "add") {
+            data = {
+                "topic": topic,
+                "content": content,
+                "category": category,
+                "userid": userid,
+                "createdby": createdby
+            }
+        } else if (actiontype == "edit") {
+            data = {
+                "_id": _id,
+                "topic": topic,
+                "content": content,
+                "category": category,
+                "modifiedby": modifiedby
+            }
+        }
+
+        if (isValid) {
+            run_waitMe("addeditblogfrm");
+            $(".blogsuccesserrorpanel").html("");
+            $.ajax({
+                url: "/blogs/savedata/add",
+                data: data,
+                method: "POST",
+                success: function(data) {
+                    console.log("success : " + JSON.stringify(data));
+                    msgPanel.append(
+                        SuccessMessage("<strong>Thank You!</strong> New Blog is added.")
+                    );
+                    $(".blogsuccesserrorpanel").html(msgPanel).removeClass("hidden");
+                    $("#divImage").removeClass("hidden");
+                    //$(".profileprogress").imgProgressTo(profileCompleteStatus());
+                    stop_waitMe("addeditblogfrm");
+                },
+                error: function(error) {
+                    console.log("error : " + error);
+                    msgPanel.append(
+                        ErrorMessage("<strong>Warning!</strong> error.")
+                    );
+                    $(".blogsuccesserrorpanel").html(msgPanel).removeClass("hidden");
+                    stop_waitMe("addeditblogfrm");
+                }
+            });
+        } else {
+            $(".blogsuccesserrorpanel").html(msgPanel).removeClass("hidden");
+        }
+    });
+  });
+
+</script>

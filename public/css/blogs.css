@@ -15,3 +15,30 @@ span.glyphicon.glyphicon-remove {
 .editblog {
     float: right;
 }
+
+span#loadmoreblogbyuserid {
+    margin-top: 15px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+div#divImage {
+    text-align: left;
+}
+
+span.glyphicon.glyphicon-plus-sign {
+    float: right;
+    font-size: 21px;
+    margin-top: 3px;
+}
+
+span.glyphicon.glyphicon-remove-sign {
+    float: right;
+    font-size: 21px;
+    margin-top: 3px;
+}
+
+.form-horizontal .form-group {
+    margin-left: 0px;
+    margin-right: 0px;
+}

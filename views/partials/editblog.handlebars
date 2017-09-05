@@ -1,66 +1,60 @@
-    {{#if selectedBlogForEdit}}
-    <h3>Edit Blog</h3>
-    {{else}}
-    <h3>Add Blog</h3>
-    {{/if}}
-    <form class="form-horizontal" action="/blog/savedata" method="POST">
-      {{#if errors }}
-      <ul class="errors">
-        {{#each errors}}
-        <li class="alert alert-danger">{{this.msg}} </li>
-        {{/each}}
-      </ul>
-      {{/if}}
+   {{!-- <div class="panel-heading">
+    <h4> Edit Blog  --}}
+      {{!-- <span class="canceladdeditblog glyphicon glyphicon-remove-sign"></span> --}}
+    {{!-- </h4>
+  </div>  --}}
+  <div>
+    <form id="editblogfrm" class="form-horizontal">
+      {{!-- <div class="blogsuccesserrorpanel hidden">
+      </div> --}}
+      
       <div class="form-group">
         <label class="control-label" for="topic">Blog Topic</label>
         <div>
-          <input type="text" class="form-control" id="topic" name="topic" autofocus="autofocus" required="required" value="{{blogs.topic}}">
+          <input type="text" class="form-control" maxlength="100" id="topic_{{this._id}}" name="topic_{{this._id}}" autofocus="autofocus" value="{{this.topic}}">
         </div>
       </div>
       <div class="form-group">
-        <label class="control-label" for="content">Content</label>
+        <label class="control-label" for="content_{{this._id}}">Content</label>
         <div>
-          <textarea class="input" rows="10" cols="85" id="content" name="content" autofocus="autofocus" required="required">{{blogs.content}}</textarea>
+          <textarea class="input" rows="10" cols="85" maxlength="5000" id="content_{{this._id}}" name="content_{{this._id}}" autofocus="autofocus">{{this.content}}</textarea>
         </div>
       </div>
       <div class="form-group">
-        <label class="control-label" for="category">Blog Category</label>
+        <label class="control-label" for="category_{{this._id}}">Blog Category</label>
         <div>
-          <select name="category" id="category" class="btn btn-info dropdown-toggle">
-          {{#each category}}
-            {{#if ../selectedBlogForEdit}}
+          <select name="category_{{this._id}}" id="category_{{this._id}}" class="form-control">
+          {{#each ../category}}
               {{#Compare ../blogs.categorykey this.key}} 
                 <option selected="selected" value="{{this.key}}">{{this.name}}</option>
               {{else}}
                 <option value="{{this.key}}">{{this.name}}</option>
               {{/Compare}}
-           {{else}}
-           <option value="{{this.key}}">{{this.name}}</option>
-           {{/if}}
-          {{/each}} 
+            {{/each}} 
           </select>
         </div>
       </div>
 
-      {{#if selectedBlogForEdit}}
-      <input type="hidden" id="modifiedby" name="modifiedby" value={{user.username}} />
-      <input type="hidden" id="createdby" name="createdby" value={{blogs.createdby}} />
-      <input type="hidden" id="_id" name="_id" value={{blogs._id}} />
-      <input type="hidden" id="status" name="status" value={{blogs.status}} />
-      <input type="hidden" id="index" name="index" value={{index}} />
-       {{else}}
-      <input type="hidden" id="createdby" name="createdby" value={{user.username}} /> 
-      <input type="hidden" id="index" name="index" value={{index}} />
-      {{/if}}
-
+      
+      <input type="hidden" id="modifiedby_{{this._id}}" name="modifiedby_{{this._id}}" value="{{user.username}}" />
+      <input type="hidden" id="createdby_{{this._id}}" name="createdby_{{this._id}}" value="{{blogs.createdby}}" />
+      <input type="hidden" id="_id_{{this._id}}" name="_id_{{this._id}}" value="{{this._id}}" />
+      <input type="hidden" id="status_{{this._id}}" name="status" value="{{this.status}}" />
+      <input type="hidden" id="index_{{this._id}}" name="index_{{this._id}}" value="{{index}}" />
+      <input type="hidden" id="userid_{{this._id}}" name="userid_{{this._id}}" value="{{user._id}}" />
+      <input type="hidden" id="actiontype" name="actiontype" value="edit" /> 
       <div class="form-group">
         <div>
-          {{#if selectedBlogForEdit}}
-          <button type="submit" class="btn btn-info">Save</button>
-          <button type="button" class="btn btn-info cancel">Cancel</button> {{else}}
-          <button type="submit" class="btn btn-info">Add</button>
-          <button type="reset" class="btn btn-info">Reset</button> {{/if}}
+          <button type="submit" class="btn btn-info btn-sm" id="editblog" name="editblog">Save</button>
+          <button type="button" class="btn btn-info btn-sm cancel"  id="canceleditblog" name="canceleditblog">Cancel</button> 
         </div>
       </div>
     </form>
   </div>
+
+<script src="/ckeditor/ckeditor.js"></script>
+<script>
+  CKEDITOR.replace('content_{{this._id}}');
+</script>
+
+

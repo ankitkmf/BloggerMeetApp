@@ -43,3 +43,83 @@ exports.blogsbyuserid = function(startindex, userid) {
             });
     });
 }
+
+exports.addblog = function(data) {
+    let path = serviceURL + "/addblog";
+    console.log("path:" + path);
+    log.logger.info("Model layer addblog : service call : " + path);
+    //console.log("111");
+    return new Promise(function(resolve, reject) {
+        axios.post(path, data).then(function(response) {
+                //console.log("2");
+                log.logger.info("Model layer addblog : service call : success");
+                resolve(response);
+            })
+            .catch(function(error) {
+                //console.log("3");
+                var err = { "Error": error };
+                log.logger.error("Model layer addblog : service call : error : " + error);
+                reject(err);
+            });
+    });
+}
+
+exports.getblogbyblogid = function(_id) {
+    let path = serviceURL + "/getblogbyblogid/" + _id;
+    console.log("path:" + path);
+    log.logger.info("Model layer getblogbyblogid : service call : " + path);
+    console.log("111");
+    return new Promise(function(resolve, reject) {
+        axios.get(path).then(function(response) {
+                console.log("2");
+                log.logger.info("Model layer getblogbyblogid : service call : success");
+                resolve(response);
+            })
+            .catch(function(error) {
+                //console.log("3");
+                var err = { "Error": error };
+                log.logger.error("Model layer getblogbyblogid : service call : error : " + error);
+                reject(err);
+            });
+    });
+}
+
+exports.deleteblogbyblogid = function(_id) {
+    let path = serviceURL + "/deleteblogbyblogid/" + _id;
+    console.log("path:" + path);
+    log.logger.info("Model layer deleteblogbyblogid : service call : " + path);
+    console.log("111");
+    return new Promise(function(resolve, reject) {
+        axios.get(path).then(function(response) {
+                console.log("2");
+                log.logger.info("Model layer deleteblogbyblogid : service call : success");
+                resolve(response);
+            })
+            .catch(function(error) {
+                //console.log("3");
+                var err = { "Error": error };
+                log.logger.error("Model layer deleteblogbyblogid : service call : error : " + error);
+                reject(err);
+            });
+    });
+}
+
+exports.editblog = function(data) {
+    let path = serviceURL + "/editblog";
+    console.log("path:" + path);
+    log.logger.info("Model layer editblog : service call : " + path);
+    //console.log("111");
+    return new Promise(function(resolve, reject) {
+        axios.post(path, data).then(function(response) {
+                console.log("2");
+                log.logger.info("Model layer editblog : service call : success");
+                resolve(response);
+            })
+            .catch(function(error) {
+                console.log("3");
+                var err = { "Error": error };
+                log.logger.error("Model layer editblog : service call : error : " + error);
+                reject(err);
+            });
+    });
+}
