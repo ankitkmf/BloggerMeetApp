@@ -86,6 +86,7 @@ $(function() {
         $('.addblog').addClass("hidden");
         $('.blogeditsuccesserrorpanel').html("");
         $('.blogeditsuccesserrorpanel').addClass("hidden");
+        $(".blogaddtext").addClass("hidden");
         //$("#divImage").removeClass("hidden");
         //$('.addeditblogfrm')
     });
@@ -101,6 +102,11 @@ $(function() {
 
         $('.showblogdetails_' + id).removeClass("hidden");
         $('.blogeditform_' + id).addClass("hidden");
+    });
+
+    $(".canceladdblog").on("click", function() {
+        $('.addeditblogfrm').addClass("hidden");
+        $('.addblog').removeClass("hidden");
     });
 
     $('#divImage').on("click", function() {
@@ -181,6 +187,7 @@ $(function() {
         if (isValid) {
             run_waitMe("addeditblogfrm");
             $(".blogsuccesserrorpanel").html("");
+
             $.ajax({
                 url: "/blogs/savedata/add",
                 data: data,
@@ -195,7 +202,8 @@ $(function() {
                     //$(".profileprogress").imgProgressTo(profileCompleteStatus());
 
                     // Refresh accordion
-                    GetBlogsByUserID(0, userid, "add");
+                    if (data != null)
+                        GetBlogsByUserID(0, userid, "add");
 
                     stop_waitMe("addeditblogfrm");
                 },
@@ -271,7 +279,8 @@ $(function() {
     // });
 
     /* Code to update a blog */
-    $(".saveblog").on("click", function(e) {
+    //$(".saveblog").on("click", function(e) {
+    $("#accordion").on("click", ".saveblog", function(e) {
         e.preventDefault();
 
         console.log("add");
@@ -280,7 +289,7 @@ $(function() {
         var msgPanel = $("<div></div>");
         var message = null;
 
-        $(".blogeditvalidationpanel").html("");
+        //$(".blogeditvalidationpanel").html("");
 
         var _id = $(this).data("key");
 
@@ -327,49 +336,63 @@ $(function() {
 
         if (isValid) {
 
-            run_waitMe('blogeditform_' + _id);
-            $('.blogeditsuccesserrorpanel').html("");
+            //run_waitMe('blogeditform_' + _id);
+            //$('.blogeditsuccesserrorpanel').html("");
             $(".blogeditvalidationpanel").html("");
 
-            $.ajax({
-                url: "/blogs/savedata/edit",
-                data: data,
-                method: "POST",
-                success: function(data) {
-                    console.log("success : " + JSON.stringify(data));
-                    msgPanel.append(
-                        SuccessMessage("<strong>Thank You!</strong> [" + topic + "] Blog is updated successfully.")
-                    );
-                    $(".blogeditsuccesserrorpanel").html(msgPanel).removeClass("hidden");
+            swal({
+                title: "Are you sure?",
+                text: "Are you sure that you want to update this blog?",
+                type: "warning",
+                showCancelButton: true,
+                closeOnConfirm: false,
+                confirmButtonText: "Yes, update it!",
+                confirmButtonColor: "#ec6c62"
+            }, function() {
+                $.ajax({
+                    url: "/blogs/savedata/edit",
+                    data: data,
+                    method: "POST",
+                    success: function(data) {
+                        console.log("success : " + JSON.stringify(data));
+                        // msgPanel.append(
+                        //     SuccessMessage("<strong>Thank You!</strong> [" + topic + "] Blog is updated successfully.")
+                        // );
+                        // $(".blogeditsuccesserrorpanel").html(msgPanel).removeClass("hidden");
 
-                    $('.showblogdetails_' + _id).removeClass("hidden");
-                    $('.blogeditform_' + _id).addClass("hidden");
+                        $('.showblogdetails_' + _id).removeClass("hidden");
+                        $('.blogeditform_' + _id).addClass("hidden");
 
-                    $('.showblogdetails_' + _id).html("");
-                    $('.showblogdetails_' + _id).html("<span class = 'blogpostdate glyphicon glyphicon-time' ></span> Posted on " +
-                        creationdate + " " + content);
+                        $('.showblogdetails_' + _id).html("");
+                        $('.showblogdetails_' + _id).html("<span class = 'blogpostdate glyphicon glyphicon-time' ></span> Posted on " +
+                            creationdate + " " + content);
 
-                    $('.blogheader_' + _id).html("");
-                    $('.blogheader_' + _id).html(topic);
+                        $('.blogheader_' + _id).html("");
+                        $('.blogheader_' + _id).html(topic);
 
-                    //$(".profileprogress").imgProgressTo(profileCompleteStatus());
+                        //$(".profileprogress").imgProgressTo(profileCompleteStatus());
 
-                    // Refresh accordion
-                    //GetBlogsByUserID(0, userid, "add");
-                    //$("#divImage").removeClass("hidden");
+                        // Refresh accordion
+                        //GetBlogsByUserID(0, userid, "add");
+                        //$("#divImage").removeClass("hidden");
 
-                    stop_waitMe('blogeditform_' + _id);
-                },
-                error: function(error) {
-                    console.log("error : " + error);
-                    msgPanel.append(
-                        ErrorMessage("<strong>Warning!</strong> error.")
-                    );
-                    $(".blogeditsuccesserrorpanel").html(msgPanel).removeClass("hidden");
-                    stop_waitMe('blogeditform_' + _id);
-                }
+                        swal("Updated!Blog ID : ", _id + " is successfully updated!", "success");
+
+                        //stop_waitMe('blogeditform_' + _id);
+                    },
+                    error: function(error) {
+                        console.log("error : " + error);
+                        // msgPanel.append(
+                        //     ErrorMessage("<strong>Warning!</strong> error.")
+                        // );
+                        // $(".blogeditsuccesserrorpanel").html(msgPanel).removeClass("hidden");
+
+                        swal("Oops", "We couldn't connect to the server!", "error");
+
+                        //stop_waitMe('blogeditform_' + _id);
+                    }
+                });
             });
-
 
         } else {
             $(".blogeditvalidationpanel").html(msgPanel).removeClass("hidden");
@@ -481,33 +504,64 @@ let RetrieveBlogByBlogID = (_id) => {
 
 let DeleteBlogByID = (_id) => {
     var msgPanel = $("<div></div>");
-    run_waitMe("addeditblogfrm");
-    $('.blogeditsuccesserrorpanel').html("");
-    $.ajax({
-        url: "/blogs/delete/" + _id,
-        method: "get",
-        success: function(data) {
-            msgPanel.append(
-                SuccessMessage("Selected Blog is deleted successfully.")
-            );
-            $(".blogeditsuccesserrorpanel").html(msgPanel).removeClass("hidden");
-            //$("#divImage").removeClass("hidden");
-            //$(".profileprogress").imgProgressTo(profileCompleteStatus());
+    //$('.blogeditsuccesserrorpanel').html("");
 
-            // Refresh accordion
-            //GetBlogsByUserID(0, userid, "add");
-
-            $(".blog_" + _id).html("");
-
-            stop_waitMe("addeditblogfrm");
-        },
-        error: function(error) {
-            console.log("error : " + error);
-            msgPanel.append(
-                ErrorMessage("<strong>Warning!</strong> error.")
-            );
-            $(".blogeditsuccesserrorpanel").html(msgPanel).removeClass("hidden");
-            stop_waitMe("addeditblogfrm");
-        }
+    swal({
+        title: "Are you sure?",
+        text: "Are you sure that you want to delete this blog?",
+        type: "warning",
+        showCancelButton: true,
+        closeOnConfirm: false,
+        confirmButtonText: "Yes, delete it!",
+        confirmButtonColor: "#ec6c62"
+    }, function() {
+        $.ajax({
+            url: "/blogs/delete/" + _id,
+            method: "get",
+            success: function(data) {
+                // msgPanel.append(
+                //     SuccessMessage("Selected Blog is deleted successfully.")
+                // );
+                // $(".blogeditsuccesserrorpanel").html(msgPanel).removeClass("hidden");
+                $(".blog_" + _id).html("");
+                swal("Updated!", _id + " is successfully deleted!", "success");
+            },
+            error: function(error) {
+                console.log("error : " + error);
+                // msgPanel.append(
+                //     ErrorMessage("<strong>Warning!</strong> error.")
+                // );
+                // $(".blogeditsuccesserrorpanel").html(msgPanel).removeClass("hidden");
+                swal("Oops", "We couldn't connect to the server!", "error");
+            }
+        });
     });
+
+    // $.ajax({
+    //     url: "/blogs/delete/" + _id,
+    //     method: "get",
+    //     success: function(data) {
+    //         msgPanel.append(
+    //             SuccessMessage("Selected Blog is deleted successfully.")
+    //         );
+    //         $(".blogeditsuccesserrorpanel").html(msgPanel).removeClass("hidden");
+    //         //$("#divImage").removeClass("hidden");
+    //         //$(".profileprogress").imgProgressTo(profileCompleteStatus());
+
+    //         // Refresh accordion
+    //         //GetBlogsByUserID(0, userid, "add");
+
+    //         $(".blog_" + _id).html("");
+
+    //         stop_waitMe("addeditblogfrm");
+    //     },
+    //     error: function(error) {
+    //         console.log("error : " + error);
+    //         msgPanel.append(
+    //             ErrorMessage("<strong>Warning!</strong> error.")
+    //         );
+    //         $(".blogeditsuccesserrorpanel").html(msgPanel).removeClass("hidden");
+    //         stop_waitMe("addeditblogfrm");
+    //     }
+    // });
 };

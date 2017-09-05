@@ -1,20 +1,77 @@
 <div class="bs-docs-section">
   <div class="row">
+    <div id="myModal" class="modal fade" role="dialog">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span class="glyphicon glyphicon-remove-sign"></span></button>
+            <h4 class="modal-title">Add Blog</h4>
+          </div>
+          <div class="modal-body">
+            <form id="addeditblogfrm" class="form-horizontal">
+              <div class="blogsuccesserrorpanel hidden">
+              </div>
+              <div class="form-group">
+                <label class="control-label" for="topic">Blog Topic</label>
+                <div>
+                  <input type="text" class="form-control" maxlength="100" id="topic" name="topic" autofocus="autofocus" value="{{blogs.topic}}">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="control-label" for="content">Content</label>
+                <div>
+                  <textarea class="input" rows="10" cols="85" maxlength="5000" id="content" name="content" autofocus="autofocus">{{blogs.content}}</textarea>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="control-label" for="category">Blog Category</label>
+                <div>
+                  <select name="category" id="category" class="form-control">
+          {{#each category}}
+              {{#Compare ../blogs.categorykey this.key}} 
+                <option selected="selected" value="{{this.key}}">{{this.name}}</option>
+              {{else}}
+                <option value="{{this.key}}">{{this.name}}</option>
+              {{/Compare}}
+          {{/each}} 
+          </select>
+                </div>
+              </div>
 
-    <div class="panel panel-info profile-content-panel-border-radius addeditblogfrm hidden bg-form">
-      {{> addeditblog}}
+              <input type="hidden" id="modifiedby" name="modifiedby" value="" />
+              <input type="hidden" id="createdby" name="createdby" value="{{user.username}}" />
+              <input type="hidden" id="_id" name="_id" value="" />
+              <input type="hidden" id="status" name="status" value="" />
+              <input type="hidden" id="index" name="index" value="" />
+              <input type="hidden" id="userid" name="userid" value="{{user._id}}" />
+              <input type="hidden" id="actiontype" name="actiontype" value="add" />
+
+              <div class="form-group">
+                <div>
+                  <button type="submit" class="btn btn-info btn-sm">Add</button>
+                  <button type="reset" class="btn btn-info btn-sm" data-dismiss="modal">Cancel</button>
+                </div>
+              </div>
+            </form>
+          </div>
+          <script src="/js/blogs.js"></script>
+          <script src="/ckeditor/ckeditor.js"></script>
+          <script>
+            CKEDITOR.replace('content');
+          </script>
+        </div>
+      </div>
     </div>
 
     <h4>List of Blogs
-      <span class="addblog glyphicon glyphicon-plus-sign"></span>
+      <span data-toggle="modal" data-target="#myModal" class="glyphicon glyphicon-plus-sign"></span>
     </h4>
 
     <div class="blogeditsuccesserrorpanel hidden">
     </div>
 
-    {{#Compare blogs.count ">" 0}}
     <div id="accordion" class="blogsbyuserid">
-      {{#each blogs.result}}
+      {{#Compare blogs.count ">" 0}} {{#each blogs.result}}
       <div class="group blog_{{this._id}}">
         <h3>
           <span class="blogheader_{{this._id}}">{{this.topic}}</span>
@@ -86,22 +143,17 @@
           </div>
         </div>
       </div>
-      {{/each}}
+      {{/each}} {{#if index}}
+      <input type="hidden" name="nextsearindex" id="nextsearindex" value={{index}} /> {{/if}}
 
+      <input type="hidden" name="userid" id="userid" value="{{user._id}}" /> {{else}}
+      <h3>No Blogs found. <span class="blogaddtext">Please click here to <a class="addblog" href="#">Add Blog</a></span></h3>
+      {{/Compare}}
     </div>
-    {{#if index}}
-    <input type="hidden" name="nextsearindex" id="nextsearindex" value={{index}} /> {{/if}}
-
-    <input type="hidden" name="userid" id="userid" value="{{user._id}}" />
 
     <div id="divImage" class="hidden">
       <span id="loadmoreblogbyuserid" name="loadmoreblogbyuserid" alt="Load More" class="glyphicon glyphicon-hand-down"></span>
     </div>
-
-
-    {{else}}
-    <h3>No Blogs found. Please click here to <a class="addblog" href="#">Add Blog</a></h3>
-    {{/Compare}}
 
   </div>
 </div>

@@ -1,5 +1,5 @@
   <div class="panel-heading">
-    <h4> {{#if selectedBlogForEdit}} Edit Blog {{else}} Add Blog {{/if}}
+    <h4> Add Blog
       <span class="canceladdeditblog glyphicon glyphicon-remove-sign"></span>
     </h4>
   </div>
@@ -32,43 +32,28 @@
         <div>
           <select name="category" id="category" class="form-control">
           {{#each category}}
-            {{#if ../selectedBlogForEdit}}
               {{#Compare ../blogs.categorykey this.key}} 
                 <option selected="selected" value="{{this.key}}">{{this.name}}</option>
               {{else}}
                 <option value="{{this.key}}">{{this.name}}</option>
               {{/Compare}}
-           {{else}}
-           <option value="{{this.key}}">{{this.name}}</option>
-           {{/if}}
           {{/each}} 
           </select>
         </div>
       </div>
 
-      {{#if selectedBlogForEdit}}
-      <input type="hidden" id="modifiedby" name="modifiedby" value="{{user.username}}" />
-      <input type="hidden" id="createdby" name="createdby" value="{{blogs.createdby}}" />
-      <input type="hidden" id="_id" name="_id" value="{{blogs._id}}" />
-      <input type="hidden" id="status" name="status" value="{{blogs.status}}" />
-      <input type="hidden" id="index" name="index" value="{{index}}" />
-      <input type="hidden" id="userid" name="userid" value="{{user._id}}" />
-      <input type="hidden" id="actiontype" name="actiontype" value="edit" /> {{else}}
       <input type="hidden" id="modifiedby" name="modifiedby" value="" />
       <input type="hidden" id="createdby" name="createdby" value="{{user.username}}" />
       <input type="hidden" id="_id" name="_id" value="" />
       <input type="hidden" id="status" name="status" value="" />
       <input type="hidden" id="index" name="index" value="" />
       <input type="hidden" id="userid" name="userid" value="{{user._id}}" />
-      <input type="hidden" id="actiontype" name="actiontype" value="add" /> {{/if}}
+      <input type="hidden" id="actiontype" name="actiontype" value="add" />
 
       <div class="form-group">
         <div>
-          {{#if selectedBlogForEdit}}
-          <button type="submit" class="btn btn-info btn-sm">Save</button>
-          <button type="button" class="btn btn-info btn-sm cancel">Cancel</button> {{else}}
-          <button type="submit" class="btn btn-info  btn-sm">Add</button>
-          <button type="reset" class="btn btn-info  btn-sm">Reset</button> {{/if}}
+          <button type="submit" class="btn btn-info btn-sm">Add</button>
+          <button type="reset" class="btn btn-info btn-sm canceladdblog">Cancel</button>
         </div>
       </div>
     </form>
