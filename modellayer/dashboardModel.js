@@ -14,11 +14,12 @@ exports.GetAllUserCount = function() {
             findAll(findAllUserPath),
             findAll(findSubscribeUserAllPath)
         ]).then(data => {
+            var collectionList = GetAllUserCountCollection(data);
             var collection = {
-                "totalUser": data[0].data.count,
-                "totalSbUser": data[1].data.count
-                    //  "totalGoogleUser": data[2].data.count,
-                    // "totalFBUser": data[3].data.count
+                "totalUser": collectionList[0][0].total, // data[0].data.count,
+                "totalSbUser": collectionList[3][0].total,
+                "totalGoogleUser": collectionList[1][0].total,
+                "totalFBUser": collectionList[2][0].total
             };
             resolve(collection);
         }).catch(function(err) {
@@ -129,7 +130,6 @@ exports.GetUserTableData = function(type) {
     });
 };
 
-
 let findAll = function(path) {
     return new Promise(function(resolve, reject) {
         axios.get(path).then(function(response) {
@@ -141,6 +141,30 @@ let findAll = function(path) {
                 reject(err);
             });
     });
+};
+
+let GetAllUserCountCollection = data => {
+    var collection = [];
+    // get local user 
+    collection.push(alasql(
+        "SELECT count(*) as total , 'Total users' as text FROM ?", [data[0].data.result]
+    ));
+
+    // get google user 
+    collection.push(alasql(
+        "SELECT count(*) as total , 'Total google users' as text FROM ? where authType='google'", [data[0].data.result]
+    ));
+
+    // get facebook user 
+    collection.push(alasql(
+        "SELECT count(*) as total , 'Total facebook users' as text FROM ? where authType='facebook'", [data[0].data.result]
+    ));
+
+    // get Subscribe user 
+    collection.push(alasql(
+        "SELECT count(*) as total, 'Subscribe Users' as text FROM ? ", [data[1].data.result]
+    ));
+    return collection;
 };
 
 let userGraphCollection = (data) => {

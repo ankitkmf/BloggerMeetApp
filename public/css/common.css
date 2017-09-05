@@ -195,6 +195,15 @@ body {
     padding-top: 70px;
 }
 
+.divRegUserGraph .panel-info {
+    border-color: #8BC34A;
+}
+
+.divRegUserGraph .panel-info>.panel-heading {
+    background-color: #8BC34A;
+    border-color: #8BC34A;
+}
+
 
 /* .table-responsive {
     background-color: #8BC34A;
