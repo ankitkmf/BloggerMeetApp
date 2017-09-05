@@ -1,7 +1,7 @@
 {
     "app": {
         "restAPIEndpoint": {
-            "v1ContractPath": "v1/contract/production",
+            "v1ContractPath": "http://54.213.129.53:3000",
             "v2ContractPath": "v2/contract/production"
         },
         "webserver": {

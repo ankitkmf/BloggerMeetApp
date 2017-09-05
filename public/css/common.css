@@ -154,3 +154,67 @@ span#loadmoreblog {
 div#divImage {
     text-align: left;
 }
+
+.dashboard .panel-info>.panel-heading:hover {
+    color: #ffffff !important;
+    background-color: #8BC34A !important;
+    border-color: #8BC34A !important;
+}
+
+.dashboard .list-group>.hover:hover {
+    background-color: #ecf0f1 !important;
+}
+
+.dashboard .list-group-item {
+    position: relative;
+    display: block;
+    padding: 4px 15px;
+    margin-bottom: -1px;
+    background-color: #ffffff;
+    border: none !important;
+    background-color: #8BC34A !important;
+}
+
+.dashboard .alert-success {
+    background-color: #8BC34A !important;
+    border-color: #8BC34A !important;
+    color: #ffffff;
+}
+
+.col-lg-4.divUserBlogs {
+    min-height: 100px;
+}
+
+.customDiv {
+    margin-bottom: 14px;
+}
+
+.list-inline>li {
+    margin: 24px 100px 0px 50px;
+}
+
+.dashboard .list-group-item {
+    font-weight: bold;
+}
+
+.dashboard .alert {
+    padding: 12px !important;
+}
+
+body {
+    padding-top: 70px;
+}
+
+.divRegUserGraph .panel-info {
+    border-color: #8BC34A;
+}
+
+.divRegUserGraph .panel-info>.panel-heading {
+    background-color: #8BC34A;
+    border-color: #8BC34A;
+}
+
+
+/* .table-responsive {
+    background-color: #8BC34A;
+} */

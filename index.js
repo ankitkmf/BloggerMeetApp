@@ -8,6 +8,7 @@ var config = require("config");
 var log = require("./modellayer/log");
 var _ = require("lodash");
 app.locals.config = config.get('app.restAPIEndpoint.v1ContractPath');
+console.log(app.locals.config);
 
 app.use(bodyparser.urlencoded({ extended: true }));
 app.use(bodyparser.json());
@@ -20,7 +21,8 @@ var hbs = exphbs.create({
     helpers: {
         IsAdmin: require("./public/js/helper/isadmin"),
         CheckIsAdmin: require("./public/js/helper/checkisadmin"),
-        Compare: require("./public/js/helper/compare")
+        Compare: require("./public/js/helper/compare"),
+        ValidateBlogs: require("./public/js/helper/validateBlogs")
             //GetBlogStatus: require("./public/js/helper/getblogstatus")
     },
     partialsDir: ['views/partials/']
@@ -57,16 +59,8 @@ let authenticationMiddleware = function(req, res, next) {
 };
 
 let authNotRequired = (req, res, next) => {
-    //res.locals.user = req.user;
     if (req.isAuthenticated()) {
         res.locals.user = req.user;
-        //     //res.locals.user = req.user.result[0]
-        //     if (req.user != undefined) {
-        //         if (req.user.result.length > 0)
-        //             res.locals.user = req.user.result[0];
-        //         else
-        //             res.locals.user = req.user;
-        //     }
     }
     next();
 };
@@ -119,7 +113,7 @@ app.use('/auth', authNotRequired, authRouter);
 //     res.render('dashboard', { layout: 'default', title: 'Dashboard Page' });
 // });
 
-var CommonAPI = require('./modellayer/CommonAPI');
+var CommonAPI = require('./modellayer/commonAPI');
 app.use('/commonapi', CommonAPI);
 
 var userregistration = require('./controllers/userregistration');

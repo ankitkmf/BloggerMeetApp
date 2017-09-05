@@ -96,3 +96,60 @@ $.getJSON("/commonapi/data/countries")
     .fail(function(jqxhr, textStatus, error) {
         var err = textStatus + ", " + error;
     });
+
+let setSuccessFeedbackIcon = ($controlID) => {
+    var successSpanIcon = "<span class='glyphicon glyphicon-ok form-control-feedback feedbackOK '/>";
+    removeErrorClass($controlID);
+    removeSpanErrorMsgAndIcon($controlID);
+    $("#" + $controlID).parent().parent().find(".msg").html(successSpanIcon);
+};
+
+let setSpanErrorMessage = ($controlID, $message) => {
+    setSpanRequiredErrorIcon($controlID);
+    var errorSpan = "<span class='help-block'>" + $message + "</span>";
+    $("#" + $controlID).parent().parent().find(".msg").append(errorSpan);
+};
+
+let removeSpanErrorMsgAndIcon = ($controlID) => {
+    setSpanRequiredErrorIcon($controlID);
+    // var errorSpan = "<span class='help-block'>" + $message + "</span>";
+    $("#" + $controlID).parent().parent().find(".msg").html('');
+};
+
+let setSpanRequiredErrorIcon = ($controlID) => {
+    var errorSpan = "<span class='glyphicon glyphicon-exclamation-sign  form-control-feedback'/>";
+    $("#" + $controlID).parent().parent().find(".msg").append(errorSpan);
+};
+
+let setSpanErrorMsgAndErrorIcon = ($controlID, $message) => {
+    var errorSpanIcon = "<span class='glyphicon glyphicon-exclamation-sign  form-control-feedback'/>";
+    var errorSpanMsg = "<span class='help-block'>" + $message + "</span>";
+    $("#" + $controlID).parent().parent().find(".msg").html('').append(errorSpanIcon).append(errorSpanMsg);
+};
+
+let setErrorClass = $div => {
+    $("#" + $div).parent().parent().find(".msg").html('');
+    return $("#" + $div).closest(".form-group").addClass("has-error").addClass("has-feedback").removeClass("has-success");
+};
+
+let setSuccessClass = $div => {
+    return $("#" + $div).closest(".form-group").addClass("has-success").addClass("has-feedback");
+};
+
+let removeErrorClass = $div => {
+    return $("#" + $div).closest(".form-group").removeClass("has-error");
+};
+
+let removeFeedbackClass = $div => {
+    return $("#" + $div).closest(".form-group").removeClass("has-feedback");
+};
+
+let clearAllControls = $div => {
+    $("." + $div).find(':input').each(function(index) {
+        $("#" + $(this).attr("id")).parent().parent().find(".msg").html('');
+        $("#" + $(this).attr("id")).closest(".form-group")
+            .removeClass("has-error")
+            .removeClass("has-success")
+            .removeClass("has-feedback");
+    });
+};

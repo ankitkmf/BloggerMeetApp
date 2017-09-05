@@ -8,7 +8,7 @@ exports.category = require("../data/blogcategory.json");
 
 exports.blogs = function(startindex, categorytype) {
     let path = serviceURL + "/getblogs/" + startindex + "/" + categorytype;
-    console.log("path:" + path);
+    //console.log("path:" + path);
     log.logger.info("Model layer blogs : service call : " + path);
 
     return new Promise(function(resolve, reject) {

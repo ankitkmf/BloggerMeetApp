@@ -1,105 +1,109 @@
-<div class="bs-docs-section">
+<div class="bs-docs-section dashboard">
     <h2>DASHBOARD</h2>
     {{!-- dashboard header count --}}
-    <div class="col-lg-12">
-        <div class="col-lg-3">
+    <div class="row dashboard">
+        <div class="col-sm-6 col-md-6 col-lg-3">
             <div class="bs-component">
-                <div class="alert alert-dismissible alert-success">
-                    <strong>Total user</strong>
-                    <a href="#"><span class="badge">{{result.totalUser}}</span></a>
+                <div class="alert alert-success list-group">
+                    <div class="list-group list-group-item">
+                        <span class="glyphicon glyphicon-home"></span>  
+                        Total user<span class="badge">{{result.totalUser}}</span>
+                    </div>                    
                 </div>
             </div>
         </div>
-        <div class="col-lg-3">
+        <div class=" col-sm-6 col-md-6 col-lg-3">
             <div class="bs-component">
-                <div class="alert alert-dismissible alert-success">
-                    <strong>Total subscriber</strong>
-                    <a href="#"><span class="badge">{{result.totalSbUser}}</span></a>
+                <div class="alert alert-success list-group">                
+                    <div class="list-group list-group-item">
+                        <span class="glyphicon glyphicon-user"></span> Total subscriber<span class="badge">{{result.totalSbUser}}</span>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col-lg-3">
+        <div class="col-sm-6 col-md-6 col-lg-3">
             <div class="bs-component">
-                <div class="alert alert-dismissible alert-success">
-                    <strong>Total google visitors</strong>
-                    <a href="#"><span class="badge">{{result.totalGoogleUser}}</span></a>
+                <div class="alert alert-success">                    
+                    <div class="list-group list-group-item">
+                        <span class="glyphicon glyphicon-map-marker"></span> Total google visitors<span class="badge">{{result.totalGoogleUser}}</span>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col-lg-3">
+        <div class=" col-sm-6 col-md-6 col-lg-3">
             <div class="bs-component">
-                <div class="alert alert-dismissible alert-success">
-                    <strong>Total FB visitors</strong>
-                    <a href="#"><span class="badge">{{result.totalFBUser}}</span></a>
+                <div class="alert alert-success">
+                     <div class="list-group list-group-item">
+                        <span class="glyphicon glyphicon-thumbs-up"></span> Total FB visitors<span class="badge">{{result.totalFBUser}}</span>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-
     {{!-- dashboard user graph --}}
-    <div class="col-lg-12">
-        <div class="col-lg-6 divRegUserGraph">
+    <div class="row">
+        <div class="col-lg-12 divRegUserGraph">
             <div class="panel panel-info">
-                <div class="panel-heading">
-                        {{!-- <h3 class="panel-title">User graph</h3>   --}}
-                    <h3 class="panel-title">User graph <span class="close  regUserGraph">&#xe031;</span></h3>                     
+                <div class="panel-heading">                   
+                    <h3 class="panel-title">User graph <span class="close  regUserGraph">&#xe031;</span></h3>
                 </div>
-                <div class="panel-body" id="graphContainer">                                
+                <div class="panel-body" id="graphContainer">
                 </div>
-            </div>           
+            </div>
         </div>
-        <div class="col-lg-6">
+        {{!-- <div class="col-lg-6">
             <button type="button" class="close" data-dismiss="alert">&#xe031;</button>
             <div class="jumbotron">
                 <h1>user graph 2</h1>
                 <p>This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
                 <p><a class="btn btn-primary btn-lg">Learn more</a></p>
             </div>
-        </div>
+        </div> --}}
     </div>
 
     {{!-- dashboard user blocks --}}
-    <div class="col-lg-12">
-        {{!-- blog info --}}
-        <div class="col-lg-4">
-            <div class="jumbotron">
-                <h1>blog info</h1>
-                <p>This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
-                <p><a class="btn btn-primary btn-lg">Learn more</a></p>
-            </div>
+    <div class="row">       
+        {{!-- blogs info --}}
+        <div class="col-lg-4 divUserBlogs">
+            <div class="list-group">
+                <ul class="list-group panel-info">
+                    <li class="list-group-item panel-heading">
+                       
+                    </li>
+                </ul>
+            </div>           
         </div>
 
         {{!-- category info --}}
-        <div class="col-lg-4">
-            <div class="jumbotron">
-                <h1>category info</h1>
-                <p>This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
-                <p><a class="btn btn-primary btn-lg">Learn more</a></p>
-            </div>
+        <div class="col-lg-4 divUserComments">            
+             <div class="list-group">
+                <ul class="list-group panel-info">
+                    <li class="list-group-item panel-heading">                       
+                    </li>
+                </ul>
+            </div>   
         </div>
 
         {{!-- userinfo info --}}
-        <div class="col-lg-4">
-            <div class="jumbotron">
-                test1
-            </div>
-            {{!--
-            <div class="container">
-            </div> --}}
-
-
+        <div class="col-lg-4 divUserInfo" id="divUserInfo">
+            <div class="list-group">
+                <ul class="list-group panel-info">
+                    <li class="list-group-item panel-heading">                       
+                    </li>
+                </ul>
+            </div>   
         </div>
     </div>
 
     {{!-- dashboard user table --}}
-    <div class="col-lg-12">
-        <div class="jumbotron">
-            <h1>Jumbotron</h1>
-            <p>This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
-            <p><a class="btn btn-primary btn-lg">Learn more</a></p>
-        </div>
+    <div class="row divUserTable">
+        <div class="table-responsive divUserInnerTable" style="display: none">
+
+        </div>       
     </div>
 </div>
+<link href="/css/plugin/jquery.dataTables.min.css" rel="stylesheet" />
+<script type="text/javascript" src="/js/plugin/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="/js/dashboard.js"></script>
 <script type="text/javascript" src="/js/plugin/highcharts.js"></script>
 <script type="text/javascript" src="https://code.highcharts.com/modules/exporting.js"></script>

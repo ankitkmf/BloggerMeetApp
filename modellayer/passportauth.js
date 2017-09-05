@@ -6,7 +6,7 @@ const serviceURL = config.get("app.restAPIEndpoint.v1ContractPath");
 
 exports.find = function(email) {
     let path = serviceURL + "/validateUserEmail"; ///" + startindex + "/" + categorytype;
-    console.log("path:" + path);
+    //console.log("path:" + path);
     var filter = {
         "email": email
     };
