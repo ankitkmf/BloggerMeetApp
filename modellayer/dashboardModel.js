@@ -23,7 +23,7 @@ exports.GetAllUserCount = function() {
             };
             resolve(collection);
         }).catch(function(err) {
-            console.log("err:" + err);
+            console.log("GetAllUserCount err:" + err);
             reject(err);
         });
     });
@@ -40,7 +40,7 @@ exports.GetUserGraph = function() {
             var collectionList = userGraphCollection(data);
             resolve(collectionList);
         }).catch(function(err) {
-            console.log("err:" + err);
+            console.log("GetUserGraph err:" + err);
             reject(err);
         });
     });
@@ -54,11 +54,25 @@ exports.GetUserBlogs = function() {
                 var collectionList = userBlogsCollection(data.data);
                 resolve(collectionList);
             }).catch(function(err) {
-                console.log("err:" + err);
+                console.log("GetUserBlogs err:" + err);
                 reject(err);
             });
     });
 };
+
+exports.GetUserSerach = function() {
+    let findAllUser = serviceURL + "/findall/users/all";
+    return new Promise(function(resolve, reject) {
+        findAll(findAllUser)
+            .then(data => {
+                resolve(data.data.result);
+            }).catch(function(err) {
+                console.log("GetUserSerach err:" + err);
+                reject(err);
+            });
+    });
+};
+
 
 exports.GetUserComments = function() {
     let findUserComments = serviceURL + "/findall/comments/all";
@@ -68,7 +82,7 @@ exports.GetUserComments = function() {
                 var collectionList = userCommentCollection(data.data);
                 resolve(collectionList);
             }).catch(function(err) {
-                console.log("err:" + err);
+                console.log("GetUserComments err:" + err);
                 reject(err);
             });
     });
@@ -82,7 +96,7 @@ exports.GetuserInfo = function() {
                 var collectionList = userInfoCollection(data.data);
                 resolve(collectionList);
             }).catch(function(err) {
-                console.log("err:" + err);
+                console.log("GetuserInfo err:" + err);
                 reject(err);
             });
     });
@@ -122,7 +136,7 @@ exports.GetUserTableData = function(type) {
                     //console.log("GetUserTableData:" + JSON.stringify(data.data));
                     resolve(data.data);
                 }).catch(function(err) {
-                    console.log("err:" + err);
+                    console.log("GetUserTableData err:" + err);
                     reject(err);
                 });
         } else
@@ -233,23 +247,20 @@ let userInfoCollection = (data) => {
 };
 
 let userBlogsCollection = (data) => {
-    // console.log(JSON.stringify(data));
     var collection = [];
     // get Total blogs 
     collection.push(alasql(
         "SELECT categorykey , count(*) as total FROM ? GROUP BY categorykey", [data.result]
     ));
+    return collection;
+};
 
-    //console.log("userBlogsCollection:" + JSON.stringify(collection));
-    // $.each(collection, function(i, data) {
-    //     if (data["key"] === match) {
-    //         node = data["name"];
-    //     }
-    // });
-    // for (var i in collection[0]) {
-    //     console.log(JSON.stringify(i));
-    //     validateCategory(i["categorykey"]);
-    // }
+let userUserCollection = (data) => {
+    var collection = [];
+    // get Total blogs 
+    collection.push(alasql(
+        "SELECT count(*) as total, dateTime, 'Local users' as text FROM ? where authType='local' GROUP BY  dateTime ", [data.result]
+    ));
     return collection;
 };
 

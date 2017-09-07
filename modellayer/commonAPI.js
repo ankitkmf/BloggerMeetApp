@@ -319,3 +319,16 @@ router.post("/data/updateTableRecords", function(req, res) {
     } else
         res.json(false);
 });
+
+router.get("/data/GetUserSerach", function(req, res) {
+    dashbordModel.GetUserSerach().then(data => {
+        if (data != null) {
+            res.json(data);
+        } else {
+            res.json(false);
+        }
+    }).catch(function(err) {
+        console.log("GetUserSerach1 err:" + err);
+        res.json(false);
+    });
+});

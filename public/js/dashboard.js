@@ -1,5 +1,6 @@
 'use strict';
 $(function() {
+    GetUserSerach();
     GetUserGraph();
     GetUserBlogs();
     GetUserComments();
@@ -48,6 +49,60 @@ $(function() {
         UpdateTableRecords(jsonObj, userName);
     });
 });
+
+let GetUserSerach = () => {
+    $.ajax({
+            method: "Get",
+            url: "/commonAPI/data/GetUserSerach"
+        })
+        .done(function(data) {
+            if (data != null) {
+                var users = [];
+                $.each(data, function(key, value) {
+                    var list = {};
+                    list.label = value.name;
+                    list.authType = value.authType;
+                    list.value = value._id;
+                    list.userImage = (value.userImage == "" || value.userImage == null) ?
+                        "/images/18x18.png" : userImagePath(value.userImage);
+                    users.push(list);
+                });
+                userAutoSuggest(users);
+            }
+        })
+        .fail(function(err) {})
+        .always(function() {
+            stop_waitMe("divRegUserGraph");
+        });
+};
+
+let userImagePath = (path) => {
+    var image = path.split("?");
+    return image[0] + "?sz=18";
+};
+
+let userAutoSuggest = (data) => {
+    console.log("Users:" + JSON.stringify(data));
+    $("#inputSearch").autocomplete({
+            minLength: 1,
+            source: data,
+            focus: function(event, ui) {
+                $("#inputSearch").val(ui.item.label);
+                return false;
+            },
+            select: function(event, ui) {
+                $("#inputSearch").val(ui.item.label);
+                return false;
+            }
+        })
+        .autocomplete("instance")._renderItem = function(ul, item) {
+            return $("<li>")
+                .append("<div> <img src=" + item.userImage + ">" +
+                    "<strong>" + item.label + "</strong>-" + item.authType +
+                    "</div>")
+                .appendTo(ul);
+        };
+};
 
 let GetUserGraph = () => {
     run_waitMe("divRegUserGraph");

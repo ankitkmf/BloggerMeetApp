@@ -223,3 +223,20 @@ body {
     background-color: #8BC34A;
     border-color: #8BC34A;
 }
+
+#inputSearch-label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 1em;
+}
+
+#inputSearch-icon {
+    float: left;
+    height: 32px;
+    width: 32px;
+}
+
+#inputSearch-description {
+    margin: 0;
+    padding: 0;
+}
