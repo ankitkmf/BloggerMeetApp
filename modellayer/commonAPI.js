@@ -332,3 +332,17 @@ router.get("/data/GetUserSerach", function(req, res) {
         res.json(false);
     });
 });
+
+router.get("/data/GetUserHistory/:id", function(req, res) {
+    console.log("GetUserHistory 1" + req.params.id);
+    dashbordModel.GetUserHistory(req.params.id).then(data => {
+        if (data != null) {
+            res.json(data);
+        } else {
+            res.json(false);
+        }
+    }).catch(function(err) {
+        console.log("GetUserSerach1 err:" + err);
+        res.json(false);
+    });
+});

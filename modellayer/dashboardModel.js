@@ -88,6 +88,20 @@ exports.GetUserComments = function() {
     });
 };
 
+exports.GetUserHistory = function(id) {
+    let findUserHistory = serviceURL + "/findall/userLoginHistory/userhistory/" + id;
+    return new Promise(function(resolve, reject) {
+        findAll(findUserHistory)
+            .then(data => {
+                var collectionList = userHistoryCollection(data.data);
+                resolve(collectionList);
+            }).catch(function(err) {
+                console.log("GetUserHistory err:" + err);
+                reject(err);
+            });
+    });
+};
+
 exports.GetuserInfo = function() {
     let findUserInfo = serviceURL + "/findall/users/all";
     return new Promise(function(resolve, reject) {
@@ -142,6 +156,17 @@ exports.GetUserTableData = function(type) {
         } else
             reject({ "err": "type is not define" });
     });
+};
+
+let userHistoryCollection = (data) => {
+    var collection = [];
+
+    collection.push(alasql(
+        "SELECT count(*) as total, dateTime, 'Login history' as text FROM ? GROUP BY  dateTime ", [data.result]
+    ));
+
+    console.log("userHistoryCollection:" + JSON.stringify(collection));
+    return collection;
 };
 
 let findAll = function(path) {

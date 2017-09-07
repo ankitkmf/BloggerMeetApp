@@ -5,6 +5,10 @@ $(function() {
     GetUserBlogs();
     GetUserComments();
     GetUserInfo();
+
+    $("#UserSearchBtn").on("click", () => {
+        GetUserLoginHistory();
+    });
     $(".regUserGraph").on("click", () => {
         GetUserGraph();
     });
@@ -50,6 +54,26 @@ $(function() {
     });
 });
 
+let GetUserLoginHistory = () => {
+    console.log("userSelectedID:" + $("#userSelectedID").val());
+    if ($("#userSelectedID").val() != null) {
+        $.ajax({
+                method: "Get",
+                url: "/commonAPI/data/GetUserHistory/" + $("#userSelectedID").val()
+            })
+            .done(function(data) {
+                if (data != null) {
+                    var result = CreateGraphCollection(data);
+                    userGraphContainer(result);
+                }
+            })
+            .fail(function(err) {})
+            .always(function() {
+                stop_waitMe("divRegUserGraph");
+            });
+    }
+};
+
 let GetUserSerach = () => {
     $.ajax({
             method: "Get",
@@ -64,7 +88,7 @@ let GetUserSerach = () => {
                     list.authType = value.authType;
                     list.value = value._id;
                     list.userImage = (value.userImage == "" || value.userImage == null) ?
-                        "/images/18x18.png" : userImagePath(value.userImage);
+                        "/images/default.png" : userImagePath(value.userImage);
                     users.push(list);
                 });
                 userAutoSuggest(users);
@@ -78,11 +102,11 @@ let GetUserSerach = () => {
 
 let userImagePath = (path) => {
     var image = path.split("?");
-    return image[0] + "?sz=18";
+    return image[0]; //+ "?sz=18";
 };
 
 let userAutoSuggest = (data) => {
-    console.log("Users:" + JSON.stringify(data));
+    // console.log("Users:" + JSON.stringify(data));
     $("#inputSearch").autocomplete({
             minLength: 1,
             source: data,
@@ -90,16 +114,23 @@ let userAutoSuggest = (data) => {
                 $("#inputSearch").val(ui.item.label);
                 return false;
             },
+            // close: function(event, ui) {
+            //     if (!$("ul.ui-autocomplete").is(":visible")) {
+            //         $("ul.ui-autocomplete").show();
+            //     }
+            // },
             select: function(event, ui) {
                 $("#inputSearch").val(ui.item.label);
+                $("#userSelectedID").val(ui.item.value);
                 return false;
             }
         })
         .autocomplete("instance")._renderItem = function(ul, item) {
             return $("<li>")
-                .append("<div> <img src=" + item.userImage + ">" +
-                    "<strong>" + item.label + "</strong>-" + item.authType +
-                    "</div>")
+                .append("<div class='list-group list-group-item'>" +
+                    "<img class='resize' src=" + item.userImage + ">  " +
+                    item.label +
+                    "<span class='badge'>" + item.authType + "</span></div>")
                 .appendTo(ul);
         };
 };
@@ -191,6 +222,41 @@ let GetUserTableData = type => {
 
 
 let userGraphContainer = results => {
+    if ($('#graphContainer').length) {
+        Highcharts.chart("graphContainer", {
+            title: {
+                text: "2016-2017"
+            },
+            yAxis: {
+                title: {
+                    text: "Number of Users"
+                }
+            },
+            xAxis: {
+                type: "datetime",
+                dateTimeLabelFormats: {
+                    day: "%e. %b",
+                    month: "%b '%y",
+                    year: "%Y"
+                }
+            },
+            legend: {
+                // layout: 'vertical',
+                // align: 'right',
+                // verticalAlign: 'middle'
+                backgroundColor: "#FCFFC5"
+            },
+            plotOptions: {
+                series: {
+                    pointStart: 0
+                }
+            },
+            series: results
+        });
+    }
+};
+
+let userLoginHistoryGraphContainer = results => {
     if ($('#graphContainer').length) {
         Highcharts.chart("graphContainer", {
             title: {
