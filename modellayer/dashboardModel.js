@@ -73,7 +73,6 @@ exports.GetUserSerach = function() {
     });
 };
 
-
 exports.GetUserComments = function() {
     let findUserComments = serviceURL + "/findall/comments/all";
     return new Promise(function(resolve, reject) {
@@ -88,12 +87,18 @@ exports.GetUserComments = function() {
     });
 };
 
-exports.GetUserHistory = function(id) {
-    let findUserHistory = serviceURL + "/findall/userLoginHistory/userhistory/" + id;
+exports.GetUserHistory = function(type, id) {
+    console.log("type:" + type + " ,id:" + id);
+    let findUserHistory = "";
+    if (type === "all")
+        findUserHistory = serviceURL + "/findall/userLoginHistory/alluserhistory";
+    else
+        findUserHistory = serviceURL + "/findall/userLoginHistory/userhistory/" + id;
+    console.log(findUserHistory);
     return new Promise(function(resolve, reject) {
         findAll(findUserHistory)
             .then(data => {
-                var collectionList = userHistoryCollection(data.data);
+                var collectionList = userHistoryCollection(data.data, type);
                 resolve(collectionList);
             }).catch(function(err) {
                 console.log("GetUserHistory err:" + err);
@@ -160,13 +165,25 @@ exports.GetUserTableData = function(type) {
 
 let userHistoryCollection = (data) => {
     var collection = [];
-
+    var innerCoollection = [];
     collection.push(alasql(
-        "SELECT count(*) as total, dateTime, 'Login history' as text FROM ? GROUP BY  dateTime ", [data.result]
+        "SELECT INDEX name,COUNT(*) AS cnt FROM ? GROUP BY name", [data.result]
     ));
+    console.log("stp1:" + JSON.stringify(collection));
+    var keys = Object.keys(collection[0]);
+    for (var i = 0; i < keys.length; i++) {
+        console.log(i + " : " + keys[i]);
+        innerCoollection.push(alasql(
+            //  "SELECT count(*) as total , '" + keys[i] + "' as text FROM ? where name='" + keys[i] + "'", [data.result]
+            "SELECT count(*) as total, dateTime, '" + keys[i] + "' as text FROM ? where name='" + keys[i] + "' GROUP BY  dateTime ", [data.result]
+        ));
+    }
+    //console.log("innerCoollection:" + JSON.stringify(innerCoollection));
 
-    console.log("userHistoryCollection:" + JSON.stringify(collection));
-    return collection;
+    // collection.push(alasql(
+    //     "SELECT count(*) as total, dateTime, 'Login history' as text FROM ? GROUP BY  dateTime ", [data.result]
+    // ));   
+    return innerCoollection;
 };
 
 let findAll = function(path) {
@@ -227,6 +244,8 @@ let userGraphCollection = (data) => {
     collection.push(alasql(
         "SELECT count(*) as total, dateTime, 'Subscribe Users' as text FROM ? GROUP BY  dateTime ", [data[1].data.result]
     ));
+
+    console.log("collection:" + JSON.stringify(collection));
     return collection;
 };
 

@@ -333,16 +333,16 @@ router.get("/data/GetUserSerach", function(req, res) {
     });
 });
 
-router.get("/data/GetUserHistory/:id", function(req, res) {
-    console.log("GetUserHistory 1" + req.params.id);
-    dashbordModel.GetUserHistory(req.params.id).then(data => {
+router.get("/data/GetUserHistory/:type/:id", function(req, res) {
+    console.log("GetUserHistory 1" + req.params.type);
+    dashbordModel.GetUserHistory(req.params.type, req.params.id).then(data => {
         if (data != null) {
             res.json(data);
         } else {
             res.json(false);
         }
     }).catch(function(err) {
-        console.log("GetUserSerach1 err:" + err);
+        console.log("GetUserHistory1 err:" + err);
         res.json(false);
     });
 });

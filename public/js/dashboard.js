@@ -5,10 +5,16 @@ $(function() {
     GetUserBlogs();
     GetUserComments();
     GetUserInfo();
+    GetUserLoginHistory("all", "");
 
     $("#UserSearchBtn").on("click", () => {
         GetUserLoginHistory();
     });
+
+    $(".regUserLoginGraph").on("click", () => {
+        GetUserLoginHistory();
+    });
+
     $(".regUserGraph").on("click", () => {
         GetUserGraph();
     });
@@ -54,22 +60,24 @@ $(function() {
     });
 });
 
-let GetUserLoginHistory = () => {
-    console.log("userSelectedID:" + $("#userSelectedID").val());
-    if ($("#userSelectedID").val() != null) {
+let GetUserLoginHistory = (type, id) => {
+    console.log("userSelectedID:" + type);
+    run_waitMe("divUserLoginHistoryGraph");
+    if (type != null) {
         $.ajax({
                 method: "Get",
-                url: "/commonAPI/data/GetUserHistory/" + $("#userSelectedID").val()
+                url: "/commonAPI/data/GetUserHistory/" + type + "/test"
             })
             .done(function(data) {
                 if (data != null) {
+
                     var result = CreateGraphCollection(data);
-                    userGraphContainer(result);
+                    userGraphContainer(result, "loginGraphContainer");
                 }
             })
             .fail(function(err) {})
             .always(function() {
-                stop_waitMe("divRegUserGraph");
+                stop_waitMe("divUserLoginHistoryGraph");
             });
     }
 };
@@ -120,7 +128,8 @@ let userAutoSuggest = (data) => {
             //     }
             // },
             select: function(event, ui) {
-                $("#inputSearch").val(ui.item.label);
+                var value = ui.item.label + " ( " + ui.item.authType + " ) ";
+                $("#inputSearch").val(value);
                 $("#userSelectedID").val(ui.item.value);
                 return false;
             }
@@ -144,7 +153,7 @@ let GetUserGraph = () => {
         .done(function(data) {
             if (data != null) {
                 var result = CreateGraphCollection(data);
-                userGraphContainer(result);
+                userGraphContainer(result, "graphContainer");
             }
         })
         .fail(function(err) {})
@@ -220,45 +229,9 @@ let GetUserTableData = type => {
         console.log("type is null");
 }
 
-
-let userGraphContainer = results => {
-    if ($('#graphContainer').length) {
-        Highcharts.chart("graphContainer", {
-            title: {
-                text: "2016-2017"
-            },
-            yAxis: {
-                title: {
-                    text: "Number of Users"
-                }
-            },
-            xAxis: {
-                type: "datetime",
-                dateTimeLabelFormats: {
-                    day: "%e. %b",
-                    month: "%b '%y",
-                    year: "%Y"
-                }
-            },
-            legend: {
-                // layout: 'vertical',
-                // align: 'right',
-                // verticalAlign: 'middle'
-                backgroundColor: "#FCFFC5"
-            },
-            plotOptions: {
-                series: {
-                    pointStart: 0
-                }
-            },
-            series: results
-        });
-    }
-};
-
-let userLoginHistoryGraphContainer = results => {
-    if ($('#graphContainer').length) {
-        Highcharts.chart("graphContainer", {
+let userGraphContainer = (results, divID) => {
+    if ($("#" + divID).length) {
+        Highcharts.chart(divID, {
             title: {
                 text: "2016-2017"
             },
