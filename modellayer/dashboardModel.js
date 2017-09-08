@@ -6,20 +6,25 @@ var alasql = require("alasql");
 //var log = require("./log");
 const serviceURL = config.get("app.restAPIEndpoint.v1ContractPath");
 
-exports.GetAllUserCount = function() {
+exports.GetAllUserCount = function(id) {
     let findAllUserPath = serviceURL + "/findall/users/all/";
     let findSubscribeUserAllPath = serviceURL + "/findall/subscribeUser/all";
+    let findOnePath = serviceURL + "/findone/" + "users" + "/" + id;
+    console.log("Path:" + findOnePath);
     return new Promise(function(resolve, reject) {
         Promise.all([
             findAll(findAllUserPath),
-            findAll(findSubscribeUserAllPath)
+            findAll(findSubscribeUserAllPath),
+            findOne(findOnePath),
         ]).then(data => {
+            // console.log("data:" + JSON.stringify(data[2].data));
             var collectionList = GetAllUserCountCollection(data);
             var collection = {
                 "totalUser": collectionList[0][0].total, // data[0].data.count,
                 "totalSbUser": collectionList[3][0].total,
                 "totalGoogleUser": collectionList[1][0].total,
-                "totalFBUser": collectionList[2][0].total
+                "totalFBUser": collectionList[2][0].total,
+                "userID": (data[2].data.result != null) ? id : ""
             };
             resolve(collection);
         }).catch(function(err) {
@@ -211,6 +216,19 @@ let findAll = function(path) {
     });
 };
 
+let findOne = function(path) {
+    return new Promise(function(resolve, reject) {
+        axios.get(path).then(function(response) {
+                resolve(response);
+            })
+            .catch(function(error) {
+                var err = { "Error": error };
+                console.log("Error return for:" + path + " :" + error);
+                reject(err);
+            });
+    });
+};
+
 let GetAllUserCountCollection = data => {
     var collection = [];
     // get local user 
@@ -331,7 +349,7 @@ let userBlogsCollection = (data) => {
 
     // get Total disapproved blogs
     collection.push(alasql(
-        "SELECT count(*) as total, 'Approvel pending' as text FROM ? where status='0'", [data.result]
+        "SELECT count(*) as total, 'Total pending' as text FROM ? where status='0'", [data.result]
     ));
     // console.log("userBlogsCollection:" + JSON.stringify(collection));
     return collection;

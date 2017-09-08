@@ -334,7 +334,7 @@ router.get("/data/GetUserSerach", function(req, res) {
 });
 
 router.get("/data/GetUserHistory/:type/:id", function(req, res) {
-    console.log("GetUserHistory 1" + req.params.type);
+    //console.log("GetUserHistory 1" + req.params.type);
     dashbordModel.GetUserHistory(req.params.type, req.params.id).then(data => {
         if (data != null) {
             res.json(data);

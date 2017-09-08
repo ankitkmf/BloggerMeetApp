@@ -1,11 +1,17 @@
 'use strict';
 $(function() {
+    var userID = "",
+        type = "all";
+    if ($("#userSelectedID").val() != null && $("#userSelectedID").val() != "") {
+        userID = $("#userSelectedID").val();
+        type = "user";
+    }
     GetUserSerach();
     GetUserGraph();
-    GetUserBlogs("all", "");
-    GetUserComments("all", "");
-    GetUserInfo("all", "");
-    GetUserLoginHistory("all", "");
+    GetUserBlogs(type, userID);
+    GetUserComments(type, userID);
+    GetUserInfo(type, userID);
+    GetUserLoginHistory(type, userID);
 
     $("#UserSearchBtn").on("click", () => {
         GetUserLoginHistory("user", $("#userSelectedID").val());
