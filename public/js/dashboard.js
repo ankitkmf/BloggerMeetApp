@@ -2,13 +2,16 @@
 $(function() {
     GetUserSerach();
     GetUserGraph();
-    GetUserBlogs();
-    GetUserComments();
-    GetUserInfo();
+    GetUserBlogs("all", "");
+    GetUserComments("all", "");
+    GetUserInfo("all", "");
     GetUserLoginHistory("all", "");
 
     $("#UserSearchBtn").on("click", () => {
         GetUserLoginHistory("user", $("#userSelectedID").val());
+        GetUserBlogs("user", $("#userSelectedID").val());
+        GetUserComments("user", $("#userSelectedID").val());
+        GetUserInfo("user", $("#userSelectedID").val());
     });
 
     $(".regUserLoginGraph").on("click", () => {
@@ -20,15 +23,15 @@ $(function() {
     });
 
     $(".divUserBlogs").on("click", "li>span.regUserBlogs", () => {
-        GetUserBlogs();
+        GetUserBlogs("all", "");
     });
 
     $(".divUserComments").on("click", "li>span.regUserComments", () => {
-        GetUserComments();
+        GetUserComments("all", "");
     });
 
     $(".divUserInfo").on("click", "li>span.regUserInfo", () => {
-        GetUserInfo();
+        GetUserInfo("all", "");;
     });
 
     $("#divUserInfo").on("click", "li.hover", function() {
@@ -165,18 +168,24 @@ let GetUserGraph = () => {
         });
 };
 
-let GetUserBlogs = () => {
-    var path = "/commonAPI/data/userBlogs";
+let GetUserBlogs = (type, id) => {
+    id = (id != null && id != "") ? id : "test";
+    var path = "/commonAPI/data/userBlogs/" + type + "/" + id;
+    // var path = "/commonAPI/data/userBlogs";
     fillDashboardBlock("dashboardBlogsInfo", path, "divUserBlogs", "divUserBlogs");
 };
 
-let GetUserComments = () => {
-    var path = "/commonAPI/data/userComments";
+let GetUserComments = (type, id) => {
+    id = (id != null && id != "") ? id : "test";
+    var path = "/commonAPI/data/userComments/" + type + "/" + id;
+    //  var path = "/commonAPI/data/userComments";
     fillDashboardBlock("dashboardComments", path, "divUserComments", "divUserComments");
 };
 
-let GetUserInfo = () => {
-    var path = "/commonAPI/data/userInfo";
+let GetUserInfo = (type, id) => {
+    //var path = "/commonAPI/data/userInfo";
+    id = (id != null && id != "") ? id : "test";
+    var path = "/commonAPI/data/userInfo/" + type + "/" + id;
     fillDashboardBlock("dashboardUserInfo", path, "divUserInfo", "divUserInfo");
 };
 

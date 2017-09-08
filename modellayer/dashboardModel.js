@@ -46,8 +46,14 @@ exports.GetUserGraph = function() {
     });
 };
 
-exports.GetUserBlogs = function() {
-    let findUserBlogs = serviceURL + "/findall/blogs/all";
+exports.GetUserBlogs = function(type, id) {
+    //console.log("type:" + type + " ,id:" + id);
+    let findUserBlogs = "";
+    if (type === "all")
+        findUserBlogs = serviceURL + "/findall/blogs/all";
+    else
+        findUserBlogs = serviceURL + "/findall/blogs/userblogbyid/" + id;
+    //let findUserBlogs = serviceURL + "/findall/blogs/all";
     return new Promise(function(resolve, reject) {
         findAll(findUserBlogs)
             .then(data => {
@@ -73,8 +79,13 @@ exports.GetUserSerach = function() {
     });
 };
 
-exports.GetUserComments = function() {
-    let findUserComments = serviceURL + "/findall/comments/all";
+exports.GetUserComments = function(type, id) {
+    //let findUserComments = serviceURL + "/findall/comments/all";
+    let findUserComments = "";
+    if (type === "all")
+        findUserComments = serviceURL + "/findall/comments/all";
+    else
+        findUserComments = serviceURL + "/findall/comments/usercommentsbyid/" + id;
     return new Promise(function(resolve, reject) {
         findAll(findUserComments)
             .then(data => {
@@ -88,7 +99,7 @@ exports.GetUserComments = function() {
 };
 
 exports.GetUserHistory = function(type, id) {
-    console.log("type:" + type + " ,id:" + id);
+    // console.log("type:" + type + " ,id:" + id);
     let findUserHistory = "";
     if (type === "all")
         findUserHistory = serviceURL + "/findall/userLoginHistory/alluserhistory";
@@ -107,8 +118,13 @@ exports.GetUserHistory = function(type, id) {
     });
 };
 
-exports.GetuserInfo = function() {
-    let findUserInfo = serviceURL + "/findall/users/all";
+exports.GetuserInfo = function(type, id) {
+    //let findUserInfo = serviceURL + "/findall/users/all";
+    let findUserInfo = "";
+    if (type === "all")
+        findUserInfo = serviceURL + "/findall/users/all";
+    else
+        findUserInfo = serviceURL + "/findall/users/userinfobyid/" + id;
     return new Promise(function(resolve, reject) {
         findAll(findUserInfo)
             .then(data => {
@@ -169,10 +185,10 @@ let userHistoryCollection = (data) => {
     collection.push(alasql(
         "SELECT INDEX name,COUNT(*) AS cnt FROM ? GROUP BY name", [data.result]
     ));
-    console.log("stp1:" + JSON.stringify(collection));
+    //console.log("stp1:" + JSON.stringify(collection));
     var keys = Object.keys(collection[0]);
     for (var i = 0; i < keys.length; i++) {
-        console.log(i + " : " + keys[i]);
+        //  console.log(i + " : " + keys[i]);
         innerCoollection.push(alasql(
             "SELECT count(*) as total, dateTime, '" + keys[i] + "' as text FROM ? where name='" + keys[i] + "' GROUP BY  dateTime ", [data.result]
         ));
@@ -241,7 +257,7 @@ let userGraphCollection = (data) => {
         "SELECT count(*) as total, dateTime, 'Subscribe Users' as text FROM ? GROUP BY  dateTime ", [data[1].data.result]
     ));
 
-    console.log("collection:" + JSON.stringify(collection));
+    // console.log("collection:" + JSON.stringify(collection));
     return collection;
 };
 
@@ -252,14 +268,19 @@ let userCommentCollection = (data) => {
         "SELECT count(*) as total , 'Total comments' as text FROM ?", [data.result]
     ));
 
-    // get Total approved blogs 
+    // get Total approved comments 
     collection.push(alasql(
-        "SELECT count(*) as total, 'Total approved' as text FROM ? where IsApproved=true", [data.result]
+        "SELECT count(*) as total, 'Total approved' as text FROM ? where status='1'", [data.result]
     ));
 
-    // get Total disapproved blogs
+    // get Total disapproved comments
     collection.push(alasql(
-        "SELECT count(*) as total, 'Total disapproved' as text FROM ? where IsApproved=false", [data.result]
+        "SELECT count(*) as total, 'Total disapproved' as text FROM ? where status='2'", [data.result]
+    ));
+
+    // get Total pending comments
+    collection.push(alasql(
+        "SELECT count(*) as total, 'Total pending' as text FROM ? where status='0'", [data.result]
     ));
     //console.log("userCommentCollection:" + JSON.stringify(collection));
     return collection;
@@ -289,9 +310,30 @@ let userInfoCollection = (data) => {
 let userBlogsCollection = (data) => {
     var collection = [];
     // get Total blogs 
+    // collection.push(alasql(
+    //     "SELECT categorykey , count(*) as total FROM ? GROUP BY categorykey", [data.result]
+    // ));
+
+    // get Total blogs 
     collection.push(alasql(
-        "SELECT categorykey , count(*) as total FROM ? GROUP BY categorykey", [data.result]
+        "SELECT count(*) as total , 'Total' as text FROM ?", [data.result]
     ));
+
+    // get Total approved blogs 
+    collection.push(alasql(
+        "SELECT count(*) as total, 'Total approved' as text FROM ? where status='1'", [data.result]
+    ));
+
+    // get Total disapproved blogs
+    collection.push(alasql(
+        "SELECT count(*) as total, 'Total disapproved' as text FROM ? where status='2'", [data.result]
+    ));
+
+    // get Total disapproved blogs
+    collection.push(alasql(
+        "SELECT count(*) as total, 'Approvel pending' as text FROM ? where status='0'", [data.result]
+    ));
+    // console.log("userBlogsCollection:" + JSON.stringify(collection));
     return collection;
 };
 

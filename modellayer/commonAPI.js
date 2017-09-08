@@ -242,8 +242,8 @@ router.get("/data/usergraph", function(req, res) {
     });
 });
 
-router.get("/data/userBlogs", function(req, res) {
-    dashbordModel.GetUserBlogs().then(data => {
+router.get("/data/userBlogs/:type/:id", function(req, res) {
+    dashbordModel.GetUserBlogs(req.params.type, req.params.id).then(data => {
         if (data != null) {
             res.json(data);
         } else {
@@ -255,8 +255,8 @@ router.get("/data/userBlogs", function(req, res) {
     });
 });
 
-router.get("/data/userComments", function(req, res) {
-    dashbordModel.GetUserComments().then(data => {
+router.get("/data/userComments/:type/:id", function(req, res) {
+    dashbordModel.GetUserComments(req.params.type, req.params.id).then(data => {
         if (data != null) {
             res.json(data);
         } else {
@@ -268,8 +268,8 @@ router.get("/data/userComments", function(req, res) {
     });
 });
 
-router.get("/data/userInfo", function(req, res) {
-    dashbordModel.GetuserInfo().then(data => {
+router.get("/data/userInfo/:type/:id", function(req, res) {
+    dashbordModel.GetuserInfo(req.params.type, req.params.id).then(data => {
         if (data != null) {
             res.json(data);
         } else {
