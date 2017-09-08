@@ -8,11 +8,11 @@ $(function() {
     GetUserLoginHistory("all", "");
 
     $("#UserSearchBtn").on("click", () => {
-        GetUserLoginHistory();
+        GetUserLoginHistory("user", $("#userSelectedID").val());
     });
 
     $(".regUserLoginGraph").on("click", () => {
-        GetUserLoginHistory();
+        GetUserLoginHistory("all", "");
     });
 
     $(".regUserGraph").on("click", () => {
@@ -61,12 +61,15 @@ $(function() {
 });
 
 let GetUserLoginHistory = (type, id) => {
-    console.log("userSelectedID:" + type);
+    console.log("userSelectedID id:" + id);
+    id = (id != null && id != "") ? id : "test";
+    var path = "/commonAPI/data/GetUserHistory/" + type + "/" + id;
+    console.log("Path:" + path);
     run_waitMe("divUserLoginHistoryGraph");
     if (type != null) {
         $.ajax({
                 method: "Get",
-                url: "/commonAPI/data/GetUserHistory/" + type + "/test"
+                url: "/commonAPI/data/GetUserHistory/" + type + "/" + id
             })
             .done(function(data) {
                 if (data != null) {

@@ -93,7 +93,7 @@ exports.GetUserHistory = function(type, id) {
     if (type === "all")
         findUserHistory = serviceURL + "/findall/userLoginHistory/alluserhistory";
     else
-        findUserHistory = serviceURL + "/findall/userLoginHistory/userhistory/" + id;
+        findUserHistory = serviceURL + "/findall/userLoginHistory/userhistorybyid/" + id;
     console.log(findUserHistory);
     return new Promise(function(resolve, reject) {
         findAll(findUserHistory)
@@ -174,15 +174,11 @@ let userHistoryCollection = (data) => {
     for (var i = 0; i < keys.length; i++) {
         console.log(i + " : " + keys[i]);
         innerCoollection.push(alasql(
-            //  "SELECT count(*) as total , '" + keys[i] + "' as text FROM ? where name='" + keys[i] + "'", [data.result]
             "SELECT count(*) as total, dateTime, '" + keys[i] + "' as text FROM ? where name='" + keys[i] + "' GROUP BY  dateTime ", [data.result]
         ));
     }
     //console.log("innerCoollection:" + JSON.stringify(innerCoollection));
 
-    // collection.push(alasql(
-    //     "SELECT count(*) as total, dateTime, 'Login history' as text FROM ? GROUP BY  dateTime ", [data.result]
-    // ));   
     return innerCoollection;
 };
 
