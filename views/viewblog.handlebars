@@ -1,0 +1,84 @@
+<div class="bs-docs-section">
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="bs-component">
+                {{#if blog}}
+                <div>
+                    <!-- Title ,Author ,Date/Time-->
+                    <h3 class="h3-responsive"><a href="/viewblog/showdetails/{{blog._id}}">
+                    <img border="0" src="/images/article.png" title="article"></a>{{blog.topic}}</h3>
+                    <p>Written by <a href="#">{{blog.createdby}}</a>,
+                        <span class="glyphicon glyphicon-time"></span> Posted on {{blog.creationdate}}</p>
+
+                    <!--Content-->
+                    <span class="limitblogdata">{{{blog.content}}}</span>
+                </div>
+
+                <hr>
+
+                <!-- Blog Comments - Comments Form -->
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h5 class="panel-title"><strong>Leave a Comment</strong></h5>
+                    </div>
+                    <div class="list-group panel-body">
+
+                        {{#if user}}
+                        <div class="blogcommentvalidationpanel hidden">
+                        </div>
+                        <div class="blogcommentsection">
+                            <form id="blogcommentfrm">
+                                {{!-- </form> action="/viewblog/addcomments" method="POST"> --}}
+                            <div class="form-group">
+                                <textarea class="form-control" rows="4" name="blogcomment" id="blogcomment" required="required"></textarea>
+                                <input type="hidden" value="{{blog._id}}" name="blogid" id="blogid" />
+                                <input type="hidden" id="username" name="username" value={{user.username}} />
+                                <input type="hidden" id="userid" name="userid" value={{user._id}} />
+                            </div>
+                            <button type="button" class="btn btn-info btn-sm addblogcomment">Submit</button>
+                            </form>
+                        </div>
+                        {{else}} Please sign-in or sign-up!! {{/if}}
+                    </div>
+                </div>
+                <hr>
+                <!-- Posted Comments -->
+                <div class="commentpanel">
+                    {{#if comments}} {{#Compare comments.count ">" 0}} {{#each comments.result}}
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            {{this.comment}}
+                        </div>
+                        <div class="panel-footer text-right">by <i>{{this.username}} <span class="glyphicon glyphicon-time"></span> Posted on 
+      {{this.creationdate}}</i></div>
+                    </div>
+                    {{/each}} {{/Compare}}{{/if}} {{/if}}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="bs-component">
+                <!-- Top Visited Side Widget Well -->
+                {{#Compare topvisit.count ">" 0}}
+                <div>
+                    <div class="list-group">
+                        <h4 class="list-group-item active">Top Visit</h4>
+                        <a href="#" class="list-group-item">display the top visited blogs.</a>
+                    </div>
+                </div>
+                {{/Compare}}
+
+                <!-- Top Visited Side Widget Well -->
+                {{#if mostrecentblogs}} {{> recentblogs mostrecentblogs=mostrecentblogs }} {{/if}}
+
+                <!-- Subcribe Well -->
+                {{> subscribe}}
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<link href="/css/blogs.css" rel="stylesheet" />
+<script src="/js/blogs.js"></script>

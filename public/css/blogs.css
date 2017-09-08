@@ -42,3 +42,11 @@ span.glyphicon.glyphicon-remove-sign {
     margin-left: 0px;
     margin-right: 0px;
 }
+
+.commentpanel .panel-footer.text-right {
+    background-color: #ecf0f1 !important;
+}
+
+strong {
+    font-weight: bolder;
+}

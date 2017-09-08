@@ -6,7 +6,6 @@
     <div id="editblog" class="editblog">
       <span data-key="{{this._id}}" class="edit glyphicon glyphicon-edit"></span>
       <span data-key="{{this._id}}" class="remove glyphicon glyphicon-remove"></span>
-     
     </div>
 
   </h3>
@@ -48,12 +47,9 @@
             </div>
           </div>
 
-          <input type="hidden" id="modifiedby_{{this._id}}" name="modifiedby_{{this._id}}" value="{{../user.username}}" />
-          <input type="hidden" id="createdby_{{this._id}}" name="createdby_{{this._id}}" value="{{blogs.createdby}}" /> {{!--
-          <input type="hidden" id="_id" name="_id" value="{{this._id}}" /> --}}
+          <input type="hidden" id="createdby_{{this._id}}" name="createdby_{{this._id}}" value="{{this.createdby}}" /> 
           <input type="hidden" id="status_{{this._id}}" name="status" value="{{this.status}}" />
           <input type="hidden" id="index_{{this._id}}" name="index_{{this._id}}" value="{{index}}" />
-          <input type="hidden" id="userid_{{this._id}}" name="userid_{{this._id}}" value="{{../user._id}}" />
           <input type="hidden" id="creationdate_{{this._id}}" name="creationdate_{{this._id}}" value="{{this.creationdate}}" />
           <input type="hidden" id="actiontype_{{this._id}}" name="actiontype_{{this._id}}" value="edit" />
           <div class="form-group">
@@ -77,27 +73,11 @@
 <script>
   $(function () {
         $('.edit').click(function() {
-        //e.preventDefault();
-        //var _id = $($(this).parents('div')[0]).find('input[id="_id"]').val();
-        //var userid = $($(this).parents('div')[0]).find('input[id="userid"]').val();
-        //var topic = $($(this).parents('div')[0]).find('input[id="topic"]').val();
-        //var content = $($(this).parents('div')[0]).find('input[id="content"]').val();
-        //var categorykey = $($(this).parents('div')[0]).find('input[id="categorykey"]').val();
-
         var id = $(this).data("key");
         console.log(id);
 
-        // $(".addeditblogfrm").removeClass("hidden");
-        // $(".blogsuccesserrorpanel").html("");
-
-
         $('.showblogdetails_' + id).addClass("hidden");
         $('.blogeditform_' + id).removeClass("hidden");
-
-        //GetBlogbyBlogID(_id);
-
-        //GetBlogsByUserID(0, userid);
-        //e.stopPropagation();
     });
 
     $(".canceleditblog").on("click", function () {
@@ -108,16 +88,11 @@
     });
 
     $('.remove').on("click", function() {
-        //alert('glyphicon glyphicon-remove');
-        //e.preventDefault();
-        //e.stopPropagation();
-
         var id = $(this).data("key");
         console.log("id " + id);
 
         DeleteBlogByID(id);
     });
-
   })
 
 </script>

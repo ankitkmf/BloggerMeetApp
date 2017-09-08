@@ -52,6 +52,9 @@ let GetBlogsInfo = (startindex, categorytype) => {
         .done(function(template, json) {
 
             var data = { "index": json.index, "blogs": json.blogs };
+
+            console.log("vasu GetBlogsInfo : " + JSON.stringify(json));
+
             var compiledTemplate = Handlebars.compile(template);
             var newhtml = compiledTemplate(data);
 
@@ -63,16 +66,18 @@ let GetBlogsInfo = (startindex, categorytype) => {
             limitBlogLength();
 
             if (json.blogs.count < 4) {
-                $("#divImage").removeClass("show");
                 $("#divImage").addClass("hidden");
+                $('#nextsearindex').val("0");
+            } else if (startindex == 0) {
+                $('#nextsearindex').val(data.index);
+                $("#divImage").removeClass("hidden");
             } else if ($('#nextsearindex').val() != undefined) {
                 var idx = $('#nextsearindex').val();
-                if (parseInt(data.index) + 1 > idx) {
+                if ((parseInt(data.index)) < (parseInt(idx))) {
                     $('#nextsearindex').val(data.index);
                     $("#divImage").removeClass("hidden");
-                    $("#divImage").addClass("show");
                 } else {
-                    $("#divImage").removeClass("show");
+                    $('#nextsearindex').val(startindex);
                     $("#divImage").addClass("hidden");
                 }
             }

@@ -54,7 +54,6 @@
               </div>
             </form>
           </div>
-          <script src="/js/blogs.js"></script>
           <script src="/ckeditor/ckeditor.js"></script>
           <script>
             CKEDITOR.replace('content');
@@ -143,13 +142,17 @@
           </div>
         </div>
       </div>
-      {{/each}} {{#if index}}
-      <input type="hidden" name="nextsearindex" id="nextsearindex" value={{index}} /> {{/if}}
-
-      <input type="hidden" name="userid" id="userid" value="{{user._id}}" /> {{else}}
-      <h3>No Blogs found. <span class="blogaddtext">Please click here to <a class="addblog" href="#">Add Blog</a></span></h3>
+      {{/each}} 
+      {{else}}
+      <h3>No Blogs found. <span class="blogaddtext">Please click here to 
+       <a data-toggle="modal" data-target="#myModal" href="#">Add Blog</a></span></h3>
       {{/Compare}}
     </div>
+   
+      <input type="hidden" name="nextsearchindex" id="nextsearchindex" value="{{index}}" />
+    
+      <input type="hidden" name="userid" id="userid" value="{{user._id}}" />
+      <input type="hidden" name="username" id="username" value="{{user.username}}" />
 
     <div id="divImage" class="hidden">
       <span id="loadmoreblogbyuserid" name="loadmoreblogbyuserid" alt="Load More" class="glyphicon glyphicon-hand-down"></span>

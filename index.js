@@ -106,6 +106,9 @@ app.use("/myprofile", authenticationMiddleware, myprofileroute);
 var blogroute = require('./controllers/blog');
 app.use("/blogs", authenticationMiddleware, blogroute);
 
+var viewblogroute = require('./controllers/viewblog');
+app.use("/viewblog", authNotRequired, viewblogroute);
+
 var authRouter = require('./controllers/authroute');
 app.use('/auth', authNotRequired, authRouter);
 

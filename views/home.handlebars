@@ -3,9 +3,7 @@
         <div class="col-lg-8">
             <div class="bs-component blogdata">
                 {{#each blogs.result}}
-
                 <div>
-
                     <!-- Title ,Author ,Date/Time-->
                     <h3 class="h3-responsive"><a href="/viewblog/showdetails/{{this._id}}">
                     <img border="0" src="/images/article.png" title="article"></a>{{this.topic}}</h3>
@@ -18,9 +16,12 @@
                     <!--"Read more" button-->
                     <a href="/viewblog/showdetails/{{this._id}}"><button class="btn btn-info btn-sm">Read more</button></a>
                 </div>
-                <hr> {{/each}} {{#if index}}
-                <input type="hidden" name="nextsearindex" id="nextsearindex" value={{index}} /> {{/if}}
+                <hr> {{/each}} 
+                
             </div>
+
+            <input type="hidden" name="nextsearindex" id="nextsearindex" value="{{index}}" /> 
+            
             <div id="divImage" class="hidden">
                 <span id="loadmoreblog" name="loadmoreblog" alt="Load More" class="glyphicon glyphicon-hand-down"></span>
                 {{!-- <img style="height: 20px; width: 20px;" id="loadmoreblog" name="loadmoreblog" alt="Load More" src="/images/loadmore.png"
@@ -36,7 +37,6 @@
 
                 <!-- Subcribe Well -->
                 {{> subscribe}}
-
             </div>
         </div>
     </div>
