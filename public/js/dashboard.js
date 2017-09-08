@@ -1,23 +1,37 @@
 'use strict';
 $(function() {
+    GetUserSerach();
     GetUserGraph();
-    GetUserBlogs();
-    GetUserComments();
-    GetUserInfo();
+    GetUserBlogs("all", "");
+    GetUserComments("all", "");
+    GetUserInfo("all", "");
+    GetUserLoginHistory("all", "");
+
+    $("#UserSearchBtn").on("click", () => {
+        GetUserLoginHistory("user", $("#userSelectedID").val());
+        GetUserBlogs("user", $("#userSelectedID").val());
+        GetUserComments("user", $("#userSelectedID").val());
+        GetUserInfo("user", $("#userSelectedID").val());
+    });
+
+    $(".regUserLoginGraph").on("click", () => {
+        GetUserLoginHistory("all", "");
+    });
+
     $(".regUserGraph").on("click", () => {
         GetUserGraph();
     });
 
     $(".divUserBlogs").on("click", "li>span.regUserBlogs", () => {
-        GetUserBlogs();
+        GetUserBlogs("all", "");
     });
 
     $(".divUserComments").on("click", "li>span.regUserComments", () => {
-        GetUserComments();
+        GetUserComments("all", "");
     });
 
     $(".divUserInfo").on("click", "li>span.regUserInfo", () => {
-        GetUserInfo();
+        GetUserInfo("all", "");;
     });
 
     $("#divUserInfo").on("click", "li.hover", function() {
@@ -49,6 +63,93 @@ $(function() {
     });
 });
 
+let GetUserLoginHistory = (type, id) => {
+    console.log("userSelectedID id:" + id);
+    id = (id != null && id != "") ? id : "test";
+    var path = "/commonAPI/data/GetUserHistory/" + type + "/" + id;
+    console.log("Path:" + path);
+    run_waitMe("divUserLoginHistoryGraph");
+    if (type != null) {
+        $.ajax({
+                method: "Get",
+                url: "/commonAPI/data/GetUserHistory/" + type + "/" + id
+            })
+            .done(function(data) {
+                if (data != null) {
+
+                    var result = CreateGraphCollection(data);
+                    userGraphContainer(result, "loginGraphContainer");
+                }
+            })
+            .fail(function(err) {})
+            .always(function() {
+                stop_waitMe("divUserLoginHistoryGraph");
+            });
+    }
+};
+
+let GetUserSerach = () => {
+    $.ajax({
+            method: "Get",
+            url: "/commonAPI/data/GetUserSerach"
+        })
+        .done(function(data) {
+            if (data != null) {
+                var users = [];
+                $.each(data, function(key, value) {
+                    var list = {};
+                    list.label = value.name;
+                    list.authType = value.authType;
+                    list.value = value._id;
+                    list.userImage = (value.userImage == "" || value.userImage == null) ?
+                        "/images/default.png" : userImagePath(value.userImage);
+                    users.push(list);
+                });
+                userAutoSuggest(users);
+            }
+        })
+        .fail(function(err) {})
+        .always(function() {
+            stop_waitMe("divRegUserGraph");
+        });
+};
+
+let userImagePath = (path) => {
+    var image = path.split("?");
+    return image[0]; //+ "?sz=18";
+};
+
+let userAutoSuggest = (data) => {
+    // console.log("Users:" + JSON.stringify(data));
+    $("#inputSearch").autocomplete({
+            minLength: 1,
+            source: data,
+            focus: function(event, ui) {
+                $("#inputSearch").val(ui.item.label);
+                return false;
+            },
+            // close: function(event, ui) {
+            //     if (!$("ul.ui-autocomplete").is(":visible")) {
+            //         $("ul.ui-autocomplete").show();
+            //     }
+            // },
+            select: function(event, ui) {
+                var value = ui.item.label + " ( " + ui.item.authType + " ) ";
+                $("#inputSearch").val(value);
+                $("#userSelectedID").val(ui.item.value);
+                return false;
+            }
+        })
+        .autocomplete("instance")._renderItem = function(ul, item) {
+            return $("<li>")
+                .append("<div class='list-group list-group-item'>" +
+                    "<img class='resize' src=" + item.userImage + ">  " +
+                    item.label +
+                    "<span class='badge'>" + item.authType + "</span></div>")
+                .appendTo(ul);
+        };
+};
+
 let GetUserGraph = () => {
     run_waitMe("divRegUserGraph");
     $.ajax({
@@ -58,7 +159,7 @@ let GetUserGraph = () => {
         .done(function(data) {
             if (data != null) {
                 var result = CreateGraphCollection(data);
-                userGraphContainer(result);
+                userGraphContainer(result, "graphContainer");
             }
         })
         .fail(function(err) {})
@@ -67,18 +168,24 @@ let GetUserGraph = () => {
         });
 };
 
-let GetUserBlogs = () => {
-    var path = "/commonAPI/data/userBlogs";
+let GetUserBlogs = (type, id) => {
+    id = (id != null && id != "") ? id : "test";
+    var path = "/commonAPI/data/userBlogs/" + type + "/" + id;
+    // var path = "/commonAPI/data/userBlogs";
     fillDashboardBlock("dashboardBlogsInfo", path, "divUserBlogs", "divUserBlogs");
 };
 
-let GetUserComments = () => {
-    var path = "/commonAPI/data/userComments";
+let GetUserComments = (type, id) => {
+    id = (id != null && id != "") ? id : "test";
+    var path = "/commonAPI/data/userComments/" + type + "/" + id;
+    //  var path = "/commonAPI/data/userComments";
     fillDashboardBlock("dashboardComments", path, "divUserComments", "divUserComments");
 };
 
-let GetUserInfo = () => {
-    var path = "/commonAPI/data/userInfo";
+let GetUserInfo = (type, id) => {
+    //var path = "/commonAPI/data/userInfo";
+    id = (id != null && id != "") ? id : "test";
+    var path = "/commonAPI/data/userInfo/" + type + "/" + id;
     fillDashboardBlock("dashboardUserInfo", path, "divUserInfo", "divUserInfo");
 };
 
@@ -134,10 +241,9 @@ let GetUserTableData = type => {
         console.log("type is null");
 }
 
-
-let userGraphContainer = results => {
-    if ($('#graphContainer').length) {
-        Highcharts.chart("graphContainer", {
+let userGraphContainer = (results, divID) => {
+    if ($("#" + divID).length) {
+        Highcharts.chart(divID, {
             title: {
                 text: "2016-2017"
             },

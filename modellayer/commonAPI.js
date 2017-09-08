@@ -242,8 +242,8 @@ router.get("/data/usergraph", function(req, res) {
     });
 });
 
-router.get("/data/userBlogs", function(req, res) {
-    dashbordModel.GetUserBlogs().then(data => {
+router.get("/data/userBlogs/:type/:id", function(req, res) {
+    dashbordModel.GetUserBlogs(req.params.type, req.params.id).then(data => {
         if (data != null) {
             res.json(data);
         } else {
@@ -255,8 +255,8 @@ router.get("/data/userBlogs", function(req, res) {
     });
 });
 
-router.get("/data/userComments", function(req, res) {
-    dashbordModel.GetUserComments().then(data => {
+router.get("/data/userComments/:type/:id", function(req, res) {
+    dashbordModel.GetUserComments(req.params.type, req.params.id).then(data => {
         if (data != null) {
             res.json(data);
         } else {
@@ -268,8 +268,8 @@ router.get("/data/userComments", function(req, res) {
     });
 });
 
-router.get("/data/userInfo", function(req, res) {
-    dashbordModel.GetuserInfo().then(data => {
+router.get("/data/userInfo/:type/:id", function(req, res) {
+    dashbordModel.GetuserInfo(req.params.type, req.params.id).then(data => {
         if (data != null) {
             res.json(data);
         } else {
@@ -318,4 +318,31 @@ router.post("/data/updateTableRecords", function(req, res) {
             });
     } else
         res.json(false);
+});
+
+router.get("/data/GetUserSerach", function(req, res) {
+    dashbordModel.GetUserSerach().then(data => {
+        if (data != null) {
+            res.json(data);
+        } else {
+            res.json(false);
+        }
+    }).catch(function(err) {
+        console.log("GetUserSerach1 err:" + err);
+        res.json(false);
+    });
+});
+
+router.get("/data/GetUserHistory/:type/:id", function(req, res) {
+    console.log("GetUserHistory 1" + req.params.type);
+    dashbordModel.GetUserHistory(req.params.type, req.params.id).then(data => {
+        if (data != null) {
+            res.json(data);
+        } else {
+            res.json(false);
+        }
+    }).catch(function(err) {
+        console.log("GetUserHistory1 err:" + err);
+        res.json(false);
+    });
 });
