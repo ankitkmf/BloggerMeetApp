@@ -165,7 +165,7 @@ exports.GetUserTableData = function(type) {
                     break;
                 case "emailVeriPending":
                     //whereFilter = { "IsEmailVerified": false };
-                    findUserTableData += "/findall/users/IsEmailVerified/false";
+                    findUserTableData += "/findall/users/email/false";
                     break;
             }
 
