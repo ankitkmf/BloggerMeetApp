@@ -213,7 +213,11 @@ let UpdateTableRecords = (record, userName) => {
             })
             .done(function(data) {
                 userName = userName != null ? userName : "Your record";
-                GetUserInfo();
+                // GetUserInfo();
+                var userID = "",
+                    type = "all";
+                GetUserBlogs(type, userID);
+                (type, userID);
                 swal("Updated!", userName + " is successfully updated!", "success");
             })
             .error(function(data) {
