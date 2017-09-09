@@ -49,6 +49,9 @@ $(function() {
         $("#divImage").removeClass("hidden");
     }
 
+    var commentid = $('#divCommentImage').data("lastcommentid");
+    if (commentid == "0") $('#divCommentImage').addClass("hidden");
+
     var icons = {
         header: "ui-icon-circle-arrow-e",
         activeHeader: "ui-icon-circle-arrow-s"
