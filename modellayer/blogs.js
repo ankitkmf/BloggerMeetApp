@@ -124,28 +124,8 @@ exports.editblog = function(data) {
     });
 }
 
-// exports.getblogbyblogid = function(_id) {
-//     let path = serviceURL + "/getblogbyblogid/" + _id;
-//     console.log("path:" + path);
-//     log.logger.info("Model layer : getblogbyblogid : service call : " + path);
-//     //console.log("111");
-//     return new Promise(function(resolve, reject) {
-//         axios.post(path, data).then(function(response) {
-//                 console.log("2");
-//                 log.logger.info("Model layer : getblogbyblogid : service call : success");
-//                 resolve(response);
-//             })
-//             .catch(function(error) {
-//                 console.log("3");
-//                 var err = { "Error": error };
-//                 log.logger.error("Model layer : getblogbyblogid : service call : error : " + error);
-//                 reject(err);
-//             });
-//     });
-// }
-
-exports.getblogcommentbyblogid = function(blogid, startindex) {
-    let path = serviceURL + "/getblogcommentbyblogid/" + blogid + "/" + startindex;
+exports.getblogcommentbyblogid = function(blogid, lastcommentid) {
+    let path = serviceURL + "/getblogcommentbyblogid/" + blogid + "/" + lastcommentid;
     console.log("path:" + path);
     log.logger.info("Model layer : getblogcommentbyblogid : service call : " + path);
     console.log("getblogcommentbyblogid 1114");

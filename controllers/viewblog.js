@@ -17,13 +17,19 @@ router.get('/showdetails/:blogid', function(req, res) {
 
     Promise.all([
         blogger.getblogbyblogid(blogid),
-        blogger.getblogcommentbyblogid(blogid, 0),
+        blogger.getblogcommentbyblogid(blogid, "0"),
         blogger.viewrecentblogs()
     ]).then(data => {
         var blog = data[0].data;
         var comments = data[1].data;
         var mostrecentblogs = data[2].data;
         var topvisit = { "result": [], "count": 0 };
+
+        var lastCommentId = "0";
+        _.forEach(comments.result, function(result) {
+            //console.log(1);
+            lastCommentId = result._id;
+        });
 
         log.logger.info("Successfully retrive blog's data");
 
@@ -37,7 +43,8 @@ router.get('/showdetails/:blogid', function(req, res) {
             blog: blog.result,
             comments: comments,
             mostrecentblogs: mostrecentblogs,
-            topvisit: topvisit
+            topvisit: topvisit,
+            lastCommentId: lastCommentId
         });
 
     }).catch(function(err) {
@@ -86,44 +93,26 @@ router.post('/addcomment', function(req, res) {
         }
     }
     return;
-
-
-    // var id = req.body._id;
-
-    // db.get().collection("comments").save({
-    //     "blog_id": id,
-    //     "addedby": req.body.addedby,
-    //     "blogcomment": req.body.blogcomment,
-    //     "IsApproved": false,
-    //     "date": new Date().toUTCString()
-    // }, (err, results) => {
-    //     if (err) {
-    //         res.status(500).send();
-    //     } else {
-    //         //  console.log("Blog Comments Saved Successfully");
-
-    //         getblogdetails(id, res);
-    //     }
-    // });
 });
 
 //Retrieve Blog specific Comments 
-router.get('/getcomments/:blogid/:startindex', function(req, res) {
+router.get('/getcomments/:blogid/:lastcommentid', function(req, res) {
 
     var blogid = req.params.blogid;
-    var si = req.params.startindex;
+    var lcid = req.params.lastcommentid;
+    var lastCommentId = "0";
 
-    console.log("blog : " + blogid);
+    var data = { "comments": [], "count": 0, "lastCommentId": "0" };
 
-    var data = { "result": [], "count": 0 };
-
-    blogger.getblogcommentbyblogid(blogid, si).then(function(results) {
-
-
+    blogger.getblogcommentbyblogid(blogid, lcid).then(function(results) {
         if (results != null)
-            data = { "result": results, "count": 0 };
 
-        console.log("comments " + data);
+            _.forEach(results.data.result, function(result) {
+            lastCommentId = result._id;
+        });
+
+        data = { "result": results.data.result, "count": results.data.count, "lastCommentId": lastCommentId };
+
         res.json(data);
     }).catch(function(err) {
 

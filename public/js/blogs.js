@@ -1,5 +1,6 @@
 $(function() {
     var startindex = 0;
+    var lastcommentid = "0";
     Handlebars.registerHelper("Compare", function(lvalue, operator, rvalue, options) {
 
         var operators, result;
@@ -118,6 +119,19 @@ $(function() {
         GetBlogsByUserID(startindex, userid, "edit");
 
         stop_waitMe("blogsbyuserid");
+    });
+
+    $('#divCommentImage').on("click", function() {
+        run_waitMe("commentpanel");
+
+        var blogid = $(this).data("blogid");
+        lastcommentid = $(this).data("lastcommentid");
+
+        console.log(blogid + " , " + lastcommentid);
+
+        LoadComments(blogid, lastcommentid);
+
+        stop_waitMe("commentpanel");
     });
 
     /* Code to add new blog */
@@ -350,7 +364,7 @@ $(function() {
 
                     hidesuccessmessage("blogcommentvalidationpanel");
 
-                    DisplayComments(blogid, "0");
+                    LoadComments(blogid, lastcommentid);
 
                     stop_waitMe("blogcommentsection");
                 },
@@ -499,54 +513,38 @@ let DeleteBlogByID = (_id) => {
     });
 };
 
-let DisplayComments = (blogid, startindex) => {
+let LoadComments = (blogid, lastcommentid) => {
     run_waitMe("commentpanel");
-    $.when(GetCompiledTemplate("viewcomment"), Getcommentsbyblogid(blogid, startindex))
+    $.when(GetCompiledTemplate("viewcomment"), Getcommentsbyblogid(blogid, lastcommentid))
         .done(function(template, json) {
 
-            var data = { "comments": json.comments };
+            var data = { "comments": json };
             var compiledTemplate = Handlebars.compile(template);
             var newhtml = compiledTemplate(data);
 
-            if (startindex == 0)
-                $("#commentpanel").html(newhtml);
-            //else
-            //    $("#commentpanel").append(newhtml);
+            if (lastcommentid == "0")
+                $(".commentpanel").html(newhtml);
+            else
+                $(".commentpanel").append(newhtml);
 
-            console.log(JSON.stringify(data));
+            lastcommentid = json.lastCommentId;
 
-            // if (actiontype == "add") {
-            //     $("#divImage").removeClass("hidden");
-            //     $('#nextsearchindex').val(data.index);
-            //} else {
-            //     if (json.blogs.count < 4) {
-            //         $("#divImage").addClass("hidden");
-            //         $('#nextsearchindex').val("0");
-            //     } else if ($('#nextsearchindex').val() != undefined) {
-            //         var idx = $('#nextsearchindex').val();
-            //         //console.log("idx " + idx);
-            //         if ((parseInt(data.index)) < (parseInt(idx))) {
-            //             $('#nextsearchindex').val(data.index);
-            //             $("#divImage").removeClass("hidden");
-            //         } else {
-            //             $("#divImage").addClass("hidden");
-            //             $('#nextsearchindex').val(startindex);
-            //         }
-            //     }
-            // }
+            if (json.count < 4)
+                $("#divCommentImage").addClass("hidden");
 
-            //console.log("After insert : " + $('#nextsearchindex').val());
+            $("#divCommentImage").removeData("lastcommentid");
+            $("#divCommentImage").data("lastcommentid", lastcommentid);
         });
     stop_waitMe("commentpanel");
 };
 
-let Getcommentsbyblogid = (blogid, startindex) => {
+let Getcommentsbyblogid = (blogid, lastcommentid) => {
     //console.log("GetBlogsBySIandUserID : startindex : " + startindex + ", userid : " + userid);
     var d = $.Deferred();
 
     $.ajax({
             method: "get",
-            url: "/viewblog/getcomments/" + blogid + "/" + startindex
+            url: "/viewblog/getcomments/" + blogid + "/" + lastcommentid
                 //data: { "si": startindex, "userid": userid }
         })
         .done(function(jsonResult) {

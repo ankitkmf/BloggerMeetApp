@@ -13,9 +13,7 @@
                     <!--Content-->
                     <span class="limitblogdata">{{{blog.content}}}</span>
                 </div>
-
                 <hr>
-
                 <!-- Blog Comments - Comments Form -->
                 <div class="panel panel-default">
                     <div class="panel-heading">
@@ -52,8 +50,13 @@
                         <div class="panel-footer text-right">by <i>{{this.username}} <span class="glyphicon glyphicon-time"></span> Posted on 
       {{this.creationdate}}</i></div>
                     </div>
-                    {{/each}} {{/Compare}}{{/if}} {{/if}}
+                    {{/each}} {{/Compare}}{{/if}}
                 </div>
+
+                <div id="divCommentImage" data-blogid="{{blog._id}}" data-lastcommentid="{{lastCommentId}}">
+                    <span id="loadmorecommentbyblogid" name="loadmorecommentbyblogid" alt="Load More" class="glyphicon glyphicon-hand-down"></span>
+                </div>
+                {{/if}}
             </div>
         </div>
 
