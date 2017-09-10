@@ -334,24 +334,24 @@ let userBlogsCollection = (data) => {
 
     // get Total blogs 
     collection.push(alasql(
-        "SELECT count(*) as total , 'Total' as text FROM ?", [data.result]
+        "SELECT count(*) as total , 'Total' as text,'totalblog' as key FROM ?", [data.result]
     ));
 
     // get Total approved blogs 
     collection.push(alasql(
-        "SELECT count(*) as total, 'Total approved' as text FROM ? where status='1'", [data.result]
+        "SELECT count(*) as total, 'Total approved' as text,'bApproved' as key FROM ? where status='1'", [data.result]
     ));
 
     // get Total disapproved blogs
     collection.push(alasql(
-        "SELECT count(*) as total, 'Total disapproved' as text FROM ? where status='2'", [data.result]
+        "SELECT count(*) as total, 'Total disapproved' as text,'bDisapproved' as key FROM ? where status='2'", [data.result]
     ));
 
-    // get Total disapproved blogs
+    // get Total pending blogs
     collection.push(alasql(
-        "SELECT count(*) as total, 'Total pending' as text FROM ? where status='0'", [data.result]
+        "SELECT count(*) as total, 'Total pending' as text,'bPending' as key FROM ? where status='0'", [data.result]
     ));
-    // console.log("userBlogsCollection:" + JSON.stringify(collection));
+    console.log("userBlogsCollection:" + JSON.stringify(collection));
     return collection;
 };
 

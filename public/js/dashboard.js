@@ -49,6 +49,17 @@ $(function() {
         // GetUserInfo();
     });
 
+    $(".divUserBlogs").on("click", "li.hover", function() {
+
+        var type = $(this).data("type");
+        console.log("divUserBlogs:type:" + type);
+        if (type != null)
+            GetBlogTableData(type);
+        else
+            console.log("type is not define:");
+        // GetUserInfo();
+    });
+
     $(".divUserTable").on("click", "td>button", function() {
         //console.log("click");
         var item = {};
@@ -68,6 +79,31 @@ $(function() {
         UpdateTableRecords(jsonObj, userName);
     });
 });
+
+let GetBlogTableData = type => {
+    if (type != null) {
+        run_waitMe("divUserTable");
+        var path = "/commonAPI/data/userDatatable/" + type;
+        $.when(GetCompiledTemplate("dashboardTable"), GetDashboardBlockJSON(path))
+            .done(function(template, json) {
+                var data = { "user": json };
+                var compiledTemplate = Handlebars.compile(template);
+                var html = compiledTemplate(data);
+                $(".divUserInnerTable").html(html).show();
+                $('.tbUserTable').DataTable({
+                    "order": [
+                        [3, "desc"]
+                    ],
+                    "aLengthMenu": [
+                        [5, 10, 20],
+                        [5, 10, 20]
+                    ]
+                });
+                stop_waitMe("divUserTable");
+            });
+    } else
+        console.log("type is null");
+};
 
 let GetUserLoginHistory = (type, id) => {
     console.log("userSelectedID id:" + id);
