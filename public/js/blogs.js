@@ -427,6 +427,7 @@ let GetBlogsByUserID = (lastblogid, userid, actiontype) => {
 
 let DeleteBlogByID = (_id) => {
     var msgPanel = $("<div></div>");
+    var userid = $("#userid").val();
 
     swal({
         title: "Are you sure?",
@@ -438,7 +439,7 @@ let DeleteBlogByID = (_id) => {
         confirmButtonColor: "#ec6c62"
     }, function() {
         $.ajax({
-            url: "/blogs/delete/" + _id,
+            url: "/blogs/delete/" + _id + "/" + userid,
             method: "get",
             success: function(data) {
                 $(".blog_" + _id).html("");

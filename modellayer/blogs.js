@@ -84,8 +84,8 @@ exports.getblogbyblogid = function(blogid) {
     });
 }
 
-exports.deleteblogbyblogid = function(_id) {
-    let path = serviceURL + "/deleteblogbyblogid/" + _id;
+exports.deleteblogbyblogid = function(_id, userid) {
+    let path = serviceURL + "/deleteblogbyblogid/" + _id + "/" + userid;
     console.log("path:" + path);
     log.logger.info("Model layer deleteblogbyblogid : service call : " + path);
     //console.log("111");

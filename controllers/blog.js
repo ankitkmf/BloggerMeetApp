@@ -128,9 +128,9 @@ router.post("/savedata/edit", function(req, res) {
                 "_id": _id,
                 "topic": topic,
                 "content": content,
-                "categorykey": category
+                "categorykey": category,
+                "userid": userid
             }
-
 
             blogger.editblog(data).then(function(results) {
 
@@ -153,13 +153,12 @@ router.post("/savedata/edit", function(req, res) {
 });
 
 //================== Delete Blog =================
-router.get('/delete/:_id', function(req, res) {
+router.get('/delete/:_id/:userid', function(req, res) {
 
     var id = req.params._id;
+    var userid = req.params.userid;
 
-    //console.log("id " + id);
-
-    blogger.deleteblogbyblogid(id).then(function(response) {
+    blogger.deleteblogbyblogid(id, userid).then(function(response) {
 
         res.json(true);
 
