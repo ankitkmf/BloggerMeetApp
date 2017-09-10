@@ -50,3 +50,9 @@ span.glyphicon.glyphicon-remove-sign {
 strong {
     font-weight: bolder;
 }
+
+span#loadmorecommentbyblogid {
+    margin-bottom: 15px;
+    font-size: 20px;
+    cursor: pointer;
+}

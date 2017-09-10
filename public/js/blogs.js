@@ -1,5 +1,7 @@
 $(function() {
-    var startindex = 0;
+    //var startindex = 0;
+    var lastcommentid = "0";
+    var lastblogid = "0";
     Handlebars.registerHelper("Compare", function(lvalue, operator, rvalue, options) {
 
         var operators, result;
@@ -41,12 +43,11 @@ $(function() {
         }
     });
 
-    if (($('#nextsearchindex').val() != undefined))
-        startindex = $('#nextsearchindex').val();
+    var commentid = $('#divCommentImage').data("lastcommentid");
+    if (commentid == "0") $('#divCommentImage').addClass("hidden");
 
-    if (startindex > 0) {
-        $("#divImage").removeClass("hidden");
-    }
+    var blogid = $('#divImage').data("lastblogid");
+    if (blogid == "0") $('#divImage').addClass("hidden");
 
     var icons = {
         header: "ui-icon-circle-arrow-e",
@@ -106,25 +107,36 @@ $(function() {
 
     $('#divImage').on("click", function() {
         run_waitMe("blogsbyuserid");
-        if (($('#nextsearchindex').val() != undefined))
-            startindex = $('#nextsearchindex').val();
+
+        lastblogid = $(this).data("lastblogid");
 
         var userid = "";
         if ($('#userid').val() != undefined)
             userid = $('#userid').val();
 
-        console.log(startindex + " , " + userid);
+        console.log(lastblogid + " , " + userid);
 
-        GetBlogsByUserID(startindex, userid, "edit");
+        GetBlogsByUserID(lastblogid, userid, "edit");
 
         stop_waitMe("blogsbyuserid");
+    });
+
+    $('#divCommentImage').on("click", function() {
+        run_waitMe("commentpanel");
+
+        var blogid = $(this).data("blogid");
+        lastcommentid = $(this).data("lastcommentid");
+
+        console.log(blogid + " , " + lastcommentid);
+
+        LoadComments(blogid, lastcommentid);
+
+        stop_waitMe("commentpanel");
     });
 
     /* Code to add new blog */
     $("#addeditblogfrm").submit(function(e) {
         e.preventDefault();
-
-        console.log("Before insert : " + $('#nextsearchindex').val());
 
         var isValid = true;
         var msgPanel = $("<div></div>");
@@ -140,8 +152,6 @@ $(function() {
         var topic = $("#topic").val();
         var content = CKEDITOR.instances['content'].getData();
         var category = $("#category").val();
-
-        //console.log(topic + "," + content + " , " + category + " , " + userid + " , " + actiontype);
 
         if (topic == "" || topic == undefined) {
             isValid = false;
@@ -175,7 +185,6 @@ $(function() {
                 data: data,
                 method: "POST",
                 success: function(data) {
-                    //console.log("success : " + JSON.stringify(data));
                     msgPanel.append(
                         SuccessMessage("<strong>Thank You!</strong> New Blog is added.")
                     );
@@ -224,8 +233,6 @@ $(function() {
         var content = CKEDITOR.instances['content_' + _id].getData();
         var category = $("#category_" + _id).val();
         var creationdate = $("#creationdate_" + _id).val();
-
-        // console.log(topic + "," + content + " , " + category + " , " + userid + " , " + index + " ," + modifiedby + ", " + createdby + " ," + status + " , " + creationdate);
 
         if (topic == "" || topic == undefined) {
             isValid = false;
@@ -341,16 +348,11 @@ $(function() {
                         SuccessMessage("<strong>Thank You!</strong> New comment is added.")
                     );
                     $(".blogcommentvalidationpanel").html(msgPanel).removeClass("hidden");
-                    //$("#divImage").removeClass("hidden");
                     //$(".profileprogress").imgProgressTo(profileCompleteStatus());
-
-                    // Refresh accordion
-                    // if (data != null)
-                    //     GetBlogsByUserID(0, userid, "add");
 
                     hidesuccessmessage("blogcommentvalidationpanel");
 
-                    DisplayComments(blogid, "0");
+                    LoadComments(blogid, lastcommentid);
 
                     stop_waitMe("blogcommentsection");
                 },
@@ -369,14 +371,13 @@ $(function() {
     });
 });
 
-let GetBlogsBySIandUserID = (startindex, userid) => {
-    //console.log("GetBlogsBySIandUserID : startindex : " + startindex + ", userid : " + userid);
+let GetBlogsBySIandUserID = (lastblogid, userid) => {
     var d = $.Deferred();
 
     $.ajax({
             method: "post",
             url: "/blogs/profile",
-            data: { "si": startindex, "userid": userid }
+            data: { "lastblogid": lastblogid, "userid": userid }
         })
         .done(function(jsonResult) {
             d.resolve(jsonResult);
@@ -388,16 +389,16 @@ let GetBlogsBySIandUserID = (startindex, userid) => {
     return d.promise();
 };
 
-let GetBlogsByUserID = (startindex, userid, actiontype) => {
+let GetBlogsByUserID = (lastblogid, userid, actiontype) => {
     run_waitMe("blogsbyuserid");
-    $.when(GetCompiledTemplate("blogsectionbyuserid"), GetBlogsBySIandUserID(startindex, userid))
+    $.when(GetCompiledTemplate("blogsectionbyuserid"), GetBlogsBySIandUserID(lastblogid, userid))
         .done(function(template, json) {
 
-            var data = { "index": json.index, "category": json.category, "blogs": json.blogs };
+            var data = { "lastblogid": json.lastblogid, "category": json.category, "blogs": json.blogs };
             var compiledTemplate = Handlebars.compile(template);
             var newhtml = compiledTemplate(data);
 
-            if (startindex == 0)
+            if (lastblogid == 0)
                 $("#accordion").html(newhtml);
             else
                 $("#accordion").append(newhtml);
@@ -406,71 +407,23 @@ let GetBlogsByUserID = (startindex, userid, actiontype) => {
 
             console.log(JSON.stringify(data));
 
+            lastblogid = json.lastblogid;
+
+            $("#divImage").removeData("lastblogid");
+            $("#divImage").data("lastblogid", lastblogid);
+
             if (actiontype == "add") {
                 $("#divImage").removeClass("hidden");
-                $('#nextsearchindex').val(data.index);
             } else {
                 if (json.blogs.count < 4) {
                     $("#divImage").addClass("hidden");
-                    $('#nextsearchindex').val("0");
-                } else if ($('#nextsearchindex').val() != undefined) {
-                    var idx = $('#nextsearchindex').val();
-                    //console.log("idx " + idx);
-                    if ((parseInt(data.index)) < (parseInt(idx))) {
-                        $('#nextsearchindex').val(data.index);
-                        $("#divImage").removeClass("hidden");
-                    } else {
-                        $("#divImage").addClass("hidden");
-                        $('#nextsearchindex').val(startindex);
-                    }
+                } else {
+                    $("#divImage").removeClass("hidden");
                 }
             }
-
-            console.log("After insert : " + $('#nextsearchindex').val());
         });
     stop_waitMe("blogsbyuserid");
-};
-
-// let GetBlogbyBlogID = (blogid) => {
-//     run_waitMe("addeditblogfrm");
-//     $.when(GetCompiledTemplate("blogsectionbyuserid"), RetrieveBlogByBlogID(blogid))
-//         .done(function(template, json) {
-
-//             // console.log("1 " + json.blogs);
-
-//             var data = { "selectedBlogForEdit": json.selectedBlogForEdit, "category": json.category, "blogs": json.blogs };
-//             var compiledTemplate = Handlebars.compile(template);
-//             var newhtml = compiledTemplate(data);
-
-//             if (data.blogs.count == 1) {
-//                 //console.log("2");
-//                 $(".addeditblogfrm").html("");
-//                 $(".addeditblogfrm").html(newhtml);
-//                 $(".addeditblogfrm").removeClass("hidden");
-//             }
-
-//             //console.log(JSON.stringify(data.blogs.count));
-//         });
-//     stop_waitMe("addeditblogfrm");
-// };
-
-// let RetrieveBlogByBlogID = (_id) => {
-//     //console.log("RetrieveBlogByBlogID : blogid : " + _id);
-//     var d = $.Deferred();
-
-//     $.ajax({
-//             method: "get",
-//             url: "/blogs/edit/" + _id
-//         })
-//         .done(function(jsonResult) {
-//             d.resolve(jsonResult);
-//         })
-//         .fail(function() {
-//             d.reject;
-//         })
-//         .always(function() {});
-//     return d.promise();
-// };
+}
 
 let DeleteBlogByID = (_id) => {
     var msgPanel = $("<div></div>");
@@ -500,54 +453,38 @@ let DeleteBlogByID = (_id) => {
     });
 };
 
-let DisplayComments = (blogid, startindex) => {
+let LoadComments = (blogid, lastcommentid) => {
     run_waitMe("commentpanel");
-    $.when(GetCompiledTemplate("viewcomment"), Getcommentsbyblogid(blogid, startindex))
+    $.when(GetCompiledTemplate("viewcomment"), Getcommentsbyblogid(blogid, lastcommentid))
         .done(function(template, json) {
 
-            var data = { "comments": json.comments };
+            var data = { "comments": json };
             var compiledTemplate = Handlebars.compile(template);
             var newhtml = compiledTemplate(data);
 
-            if (startindex == 0)
-                $("#commentpanel").html(newhtml);
-            //else
-            //    $("#commentpanel").append(newhtml);
+            if (lastcommentid == "0")
+                $(".commentpanel").html(newhtml);
+            else
+                $(".commentpanel").append(newhtml);
 
-            console.log(JSON.stringify(data));
+            lastcommentid = json.lastCommentId;
 
-            // if (actiontype == "add") {
-            //     $("#divImage").removeClass("hidden");
-            //     $('#nextsearchindex').val(data.index);
-            //} else {
-            //     if (json.blogs.count < 4) {
-            //         $("#divImage").addClass("hidden");
-            //         $('#nextsearchindex').val("0");
-            //     } else if ($('#nextsearchindex').val() != undefined) {
-            //         var idx = $('#nextsearchindex').val();
-            //         //console.log("idx " + idx);
-            //         if ((parseInt(data.index)) < (parseInt(idx))) {
-            //             $('#nextsearchindex').val(data.index);
-            //             $("#divImage").removeClass("hidden");
-            //         } else {
-            //             $("#divImage").addClass("hidden");
-            //             $('#nextsearchindex').val(startindex);
-            //         }
-            //     }
-            // }
+            if (json.count < 4)
+                $("#divCommentImage").addClass("hidden");
 
-            //console.log("After insert : " + $('#nextsearchindex').val());
+            $("#divCommentImage").removeData("lastcommentid");
+            $("#divCommentImage").data("lastcommentid", lastcommentid);
         });
     stop_waitMe("commentpanel");
 };
 
-let Getcommentsbyblogid = (blogid, startindex) => {
+let Getcommentsbyblogid = (blogid, lastcommentid) => {
     //console.log("GetBlogsBySIandUserID : startindex : " + startindex + ", userid : " + userid);
     var d = $.Deferred();
 
     $.ajax({
             method: "get",
-            url: "/viewblog/getcomments/" + blogid + "/" + startindex
+            url: "/viewblog/getcomments/" + blogid + "/" + lastcommentid
                 //data: { "si": startindex, "userid": userid }
         })
         .done(function(jsonResult) {

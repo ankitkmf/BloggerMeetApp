@@ -50,26 +50,26 @@ router.post("/data/getblog", function(req, res) {
     var blogs = {};
     var blog = require("./blogs");
 
-    var si = req.body.si;
+    var lbid = req.body.lbid;
     var ct = req.body.ct;
 
-    blog.blogs(si, ct).then(function(response) {
+    blog.blogs(lbid, ct).then(function(response) {
         blogs = response.data;
 
-        var nextIndex = 0;
+        var lastblogid = 0;
         _.forEach(blogs.result, function(result) {
-            nextIndex = result.index
+            lastblogid = result._id
         });
 
-        console.log("nextIndex " + nextIndex);
+        console.log("lastblogid " + lastblogid);
 
-        var data = { "index": nextIndex, "blogs": blogs };
+        var data = { "lastblogid": lastblogid, "blogs": blogs };
 
         res.json(data);
     }).catch(function(err) {
         console.log(err);
         blogs = { "result": [], "count": 0 };
-        data = { "index": si, "blogs": blogs };
+        data = { "lastblogid": lbid, "blogs": blogs };
 
         res.json(data);
     });
