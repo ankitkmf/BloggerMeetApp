@@ -2,22 +2,27 @@
 $(function() {
 
     var categorytype = "all";
-    var lastblogid = "0";
+    var startindex = 0;
+    if (($('#nextsearindex').val() != undefined))
+        startindex = $('#nextsearindex').val();
 
-    var blogid = $('#divImage').data("lastblogid");
-    if (blogid == "0") $('#divImage').addClass("hidden");
+    if (startindex > 0) {
+        $("#divImage").removeClass("hidden");
+        $("#divImage").addClass("show");
+    }
 
     $('#divImage').on("click", function() {
-        lastblogid = $(this).data("lastblogid");
+        if (($('#nextsearindex').val() != undefined))
+            startindex = $('#nextsearindex').val();
 
-        console.log(lastblogid + " , " + categorytype);
+        console.log(startindex + " , " + categorytype);
 
-        GetBlogsInfo(lastblogid, categorytype);
+        GetBlogsInfo(startindex, categorytype);
     });
 
     $('.blogcategory').on("click", ".blogctid", function() {
         categorytype = $(this).data("key");
-        GetBlogsInfo("0", categorytype);
+        GetBlogsInfo(0, categorytype);
     })
 
     limitBlogLength();
@@ -41,44 +46,53 @@ let limitBlogLength = () => {
     });
 };
 
-let GetBlogsInfo = (lastblogid, categorytype) => {
+let GetBlogsInfo = (startindex, categorytype) => {
     run_waitMe("blogdata");
-    $.when(GetCompiledTemplate("blogsection"), GetBlogsByStartIndex(lastblogid, categorytype))
+    $.when(GetCompiledTemplate("blogsection"), GetBlogsByStartIndex(startindex, categorytype))
         .done(function(template, json) {
 
-            var data = { "lastblogid": json.lastblogid, "blogs": json.blogs };
+            var data = { "index": json.index, "blogs": json.blogs };
+
+            console.log("vasu GetBlogsInfo : " + JSON.stringify(json));
 
             var compiledTemplate = Handlebars.compile(template);
             var newhtml = compiledTemplate(data);
 
-            if (lastblogid == "0" && categorytype != "all")
+            if (startindex == 0 && categorytype != "all")
                 $(".blogdata").html(newhtml);
             else
                 $(".blogdata").append(newhtml);
 
             limitBlogLength();
 
-            lastblogid = json.lastblogid;
-
-            $("#divImage").removeData("lastblogid");
-            $("#divImage").data("lastblogid", lastblogid);
-
-            if (json.blogs.count < 4)
+            if (json.blogs.count < 4) {
                 $("#divImage").addClass("hidden");
-            else
+                $('#nextsearindex').val("0");
+            } else if (startindex == 0) {
+                $('#nextsearindex').val(data.index);
                 $("#divImage").removeClass("hidden");
+            } else if ($('#nextsearindex').val() != undefined) {
+                var idx = $('#nextsearindex').val();
+                if ((parseInt(data.index)) < (parseInt(idx))) {
+                    $('#nextsearindex').val(data.index);
+                    $("#divImage").removeClass("hidden");
+                } else {
+                    $('#nextsearindex').val(startindex);
+                    $("#divImage").addClass("hidden");
+                }
+            }
         });
     stop_waitMe("blogdata");
 };
 
-let GetBlogsByStartIndex = (lastblogid, categorytype) => {
-    console.log("GetBlogsByStartIndex : lastblogid : " + lastblogid + ", Category : " + categorytype);
+let GetBlogsByStartIndex = (startindex, categorytype) => {
+    console.log("GetBlogsByStartIndex : startindex : " + startindex + ", Category : " + categorytype);
     var d = $.Deferred();
 
     $.ajax({
             method: "post",
             url: "/commonapi/data/getblog/",
-            data: { "lbid": lastblogid, "ct": categorytype }
+            data: { "si": startindex, "ct": categorytype }
         })
         .done(function(jsonResult) {
             d.resolve(jsonResult);

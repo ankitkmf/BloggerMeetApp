@@ -11,13 +11,13 @@ var blogger = require('../modellayer/blogs');
 router.get('/showdetails/:blogid', function(req, res) {
     var blogid = req.params.blogid;
 
-    //console.log("blog : " + blogid);
+    console.log("blog : " + blogid);
 
     var collectionCountList = {};
 
     Promise.all([
         blogger.getblogbyblogid(blogid),
-        blogger.getblogcommentbyblogid(blogid, "0"),
+        blogger.getblogcommentbyblogid(blogid, 0),
         blogger.viewrecentblogs()
     ]).then(data => {
         var blog = data[0].data;
@@ -25,13 +25,11 @@ router.get('/showdetails/:blogid', function(req, res) {
         var mostrecentblogs = data[2].data;
         var topvisit = { "result": [], "count": 0 };
 
-        var lastCommentId = "0";
-        _.forEach(comments.result, function(result) {
-            //console.log(1);
-            lastCommentId = result._id;
-        });
-
         log.logger.info("Successfully retrive blog's data");
+
+        console.log("blog : " + JSON.stringify(blog));
+        console.log("comments : " + JSON.stringify(comments));
+        console.log("mostrecentblogs : " + JSON.stringify(mostrecentblogs));
 
         res.render("viewblog", {
             layout: 'default',
@@ -39,8 +37,7 @@ router.get('/showdetails/:blogid', function(req, res) {
             blog: blog.result,
             comments: comments,
             mostrecentblogs: mostrecentblogs,
-            topvisit: topvisit,
-            lastCommentId: lastCommentId
+            topvisit: topvisit
         });
 
     }).catch(function(err) {
@@ -69,7 +66,7 @@ router.post('/addcomment', function(req, res) {
                 "userid": userid
             }
 
-            //console.log("add comment " + JSON.stringify(data));
+            console.log("add comment " + JSON.stringify(data));
 
             blogger.addcomment(data).then(function(results) {
 
@@ -89,26 +86,44 @@ router.post('/addcomment', function(req, res) {
         }
     }
     return;
+
+
+    // var id = req.body._id;
+
+    // db.get().collection("comments").save({
+    //     "blog_id": id,
+    //     "addedby": req.body.addedby,
+    //     "blogcomment": req.body.blogcomment,
+    //     "IsApproved": false,
+    //     "date": new Date().toUTCString()
+    // }, (err, results) => {
+    //     if (err) {
+    //         res.status(500).send();
+    //     } else {
+    //         //  console.log("Blog Comments Saved Successfully");
+
+    //         getblogdetails(id, res);
+    //     }
+    // });
 });
 
 //Retrieve Blog specific Comments 
-router.get('/getcomments/:blogid/:lastcommentid', function(req, res) {
+router.get('/getcomments/:blogid/:startindex', function(req, res) {
 
     var blogid = req.params.blogid;
-    var lcid = req.params.lastcommentid;
-    var lastCommentId = "0";
+    var si = req.params.startindex;
 
-    var data = { "comments": [], "count": 0, "lastCommentId": "0" };
+    console.log("blog : " + blogid);
 
-    blogger.getblogcommentbyblogid(blogid, lcid).then(function(results) {
+    var data = { "result": [], "count": 0 };
+
+    blogger.getblogcommentbyblogid(blogid, si).then(function(results) {
+
+
         if (results != null)
+            data = { "result": results, "count": 0 };
 
-            _.forEach(results.data.result, function(result) {
-            lastCommentId = result._id;
-        });
-
-        data = { "result": results.data.result, "count": results.data.count, "lastCommentId": lastCommentId };
-
+        console.log("comments " + data);
         res.json(data);
     }).catch(function(err) {
 

@@ -50,28 +50,26 @@ router.post("/data/getblog", function(req, res) {
     var blogs = {};
     var blog = require("./blogs");
 
-    var lbid = req.body.lbid;
+    var si = req.body.si;
     var ct = req.body.ct;
 
-    blog.blogs(lbid, ct).then(function(response) {
+    blog.blogs(si, ct).then(function(response) {
         blogs = response.data;
 
-        var lastblogid = 0;
+        var nextIndex = 0;
         _.forEach(blogs.result, function(result) {
-            lastblogid = result._id
+            nextIndex = result.index
         });
 
-        console.log("lastblogid " + lastblogid);
+        console.log("nextIndex " + nextIndex);
 
-        var data = { "lastblogid": lastblogid, "blogs": blogs };
-
-        console.log(JSON.stringify(data));
+        var data = { "index": nextIndex, "blogs": blogs };
 
         res.json(data);
     }).catch(function(err) {
         console.log(err);
         blogs = { "result": [], "count": 0 };
-        data = { "lastblogid": lbid, "blogs": blogs };
+        data = { "index": si, "blogs": blogs };
 
         res.json(data);
     });
@@ -287,6 +285,22 @@ router.get("/data/userDatatable/:type", function(req, res) {
     var type = req.params.type;
     dashbordModel.GetUserTableData(type).then(data => {
         if (data != null) {
+            res.json(data);
+        } else {
+            res.json(false);
+        }
+    }).catch(function(err) {
+        console.log("err:" + err);
+        res.json(false);
+    });
+});
+
+router.get("/data/userBlogDatatable/:type", function(req, res) {
+    var type = req.params.type;
+    console.log("Step:1");
+    dashbordModel.GetUserBlogTableData(type).then(data => {
+        if (data != null) {
+            console.log("Step:2");
             res.json(data);
         } else {
             res.json(false);

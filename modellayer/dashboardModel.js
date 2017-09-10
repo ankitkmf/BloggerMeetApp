@@ -184,6 +184,41 @@ exports.GetUserTableData = function(type) {
     });
 };
 
+exports.GetUserBlogTableData = function(type) {
+    return new Promise(function(resolve, reject) {
+        if (type != null) {
+            let findUserBlogTableData = serviceURL; //+ "/findall/users/all";
+            switch (type) {
+                case "totalblog":
+                    findUserBlogTableData += "/findall/blogs/all";
+                    break;
+                case "bApproved":
+                    findUserBlogTableData += "/findall/blogs/status/1";
+                    break;
+                case "bDisapproved":
+                    findUserBlogTableData += "/findall/blogs/status/2";
+                    break;
+                case "bPending":
+                    findUserBlogTableData += "/findall/blogs/status/0";
+                    break;
+            }
+
+            console.log("findUserBlogTableData path:" + findUserBlogTableData);
+            findAll(findUserBlogTableData)
+                .then(data => {
+                    // var collectionList = userInfoCollection(data.data);
+                    console.log("GetUserBlogTableData:" + JSON.stringify(data.data));
+                    resolve(data.data);
+                }).catch(function(err) {
+                    console.log("GetUserBlogTableData err:" + err);
+                    reject(err);
+                });
+        } else
+            reject({ "err": "type is not define" });
+    });
+};
+
+
 let userHistoryCollection = (data) => {
     var collection = [];
     var innerCoollection = [];
@@ -334,22 +369,22 @@ let userBlogsCollection = (data) => {
 
     // get Total blogs 
     collection.push(alasql(
-        "SELECT count(*) as total , 'Total' as text FROM ?", [data.result]
+        "SELECT count(*) as total , 'Total' as text,'totalblog' as key FROM ?", [data.result]
     ));
 
     // get Total approved blogs 
     collection.push(alasql(
-        "SELECT count(*) as total, 'Total approved' as text FROM ? where status='1'", [data.result]
+        "SELECT count(*) as total, 'Total approved' as text,'bApproved' as key FROM ? where status='1'", [data.result]
     ));
 
     // get Total disapproved blogs
     collection.push(alasql(
-        "SELECT count(*) as total, 'Total disapproved' as text FROM ? where status='2'", [data.result]
+        "SELECT count(*) as total, 'Total disapproved' as text, 'bDisapproved' as key FROM ? where status='2'", [data.result]
     ));
 
-    // get Total disapproved blogs
+    // get Total pending blogs
     collection.push(alasql(
-        "SELECT count(*) as total, 'Total pending' as text FROM ? where status='0'", [data.result]
+        "SELECT count(*) as total, 'Total pending' as text, 'bPending' as key FROM ? where status='0'", [data.result]
     ));
     // console.log("userBlogsCollection:" + JSON.stringify(collection));
     return collection;
