@@ -70,22 +70,22 @@ app.get('/', authNotRequired, function(req, res) {
     var blog = require("./modellayer/blogs");
     var categoryList = blog.category;
 
-    blog.blogs(0, "all").then(function(response) {
+    blog.blogs("0", "all").then(function(response) {
         blogs = response.data;
 
         log.logger.info("Home Page : retrieve blogs : blogs count " + blogs.count);
 
-        var nextIndex = 0;
+        var lastblogid = "0";
         _.forEach(blogs.result, function(result) {
-            nextIndex = result.index
+            lastblogid = result._id
         });
 
         res.render('home', {
             layout: 'default',
             title: 'Home Page',
             blogs: blogs,
-            index: nextIndex,
-            category: categoryList
+            category: categoryList,
+            lastblogid: lastblogid
         });
     }).catch(function(err) {
         log.logger.error("Home Page : failed to retrieve blogs : error " + err);
@@ -94,8 +94,8 @@ app.get('/', authNotRequired, function(req, res) {
             layout: 'default',
             title: 'Home Page',
             blogs: blogs,
-            index: 0,
-            category: categoryList
+            category: categoryList,
+            lastblogid: "0"
         });
     });
 });
