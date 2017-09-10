@@ -49,6 +49,16 @@ $(function() {
         // GetUserInfo();
     });
 
+    $(".divUserBlogs").on("click", "li.hover", function() {
+        var type = $(this).data("type");
+        console.log(type);
+        if (type != null)
+            GetBlogTableData(type);
+        else
+            console.log("type is not define:");
+        // GetUserInfo();
+    });
+
     $(".divUserTable").on("click", "td>button", function() {
         //console.log("click");
         var item = {};
@@ -82,7 +92,6 @@ let GetUserLoginHistory = (type, id) => {
             })
             .done(function(data) {
                 if (data != null) {
-
                     var result = CreateGraphCollection(data);
                     userGraphContainer(result, "loginGraphContainer");
                 }
@@ -246,6 +255,32 @@ let GetUserTableData = type => {
                     ]
                 });
                 stop_waitMe("divUserTable");
+            });
+    } else
+        console.log("type is null");
+}
+
+let GetBlogTableData = type => {
+    if (type != null) {
+        run_waitMe("divUserBlogs");
+        var path = "/commonAPI/data/userBlogDatatable/" + type;
+        $.when(GetCompiledTemplate("dashboardTable"), GetDashboardBlockJSON(path))
+            .done(function(template, json) {
+                var data = { "user": json };
+                console.log("Data:" + JSON.stringify(data));
+                var compiledTemplate = Handlebars.compile(template);
+                var html = compiledTemplate(data);
+                $(".divUserInnerTable").html(html).show();
+                $('.tbUserTable').DataTable({
+                    "order": [
+                        [3, "desc"]
+                    ],
+                    "aLengthMenu": [
+                        [5, 10, 20],
+                        [5, 10, 20]
+                    ]
+                });
+                stop_waitMe("divUserBlogs");
             });
     } else
         console.log("type is null");

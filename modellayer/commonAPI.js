@@ -295,6 +295,22 @@ router.get("/data/userDatatable/:type", function(req, res) {
     });
 });
 
+router.get("/data/userBlogDatatable/:type", function(req, res) {
+    var type = req.params.type;
+    console.log("Step:1");
+    dashbordModel.GetUserBlogTableData(type).then(data => {
+        if (data != null) {
+            console.log("Step:2");
+            res.json(data);
+        } else {
+            res.json(false);
+        }
+    }).catch(function(err) {
+        console.log("err:" + err);
+        res.json(false);
+    });
+});
+
 router.post("/data/updateTableRecords", function(req, res) {
     console.log("Step 1")
     if (req.body.id != null) {
