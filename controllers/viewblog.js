@@ -11,7 +11,7 @@ var blogger = require('../modellayer/blogs');
 router.get('/showdetails/:blogid', function(req, res) {
     var blogid = req.params.blogid;
 
-    console.log("blog : " + blogid);
+    //console.log("blog : " + blogid);
 
     var collectionCountList = {};
 
@@ -32,10 +32,6 @@ router.get('/showdetails/:blogid', function(req, res) {
         });
 
         log.logger.info("Successfully retrive blog's data");
-
-        console.log("blog : " + JSON.stringify(blog));
-        console.log("comments : " + JSON.stringify(comments));
-        console.log("mostrecentblogs : " + JSON.stringify(mostrecentblogs));
 
         res.render("viewblog", {
             layout: 'default',
@@ -73,7 +69,7 @@ router.post('/addcomment', function(req, res) {
                 "userid": userid
             }
 
-            console.log("add comment " + JSON.stringify(data));
+            //console.log("add comment " + JSON.stringify(data));
 
             blogger.addcomment(data).then(function(results) {
 

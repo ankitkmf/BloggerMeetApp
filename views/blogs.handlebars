@@ -149,12 +149,12 @@
       {{/Compare}}
     </div>
    
-      <input type="hidden" name="nextsearchindex" id="nextsearchindex" value="{{index}}" />
+      {{!-- <input type="hidden" name="nextsearchindex" id="nextsearchindex" value="{{index}}" /> --}}
     
       <input type="hidden" name="userid" id="userid" value="{{user._id}}" />
       <input type="hidden" name="username" id="username" value="{{user.username}}" />
 
-    <div id="divImage" class="hidden">
+    <div id="divImage" data-lastblogid="{{lastblogid}}">
       <span id="loadmoreblogbyuserid" name="loadmoreblogbyuserid" alt="Load More" class="glyphicon glyphicon-hand-down"></span>
     </div>
 
