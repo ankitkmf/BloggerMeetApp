@@ -1,10 +1,40 @@
-<div id="accordion" >
+
+<div id="accordion">
   {{#each user}} {{#each this}}
   <div data-name={{_id}}>
-    <h3>     
-        {{{topic}}}
-     
-      {{!-- <div class="pull-right">
+    <h3>
+      {{{topic}}}
+      <div class="pull-right">
+        <label class="radio-inline">
+          {{#if status}}
+          <input type="radio" name="blogGroup" value="1"/>Approve
+        </label>
+        <label class="radio-inline">
+          <input type="radio" name="blogGroup" value="2"/>Reject
+        </label>
+        <label class="radio-inline">
+          <input type="radio" name="blogGroup" value="3"/>Pending
+        </label>
+        {{!-- <span class="label label-primary">Primary</span> --}}
+        <button type="button" class="btn btn-primary btn-xs userBlogDataColumn">Update</button>
+      </div>
+    </h3>
+    <div>
+      {{{content}}}
+    </div>
+  </div>
+
+  {{/each}} {{/each}}
+</div>
+
+{{!-- <div id="accordion" class="panel-group">
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a href="#panelBodyOne" data-toggle="collapse" data-parent="#accordion">
+                    Asia
+                </a>
+                 <div class="pull-right">
         <label class="radio-inline">
           <input type="radio" name="blogGroup" value="1"/>approved
         </label>
@@ -15,20 +45,55 @@
           <input type="radio" name="blogGroup" value="3"/>pending
         </label>
         <button type="button" class="btn btn-primary btn-xs userBlogDataColumn">Update</button>
-      </div> --}}
-    </h3>
-    <div>
-      {{!-- <label class="radio-inline">
-        <input type="radio" name="blogGroup1" value="1"/>approved
-      </label>
-      <label class="radio-inline">
-        <input type="radio" name="blogGroup1" value="2"/>disApproved
-      </label>
-      <label class="radio-inline">
-        <input type="radio" name="blogGroup1" value="3"/>pending
-      </label> --}} {{{content}}}
+      </div>
+      </h4>
+     
+    </div>
+    <div id="panelBodyOne" class="panel-collapse collapse in">
+      <div class="panel-body">
+        <ul>
+          <li>India</li>
+          <li>China</li>
+          <li>Japan</li>
+        </ul>
+      </div>
     </div>
   </div>
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a href="#panelBodyTwo" data-toggle="collapse" data-parent="#accordion">
+                    Europe
+                </a>
+      </h4>
+    </div>
+    <div id="panelBodyTwo" class="panel-collapse collapse">
+      <div class="panel-body">
+        <ul>
+          <li>United Kingdom</li>
+          <li>France</li>
+          <li>Germany</li>
+        </ul>
 
-  {{/each}} {{/each}}
-</div>
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a href="#panelBodyThree" data-toggle="collapse" data-parent="#accordion">
+                    North America
+                </a>
+      </h4>
+    </div>
+    <div id="panelBodyThree" class="panel-collapse collapse">
+      <div class="panel-body">
+        <ul>
+          <li>USA</li>
+          <li>Canada</li>
+          <li>Mexico</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div> --}}
