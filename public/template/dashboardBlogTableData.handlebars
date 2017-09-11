@@ -1,79 +1,19 @@
-<div id="accordion" class="blogsbyuserid">
-      {{#Compare blogs.count ">" 0}} {{#each blogs.result}}
-      <div class="group blog_{{this._id}}">
+
+    <div id="accordion" class="blogsbyuserid">
+      <div>
         <h3>
-          <span class="blogheader_{{this._id}}">{{this.topic}}</span>
+          test
 
           <div id="editblog" class="editblog">
-            <span data-key="{{this._id}}" class="edit glyphicon glyphicon-edit"></span>
-            <span data-key="{{this._id}}" class="remove glyphicon glyphicon-remove"></span>
+            <span class="edit glyphicon glyphicon-edit"></span>
+            <span class="remove glyphicon glyphicon-remove"></span>
           </div>
-
         </h3>
         <div>
-          <div class="showblogdetails_{{this._id}}">
-            <span class="blogpostdate glyphicon glyphicon-time"></span> Posted on {{this.creationdate}} {{{this.content}}}
-          </div>
-          <div class="blogeditform_{{this._id}} hidden">
-            <div class="blogeditvalidationpanel hidden">
-            </div>
 
-            <div>
-              <form id="editblogfrm" class="form-horizontal" data-key="{{this._id}}">
-                <div class="form-group">
-                  <label class="control-label" for="topic">Blog Topic</label>
-                  <div>
-                    <input type="text" class="form-control" maxlength="100" id="topic_{{this._id}}" name="topic_{{this._id}}" autofocus="autofocus"
-                      value="{{this.topic}}">
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="control-label" for="content_{{this._id}}">Content</label>
-                  <div>
-                    <textarea class="input" rows="10" cols="85" maxlength="5000" id="content_{{this._id}}" name="content_{{this._id}}" autofocus="autofocus">{{{this.content}}}</textarea>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="control-label" for="category_{{this._id}}">Blog Category</label>
-                  <div>
-                    <select name="category_{{this._id}}" id="category_{{this._id}}" class="form-control">
-          {{#each ../category}}
-              {{#Compare ../this.categorykey this.key}} 
-                <option selected="selected" value="{{this.key}}">{{this.name}}</option>
-              {{else}}
-                <option value="{{this.key}}">{{this.name}}</option>
-              {{/Compare}}
-          {{/each}} 
-          </select>
-                  </div>
-                </div>
-
-                <input type="hidden" id="modifiedby_{{this._id}}" name="modifiedby_{{this._id}}" value="{{../user.username}}" />
-                <input type="hidden" id="createdby_{{this._id}}" name="createdby_{{this._id}}" value="{{this.createdby}}" />                {{!-- <input type="hidden" id="_id" name="_id" value="{{this._id}}" /> --}}
-                <input type="hidden" id="status_{{this._id}}" name="status" value="{{this.status}}" />
-                <input type="hidden" id="index_{{this._id}}" name="index_{{this._id}}" value="{{index}}" />
-                <input type="hidden" id="userid_{{this._id}}" name="userid_{{this._id}}" value="{{../user._id}}" />
-                <input type="hidden" id="creationdate_{{this._id}}" name="creationdate_{{this._id}}" value="{{this.creationdate}}" />
-                <input type="hidden" id="actiontype_{{this._id}}" name="actiontype_{{this._id}}" value="edit" />
-                <div class="form-group">
-                  <div>
-                    <button type="button" class="btn btn-info btn-sm saveblog" data-key="{{this._id}}">Save</button>
-                    <button type="button" class="btn btn-info btn-sm cancel canceleditblog" data-key="{{this._id}}">Cancel</button>
-                  </div>
-                </div>
-              </form>
-            </div>
-
-            <script src="/ckeditor/ckeditor.js"></script>
-            <script>
-              CKEDITOR.replace('content_{{this._id}}');
-            </script>
-          </div>
+          test ing accordion
         </div>
       </div>
-      {{/each}} 
-      {{else}}
-      <h3>No Blogs found. <span class="blogaddtext">Please click here to 
-       <a data-toggle="modal" data-target="#myModal" href="#">Add Blog</a></span></h3>
-      {{/Compare}}
     </div>
+
+  </div>

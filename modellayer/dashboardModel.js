@@ -190,16 +190,16 @@ exports.GetUserBlogTableData = function(type) {
             let findUserBlogTableData = serviceURL; //+ "/findall/users/all";
             switch (type) {
                 case "totalblog":
-                    findUserBlogTableData += "/findall/blogs/all";
+                    findUserBlogTableData += "/findall/blogs/totalblog";
                     break;
                 case "bApproved":
-                    findUserBlogTableData += "/findall/blogs/status/1";
+                    findUserBlogTableData += "/findall/blogs/bapproved/1";
                     break;
                 case "bDisapproved":
-                    findUserBlogTableData += "/findall/blogs/status/2";
+                    findUserBlogTableData += "/findall/blogs/bdisapproved/2";
                     break;
                 case "bPending":
-                    findUserBlogTableData += "/findall/blogs/status/0";
+                    findUserBlogTableData += "/findall/blogs/bpending/0";
                     break;
             }
 
@@ -207,7 +207,7 @@ exports.GetUserBlogTableData = function(type) {
             findAll(findUserBlogTableData)
                 .then(data => {
                     // var collectionList = userInfoCollection(data.data);
-                    console.log("GetUserBlogTableData:" + JSON.stringify(data.data));
+                    // console.log("GetUserBlogTableData:" + JSON.stringify(data.data));
                     resolve(data.data);
                 }).catch(function(err) {
                     console.log("GetUserBlogTableData err:" + err);

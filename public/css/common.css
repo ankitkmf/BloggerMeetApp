@@ -246,6 +246,17 @@ body {
     height: auto;
 }
 
+.editblog {
+    float: right;
+}
+
+
+/* 
+.divUserTable {
+    margin-left: 0px;
+    margin-right: 0px;
+} */
+
 
 /* .resize {
     width: 300px;
