@@ -1,19 +1,34 @@
-
-    <div id="accordion" class="blogsbyuserid">
-      <div>
-        <h3>
-          test
-
-          <div id="editblog" class="editblog">
-            <span class="edit glyphicon glyphicon-edit"></span>
-            <span class="remove glyphicon glyphicon-remove"></span>
-          </div>
-        </h3>
-        <div>
-
-          test ing accordion
-        </div>
-      </div>
+<div id="accordion" >
+  {{#each user}} {{#each this}}
+  <div data-name={{_id}}>
+    <h3>     
+        {{{topic}}}
+     
+      {{!-- <div class="pull-right">
+        <label class="radio-inline">
+          <input type="radio" name="blogGroup" value="1"/>approved
+        </label>
+        <label class="radio-inline">
+          <input type="radio" name="blogGroup" value="2"/>disApproved
+        </label>
+        <label class="radio-inline">
+          <input type="radio" name="blogGroup" value="3"/>pending
+        </label>
+        <button type="button" class="btn btn-primary btn-xs userBlogDataColumn">Update</button>
+      </div> --}}
+    </h3>
+    <div>
+      {{!-- <label class="radio-inline">
+        <input type="radio" name="blogGroup1" value="1"/>approved
+      </label>
+      <label class="radio-inline">
+        <input type="radio" name="blogGroup1" value="2"/>disApproved
+      </label>
+      <label class="radio-inline">
+        <input type="radio" name="blogGroup1" value="3"/>pending
+      </label> --}} {{{content}}}
     </div>
-
   </div>
+
+  {{/each}} {{/each}}
+</div>

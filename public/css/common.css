@@ -246,19 +246,14 @@ body {
     height: auto;
 }
 
-.editblog {
-    float: right;
-}
-
 
 /* 
-.divUserTable {
-    margin-left: 0px;
-    margin-right: 0px;
-} */
+.dashboard .radio-inline {
+    margin-bottom: 11px;
+}
 
-
-/* .resize {
-    width: 300px;
-    height: auto;
+.btn-xs {
+    font-size: 12px;
+    padding: 0px 2px 1px 2px;
+    margin: -5px 3px 8px 18px;
 } */

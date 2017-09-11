@@ -246,7 +246,8 @@ let GetUserTableData = type => {
                 var compiledTemplate = Handlebars.compile(template);
                 var html = compiledTemplate(data);
                 $(".divUserInnerTable").html('');
-                $(".divUserInnerTable").html(html).show();
+                // $(".divUserInnerTable").html(html).show();
+                console.log("GetUserTableData:" + JSON.stringify(data));
                 var html = compiledTemplate(data);
                 $(".divUserInnerTable").html(html).show();
                 $('.tbUserTable').DataTable({
@@ -274,7 +275,7 @@ let GetBlogTableData = type => {
         $.when(GetCompiledTemplate("dashboardBlogTableData"), GetDashboardBlockJSON(path))
             .done(function(template, json) {
                 var data = { "user": json };
-                console.log("Data:" + JSON.stringify(data));
+                console.log("GetBlogTableData:" + JSON.stringify(data));
                 var compiledTemplate = Handlebars.compile(template);
                 var html = compiledTemplate(data);
                 $(".divUserInnerTable").html('');
@@ -289,7 +290,8 @@ let GetBlogTableData = type => {
                     heightStyle: 'content',
                     collapsible: true,
                     icons: icons,
-                    header: "> div > h3"
+                    header: "> div > h3",
+                    event: "mouseup"
                 }).sortable({
                     axis: "y",
                     handle: "h3",
