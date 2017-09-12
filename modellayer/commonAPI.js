@@ -336,6 +336,42 @@ router.post("/data/updateTableRecords", function(req, res) {
         res.json(false);
 });
 
+router.post("/data/updateBlogTableRecords", function(req, res) {
+    if (req.body.id != null && req.body.type != null) {
+        let path = serviceURL + "/updateBlogTableRecords/";
+        var type = "";
+        switch (req.body.type) {
+            case "approve":
+                type = "1";
+                break;
+            case "reject":
+                type = "2";
+                break;
+            case "pending":
+                type = "0";
+                break;
+            default:
+                type = "0";
+        }
+        var result = {
+            "id": req.body.id,
+            "type": type
+        };
+        console.log("updateBlogTableRecords collection:" + JSON.stringify(result));
+        axios.post(path, result)
+            .then(function(response) {
+                console.log("updateBlogTableRecords api response:" + response);
+                res.json(true);
+            })
+            .catch(function(error) {
+                console.log(" updateBlogTableRecords api error:" + error);
+                res.json({ "Error": "signUp api error" });
+            });
+    } else
+        res.json(false);
+});
+
+
 router.get("/data/GetUserSerach", function(req, res) {
     dashbordModel.GetUserSerach().then(data => {
         if (data != null) {

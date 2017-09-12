@@ -1,31 +1,31 @@
 <div id="accordion">
   {{#each user.result}}
-  <div data-name={{_id}}>
+  <div data-name={{_id}} class="blogtable">
     <h3>
       {{{this.topic}}}
       <div class="pull-right">
         <label class="radio-inline">            
            {{#Compare "1" this.status}}
-             <input type="radio" name="blogGroup_{{@index}}" checked="checked" value="1"/>
+             <input type="radio" name="blogGroup_{{@index}}" checked="checked" data-type="approve" value="1"/>
            {{else}} 
-         <input type="radio" name="blogGroup_{{@index}}" value="1"/>
+         <input type="radio" name="blogGroup_{{@index}}" data-type="approve" value="1"/>
           {{/Compare}}
           Approve
         </label>
 
         <label class="radio-inline">            
            {{#Compare "2" this.status}}
-             <input type="radio" name="blogGroup_{{@index}}" checked="checked" value="2"/>
+             <input type="radio" name="blogGroup_{{@index}}" data-type="reject" checked="checked" value="2"/>
            {{else}} 
-         <input type="radio" name="blogGroup_{{@index}}" value="2"/>
+         <input type="radio" name="blogGroup_{{@index}}" data-type="reject" value="2"/>
           {{/Compare}}
           Reject
         </label>
         <label class="radio-inline">            
            {{#Compare "0" this.status}}
-             <input type="radio" name="blogGroup_{{@index}}" checked="checked" value="3"/>
+             <input type="radio" name="blogGroup_{{@index}}" data-type="pending" checked="checked" value="3"/>
            {{else}} 
-         <input type="radio" name="blogGroup_{{@index}}" value="3"/>
+         <input type="radio" name="blogGroup_{{@index}}" data-type="pending" value="3"/>
           {{/Compare}}
           Pending
         </label>
