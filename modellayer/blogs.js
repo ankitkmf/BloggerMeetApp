@@ -183,3 +183,23 @@ exports.addcomment = function(data) {
             });
     });
 }
+
+exports.GetBlogHistoryuserid = function(userid, lastbloghistoryid) {
+    let path = serviceURL + "/getbloghistoryuserid/" + userid + "/" + lastbloghistoryid;
+    console.log("path:" + path);
+    log.logger.info("Model layer : GetBlogHistoryuserid : service call : " + path);
+    //console.log("getblogcommentbyblogid 1114");
+    return new Promise(function(resolve, reject) {
+        axios.get(path).then(function(response) {
+                //console.log("getblogcommentbyblogid 21");
+                log.logger.info("Model layer : GetBlogHistoryuserid : service call : success");
+                resolve(response);
+            })
+            .catch(function(error) {
+                //console.log("getblogcommentbyblogid 31");
+                var err = { "Error": error };
+                log.logger.error("Model layer : GetBlogHistoryuserid : service call : error : " + error);
+                reject(err);
+            });
+    });
+}

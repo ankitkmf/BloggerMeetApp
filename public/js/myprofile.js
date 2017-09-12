@@ -1,7 +1,35 @@
 'use strict';
 $(function() {
 
+    var lastbloghistoryid = "0";
+
+    // var bloghistoryid = $('#divImageBlogHistory').data("lastbloghistoryid");
+    // if (bloghistoryid == "0") $('#divImageBlogHistory').addClass("hidden");
+
     $("#inputDOB").datepicker();
+
+    // var icons = {
+    //     header: "ui-icon-circle-arrow-e",
+    //     activeHeader: "ui-icon-circle-arrow-s"
+    // };
+
+    // $('#accordion').accordion({
+    //     heightStyle: 'content',
+    //     collapsible: true,
+    //     icons: icons,
+    //     header: "> div > h3"
+    // }).sortable({
+    //     axis: "y",
+    //     handle: "h3",
+    //     stop: function(event, ui) {
+    //         // IE doesn't register the blur when sorting
+    //         // so trigger focusout handlers to remove .ui-state-focus
+    //         ui.item.children("h3").triggerHandler("focusout");
+
+    //         // Refresh accordion to handle new order
+    //         $(this).accordion("refresh");
+    //     }
+    // });
 
     // Edit profile photo
     $("#checker").on("click", () => {
@@ -404,7 +432,112 @@ $(function() {
             var err = textStatus + ", " + error;
         });
 
+    $(".blogactivitytab").on("click", function(e) {
+        e.preventDefault();
+        console.log("clicked");
+        run_waitMe("bloghistorybyuserid");
+
+        var userid = $("#userid").val();
+        lastbloghistoryid = "0";
+        //lastbloghistoryid = $("#divImageBlogHistory").data("lastbloghistoryid");
+
+        LoadBlogHistory(userid, lastbloghistoryid, "load");
+        stop_waitMe("bloghistorybyuserid");
+    });
+
+    $('#divImageBlogHistory').on("click", function() {
+        run_waitMe("bloghistorybyuserid");
+
+        lastbloghistoryid = $(this).data("lastbloghistoryid");
+
+        var userid = "";
+        if ($('#userid').val() != undefined)
+            userid = $('#userid').val();
+
+        console.log(lastbloghistoryid + " , " + userid);
+
+        LoadBlogHistory(userid, lastbloghistoryid, "");
+        stop_waitMe("bloghistorybyuserid");
+    });
 });
+
+let LoadBlogHistory = (userid, lastbloghistoryid, state) => {
+    run_waitMe("bloghistorybyuserid");
+    $.when(GetCompiledTemplate("bloghistory"), GetBlogHistoryuserid(userid, lastbloghistoryid))
+        .done(function(template, json) {
+
+            var data = { "bloghistory": json };
+            var compiledTemplate = Handlebars.compile(template);
+            var newhtml = compiledTemplate(data);
+
+            if (state != "") {
+                var icons = {
+                    header: "ui-icon-circle-arrow-e",
+                    activeHeader: "ui-icon-circle-arrow-s"
+                };
+
+                $('#accordion').accordion({
+                    heightStyle: 'content',
+                    collapsible: true,
+                    icons: icons,
+                    header: "> div > h3"
+                }).sortable({
+                    axis: "y",
+                    handle: "h3",
+                    stop: function(event, ui) {
+                        // IE doesn't register the blur when sorting
+                        // so trigger focusout handlers to remove .ui-state-focus
+                        ui.item.children("h3").triggerHandler("focusout");
+
+                        // Refresh accordion to handle new order
+                        $(this).accordion("refresh");
+                    }
+                });
+            }
+
+            if (json.count > 0) {
+                if (lastbloghistoryid == "0")
+                    $("#accordion").html(newhtml);
+                else
+                    $("#accordion").append(newhtml);
+
+                $("#accordion").accordion("refresh");
+
+                lastbloghistoryid = json.lastbloghistoryid;
+
+                if (json.count < 10)
+                    $("#divImageBlogHistory").addClass("hidden");
+                else
+                    $("#divImageBlogHistory").removeClass("hidden");
+
+                $("#divImageBlogHistory").removeData("lastbloghistoryid");
+                $("#divImageBlogHistory").data("lastbloghistoryid", lastbloghistoryid);
+                $(".nobloghistory").addClass("hidden");
+            } else {
+                $(".nobloghistory").removeClass("hidden");
+            }
+        });
+    stop_waitMe("bloghistorybyuserid");
+};
+
+let GetBlogHistoryuserid = (userid, lastbloghistoryid) => {
+    //console.log("GetBlogsBySIandUserID : startindex : " + startindex + ", userid : " + userid);
+    var d = $.Deferred();
+
+    $.ajax({
+            method: "get",
+            url: "/viewblog/GetBlogHistoryuserid/" + userid + "/" + lastbloghistoryid
+                //data: { "si": startindex, "userid": userid }
+        })
+        .done(function(jsonResult) {
+            d.resolve(jsonResult);
+        })
+        .fail(function() {
+            d.reject;
+        })
+        .always(function() {});
+    return d.promise();
+};
 
 // function readURL(input) {
 //     if (input.files && input.files[0]) {

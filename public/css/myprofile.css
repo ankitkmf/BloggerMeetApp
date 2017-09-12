@@ -228,3 +228,13 @@ textarea#aboutme {
     border-width: 1px !important;
     margin: 0px !important;
 }
+
+.historyblock {
+    float: right;
+}
+
+span#loadmoreblogbyuserid {
+    margin-top: 15px;
+    font-size: 20px;
+    cursor: pointer;
+}

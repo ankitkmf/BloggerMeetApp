@@ -58,6 +58,7 @@ router.post('/addcomment', function(req, res) {
         var blogid = req.body.blogid;
         var username = req.body.username;
         var userid = req.body.userid;
+        var blogtopic = req.body.blogtopic;
 
         var isValid = (blogcomment != null);
 
@@ -66,7 +67,8 @@ router.post('/addcomment', function(req, res) {
                 "comment": blogcomment,
                 "blogid": blogid,
                 "username": username,
-                "userid": userid
+                "userid": userid,
+                "blogtopic": blogtopic
             }
 
             //console.log("add comment " + JSON.stringify(data));
@@ -108,6 +110,34 @@ router.get('/getcomments/:blogid/:lastcommentid', function(req, res) {
         });
 
         data = { "result": results.data.result, "count": results.data.count, "lastCommentId": lastCommentId };
+
+        res.json(data);
+    }).catch(function(err) {
+
+        console.log(err);
+        res.json(data);
+
+    });
+    return;
+});
+
+//Retrieve Blog history by user id 
+router.get('/GetBlogHistoryuserid/:userid/:lastbloghistoryid', function(req, res) {
+
+    var userid = req.params.userid;
+    var lbhid = req.params.lastbloghistoryid;
+    var lastbloghistoryid = "0";
+
+    var data = { "bloghistory": [], "count": 0, "lastbloghistoryid": "0" };
+
+    blogger.GetBlogHistoryuserid(userid, lbhid).then(function(results) {
+        if (results != null)
+
+            _.forEach(results.data.result, function(result) {
+            lastbloghistoryid = result._id;
+        });
+
+        data = { "result": results.data.result, "count": results.data.count, "lastbloghistoryid": lastbloghistoryid };
 
         res.json(data);
     }).catch(function(err) {

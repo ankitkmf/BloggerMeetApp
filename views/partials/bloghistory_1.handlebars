@@ -1,0 +1,164 @@
+{{!--
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/data.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+
+<!-- Additional files for the Highslide popup effect -->
+<script src="https://www.highcharts.com/media/com_demo/js/highslide-full.min.js"></script>
+<script src="https://www.highcharts.com/media/com_demo/js/highslide.config.js" charset="utf-8"></script>
+<link rel="stylesheet" type="text/css" href="https://www.highcharts.com/media/com_demo/css/highslide.css" />
+
+<div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+
+<hr> --}}
+
+<div class="bs-docs-section">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="bs-component">
+
+                {{#if bloghistory}}
+                <div id="accordion" class="bloghistorybyuserid">
+                    {{#Compare bloghistory.count ">" 0}} {{#each bloghistory.result}}
+
+                    <div>
+                        <h3>
+                            <span>{{this.blogid}}</span>
+                        </h3>
+                        <div>test
+                        </div>
+                    </div>
+
+                    {{/each}} {{/Compare}}
+                </div>
+
+                <input type="hidden" name="userid" id="userid" value="{{user._id}}" />
+                <input type="hidden" name="username" id="username" value="{{user.username}}" />
+
+                <div id="divImageBlogHistory" data-lastbloghistoryid="{{lastbloghistoryid}}">
+                    <span id="loadmoreblogbyuserid" name="loadmoreblogbyuserid" alt="Load More" class="glyphicon glyphicon-hand-down"></span>
+                </div>
+
+                {{else}}
+                <div class="nobloghistory hidden">
+                    <strong>No records available!!!</strong>
+                </div>
+
+                {{/if}}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    /* $(function () {
+
+        // Get the CSV and create the chart
+        $.getJSON('https://www.highcharts.com/samples/data/jsonp.php?filename=analytics.csv&callback=?',
+            function (csv) {
+
+                Highcharts.chart('container', {
+
+                    data: {
+                        csv: csv
+                    },
+
+                    title: {
+                        text: 'Date wise Blog History'
+                    },
+
+                    subtitle: {
+                        text: ''
+                    },
+
+                    xAxis: {
+                        tickInterval: 7 * 24 * 3600 * 1000, // one week
+                        tickWidth: 0,
+                        gridLineWidth: 1,
+                        labels: {
+                            align: 'left',
+                            x: 3,
+                            y: -3
+                        }
+                    },
+
+                    yAxis: [{ // left y axis
+                        title: {
+                            text: null
+                        },
+                        labels: {
+                            align: 'left',
+                            x: 3,
+                            y: 16,
+                            format: '{value:.,0f}'
+                        },
+                        showFirstLabel: false
+                    }, { // right y axis
+                        linkedTo: 0,
+                        gridLineWidth: 0,
+                        opposite: true,
+                        title: {
+                            text: null
+                        },
+                        labels: {
+                            align: 'right',
+                            x: -3,
+                            y: 16,
+                            format: '{value:.,0f}'
+                        },
+                        showFirstLabel: false
+                    }],
+
+                    legend: {
+                        align: 'left',
+                        verticalAlign: 'top',
+                        y: 20,
+                        floating: true,
+                        borderWidth: 0
+                    },
+
+                    tooltip: {
+                        shared: true,
+                        crosshairs: true
+                    },
+
+                    plotOptions: {
+                        series: {
+                            cursor: 'pointer',
+                            point: {
+                                events: {
+                                    click: function (e) {
+                                        hs.htmlExpand(null, {
+                                            pageOrigin: {
+                                                x: e.pageX || e.clientX,
+                                                y: e.pageY || e.clientY
+                                            },
+                                            headingText: this.series.name,
+                                            maincontentText: Highcharts.dateFormat('%A, %b %e, %Y', this.x) + ':<br/> ' +
+                                            this.y + ' visits',
+                                            width: 200
+                                        });
+                                    }
+                                }
+                            },
+                            marker: {
+                                lineWidth: 1
+                            }
+                        }
+                    },
+
+                    series: [{
+                        name: 'All visits',
+                        lineWidth: 4,
+                        marker: {
+                            radius: 4
+                        }
+                    }, {
+                        name: 'New visitors'
+                    }]
+                });
+            });
+    });*/
+
+</script>

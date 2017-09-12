@@ -1,7 +1,7 @@
 {{#each blogs.result}}
 <div class="group blog_{{this._id}}">
   <h3>
-    <span class="blogheader_{{this._id}}">{{this.topic}}</span>
+    <span class="blogheader_{{this._id}}">{{{this.topic}}}</span>
 
     <div id="editblog" class="editblog">
       <span data-key="{{this._id}}" class="edit glyphicon glyphicon-edit"></span>
@@ -23,7 +23,7 @@
             <label class="control-label" for="topic">Blog Topic</label>
             <div>
               <input type="text" class="form-control" maxlength="100" id="topic_{{this._id}}" name="topic_{{this._id}}" autofocus="autofocus"
-                value="{{this.topic}}">
+                value="{{{this.topic}}}">
             </div>
           </div>
           <div class="form-group">

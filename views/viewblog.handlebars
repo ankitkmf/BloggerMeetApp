@@ -6,7 +6,7 @@
                 <div>
                     <!-- Title ,Author ,Date/Time-->
                     <h3 class="h3-responsive"><a href="/viewblog/showdetails/{{blog._id}}">
-                    <img border="0" src="/images/article.png" title="article"></a>{{blog.topic}}</h3>
+                    <img border="0" src="/images/article.png" title="article"></a>{{{blog.topic}}}</h3>
                     <p>Written by <a href="#">{{blog.createdby}}</a>,
                         <span class="glyphicon glyphicon-time"></span> Posted on {{blog.creationdate}}</p>
 
@@ -30,6 +30,7 @@
                             <div class="form-group">
                                 <textarea class="form-control" rows="4" name="blogcomment" id="blogcomment" required="required"></textarea>
                                 <input type="hidden" value="{{blog._id}}" name="blogid" id="blogid" />
+                                <input type="hidden" value="{{blog.topic}}" name="blogtopic" id="blogtopic" />
                                 <input type="hidden" id="username" name="username" value={{user.username}} />
                                 <input type="hidden" id="userid" name="userid" value={{user._id}} />
                             </div>

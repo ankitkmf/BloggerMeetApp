@@ -2,46 +2,6 @@ $(function() {
     //var startindex = 0;
     var lastcommentid = "0";
     var lastblogid = "0";
-    Handlebars.registerHelper("Compare", function(lvalue, operator, rvalue, options) {
-
-        var operators, result;
-
-        if (arguments.length < 3) {
-            throw new Error("Handlerbars Helper 'compare' needs 2 parameters");
-        }
-
-        if (options === undefined) {
-            options = rvalue;
-            rvalue = operator;
-            operator = "===";
-        }
-
-        //console.log("l " + lvalue + " , r " + rvalue);
-
-        operators = {
-            '==': function(l, r) { return l == r; },
-            '===': function(l, r) { return l === r; },
-            '!=': function(l, r) { return l != r; },
-            '!==': function(l, r) { return l !== r; },
-            '<': function(l, r) { return l < r; },
-            '>': function(l, r) { return l > r; },
-            '<=': function(l, r) { return l <= r; },
-            '>=': function(l, r) { return l >= r; },
-            'typeof': function(l, r) { return typeof l == r; }
-        };
-
-        if (!operators[operator]) {
-            throw new Error("Handlerbars Helper 'compare' doesn't know the operator " + operator);
-        }
-
-        result = operators[operator](lvalue, rvalue);
-
-        if (result) {
-            return options.fn(this);
-        } else {
-            return options.inverse(this);
-        }
-    });
 
     var commentid = $('#divCommentImage').data("lastcommentid");
     if (commentid == "0") $('#divCommentImage').addClass("hidden");
@@ -316,8 +276,9 @@ $(function() {
         var blogid = $("#blogid").val();
         var username = $("#username").val();
         var userid = $("#userid").val();
+        var blogtopic = $("#blogtopic").val();
 
-        console.log(blogcomment + "," + blogid + " , " + username + " , " + userid);
+        console.log(blogcomment + "," + blogid + " , " + username + " , " + userid + " , " + blogtopic);
 
         if (blogcomment == "" || blogcomment == undefined) {
             isValid = false;
@@ -331,7 +292,8 @@ $(function() {
             "blogcomment": blogcomment,
             "blogid": blogid,
             "username": username,
-            "userid": userid
+            "userid": userid,
+            "blogtopic": blogtopic
         }
 
         if (isValid) {
@@ -471,6 +433,8 @@ let LoadComments = (blogid, lastcommentid) => {
 
             if (json.count < 4)
                 $("#divCommentImage").addClass("hidden");
+            else
+                $("#divCommentImage").removeClass("hidden");
 
             $("#divCommentImage").removeData("lastcommentid");
             $("#divCommentImage").data("lastcommentid", lastcommentid);

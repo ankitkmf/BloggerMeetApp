@@ -1,0 +1,16 @@
+ {{#if bloghistory}} {{#Compare bloghistory.count ">" 0}}
+  {{#each bloghistory.result}}
+<div>
+    <h3>
+        <span>{{this.blogtopic}}</span>
+    </h3>
+    <div>This Blog was {{this.actiontype}} on {{this.date}}.
+        <br/><br/>
+        Click here to <a href="/viewblog/showdetails/{{this._id}}">view the blog</a>
+    </div>
+</div>
+
+
+
+
+{{/each}} {{/Compare}} {{/if}}

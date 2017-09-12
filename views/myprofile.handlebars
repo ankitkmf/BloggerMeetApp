@@ -2,73 +2,98 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> --}} {{!--
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> --}}
 <div class="bs-docs-section">
-<div class="container-fluid">
-  <div class="row">
+  <div class="container-fluid">
+    <div class="row">
 
-    <!--First column-->
-    <div class="col-lg-4 col-md-4 col-sm-4">
-      {{> uploadprofilephoto}}
-    </div>
-    <!--/.First column-->
+      <!--First column-->
+      <div class="col-lg-4 col-md-4 col-sm-4">
+        {{> uploadprofilephoto}}
+      </div>
+      <!--/.First column-->
 
-    <!--Second column-->
-    <div class="col-lg-8 col-md-8 col-sm-8">
+      <!--Second column-->
+      <div class="col-lg-8 col-md-8 col-sm-8">
 
-      <div class="row">
-        <ul class="nav nav-tabs">
-          <li class="active"><a href="#aboutmetab" data-toggle="tab" aria-expanded="false">About Me</a></li>
-          <li class=""><a href="#personaltab" data-toggle="tab" aria-expanded="true">Personal Info</a></li>
-          <li class=""><a href="#proffessionaltab" data-toggle="tab" aria-expanded="true">Proffessional Info</a></li>
-          {{!-- <li class="disabled"><a>Disabled</a></li> --}}
-          <li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
+        <div class="row">
+          <ul class="nav nav-tabs">
+            <li class="active"><a href="#aboutmetab" data-toggle="tab" aria-expanded="false">About Me</a></li>
+            <li class=""><a href="#personaltab" data-toggle="tab" aria-expanded="true">Personal Info</a></li>
+            <li class=""><a href="#proffessionaltab" data-toggle="tab" aria-expanded="true">Proffessional Info</a></li>
+            {{!--
+            <li class="disabled"><a>Disabled</a></li> --}}
+            <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
       Activity <span class="caret"></span>
     </a>
-            <ul class="dropdown-menu">
-              <li><a href="#blogtab" data-toggle="tab">Blogs</a></li>
-              <li class="divider"></li>
-              <li><a href="#commenttab" data-toggle="tab">Comments</a></li>
-            </ul>
-          </li>
-        </ul>
-        <div id="myTabContent" class="tab-content">
-          <div class="tab-pane fade active in" id="aboutmetab">
-            <p>
-              <!-- About me section -->
-              {{> aboutme aboutme=aboutme}}
-              <!-- /. About me section -->
-            </p>
-          </div>
-          <div class="tab-pane fade" id="personaltab">
-            <p>
-              {{> personaldetails personaldetails=personaldetails}}
-            </p>            
-          </div>
-          <div class="tab-pane fade" id="proffessionaltab">
-            <p>
-              {{> proffessionaldetails proffessionaldetails=proffessionaldetails}}
-            </p>
-          </div>
-          <div class="tab-pane fade" id="blogtab">
-            <p>Etsy mixtape wayfarers, ethical wes anderson tofu before they sold out mcsweeney's organic lomo retro fanny pack
-              lo-fi farm-to-table readymade. Messenger bag gentrify pitchfork tattooed craft beer, iphone skateboard locavore
-              carles etsy salvia banksy hoodie helvetica. DIY synth PBR banksy irony. Leggings gentrify squid 8-bit cred
-              pitchfork.
-            </p>
-          </div>
-          <div class="tab-pane fade" id="commenttab">
-            <p>Trust fund seitan letterpress, keytar raw denim keffiyeh etsy art party before they sold out master cleanse gluten-free
-              squid scenester freegan cosby sweater. Fanny pack portland seitan DIY, art party locavore wolf cliche high
-              life echo park Austin. Cred vinyl keffiyeh DIY salvia PBR, banh mi before they sold out farm-to-table VHS viral
-              locavore cosby sweater.</p>
+              <ul class="dropdown-menu">
+                <li><a href="#blogtab" data-toggle="tab" class="blogactivitytab">Blogs</a></li>
+                <li class="divider"></li>
+                <li><a href="#commenttab" data-toggle="tab">Comments</a></li>
+              </ul>
+            </li>
+          </ul>
+          <div id="myTabContent" class="tab-content">
+            <div class="tab-pane fade active in" id="aboutmetab">
+              <p>
+                <!-- About me section -->
+                {{> aboutme aboutme=aboutme}}
+                <!-- /. About me section -->
+              </p>
+            </div>
+            <div class="tab-pane fade" id="personaltab">
+              <p>
+                {{> personaldetails personaldetails=personaldetails}}
+              </p>
+            </div>
+            <div class="tab-pane fade" id="proffessionaltab">
+              <p>
+                {{> proffessionaldetails proffessionaldetails=proffessionaldetails}}
+              </p>
+            </div>
+            <div class="tab-pane fade" id="blogtab">
+              <p>
+                <div class="bs-docs-section">
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <div class="bs-component">
+
+                        <div class="alert alert-info">
+                          <strong>Your Blogging History!</strong>
+                        </div>
+
+                        <div class="nobloghistory hidden">
+                          <strong>No records available!!!</strong>
+                        </div>
+
+                        <div id="accordion" class="bloghistorybyuserid">
+                        </div>
+
+                        <input type="hidden" name="userid" id="userid" value="{{user._id}}" />
+                        <input type="hidden" name="username" id="username" value="{{user.username}}" />
+
+                        <div id="divImageBlogHistory" data-lastbloghistoryid="0">
+                          <span id="loadmoreblogbyuserid" name="loadmoreblogbyuserid" alt="Load More" class="glyphicon glyphicon-hand-down"></span>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </p>
+            </div>
+            <div class="tab-pane fade" id="commenttab">
+              <p>Trust fund seitan letterpress, keytar raw denim keffiyeh etsy art party before they sold out master cleanse
+                gluten-free squid scenester freegan cosby sweater. Fanny pack portland seitan DIY, art party locavore wolf
+                cliche high life echo park Austin. Cred vinyl keffiyeh DIY salvia PBR, banh mi before they sold out farm-to-table
+                VHS viral locavore cosby sweater.</p>
+            </div>
           </div>
         </div>
-      </div>
 
+      </div>
+      <!--/.Second column-->
     </div>
-    <!--/.Second column-->
   </div>
-</div>
 </div>
 
 <script type="text/javascript" src="/js/myprofile.js"></script>
