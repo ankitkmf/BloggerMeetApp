@@ -275,21 +275,21 @@ let GetBlogTableData = type => {
         $.when(GetCompiledTemplate("dashboardBlogTableData"), GetDashboardBlockJSON(path))
             .done(function(template, json) {
                 var data = { "user": json };
-                console.log("GetBlogTableData:" + JSON.stringify(data));
+                //  console.log("GetBlogTableData:" + JSON.stringify(data));
                 var compiledTemplate = Handlebars.compile(template);
                 var html = compiledTemplate(data);
                 $(".divUserInnerTable").html('');
                 $(".divUserInnerTable").html(html).show();
 
-                var icons = {
-                    header: "ui-icon-circle-arrow-e",
-                    activeHeader: "ui-icon-circle-arrow-s"
-                };
+                // var icons = {
+                //     header: "ui-icon-circle-arrow-e",
+                //     activeHeader: "ui-icon-circle-arrow-s"
+                // };
 
                 $('#accordion').accordion({
                     heightStyle: 'content',
                     collapsible: true,
-                    icons: icons,
+                    // icons: icons,
                     header: "> div > h3",
                     event: "mouseup"
                 }).sortable({
