@@ -322,10 +322,10 @@ router.post("/data/updateTableRecords", function(req, res) {
             "active": (req.body.active === 'true'),
             "admin": (req.body.admin === 'true')
         };
-        console.log("UpdateTableRecords collection:" + JSON.stringify(result));
+        // console.log("UpdateTableRecords collection:" + JSON.stringify(result));
         axios.post(path, result)
             .then(function(response) {
-                console.log("updateUsersRecord api response:" + response);
+                //  console.log("updateUsersRecord api response:" + response);
                 res.json(true);
             })
             .catch(function(error) {
