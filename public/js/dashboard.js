@@ -225,7 +225,8 @@ let UpdateTableRecords = (record, userName) => {
                 // GetUserInfo();
                 var userID = "",
                     type = "all";
-                GetUserBlogs(type, userID);
+                // GetUserBlogs(type, userID);
+                GetUserInfo("all", "");;
                 (type, userID);
                 swal("Updated!", userName + " is successfully updated!", "success");
             })
@@ -239,43 +240,15 @@ let GetUserTableData = type => {
     if (type != null) {
         run_waitMe("divUserTable");
         var path = "/commonAPI/data/userDatatable/" + type;
-        $.when(GetCompiledTemplate("dashboardBlogTableData"), GetDashboardBlockJSON(path))
-            .done(function(template, json) {
-                var data = { "user": json };
-                var compiledTemplate = Handlebars.compile(template);
-                var html = compiledTemplate(data);
-                $(".divUserInnerTable").html('');
-                $(".divUserInnerTable").html(html).show();
-                $('#accordion').accordion({
-                    heightStyle: 'content',
-                    collapsible: true,
-                    icons: icons,
-                    header: "> div > h3"
-                }).sortable({
-                    axis: "y",
-                    handle: "h3",
-                    stop: function(event, ui) {
-                        ui.item.children("h3").triggerHandler("focusout");
-                        $(this).accordion("refresh");
-                    }
-                });
-                stop_waitMe("divUserTable");
-            });
-    } else
-        console.log("type is null");
-}
-
-let GetBlogTableData = type => {
-    if (type != null) {
-        run_waitMe("divUserBlogs");
-        var path = "/commonAPI/data/userBlogDatatable/" + type;
         $.when(GetCompiledTemplate("dashboardTable"), GetDashboardBlockJSON(path))
             .done(function(template, json) {
                 var data = { "user": json };
-                console.log("Data:" + JSON.stringify(data));
                 var compiledTemplate = Handlebars.compile(template);
                 var html = compiledTemplate(data);
                 $(".divUserInnerTable").html('');
+                // $(".divUserInnerTable").html(html).show();
+                console.log("GetUserTableData:" + JSON.stringify(data));
+                var html = compiledTemplate(data);
                 $(".divUserInnerTable").html(html).show();
                 $('.tbUserTable').DataTable({
                     "order": [
@@ -286,6 +259,50 @@ let GetBlogTableData = type => {
                         [5, 10, 20]
                     ]
                 });
+            }).fail(function(err) {
+                console.log("Err:" + JSON.stringify(err));
+            }).always(function() {
+                stop_waitMe("divUserTable");
+            });;
+    } else
+        console.log("type is null");
+}
+
+let GetBlogTableData = type => {
+    if (type != null) {
+        run_waitMe("divUserBlogs");
+        var path = "/commonAPI/data/userBlogDatatable/" + type;
+        $.when(GetCompiledTemplate("dashboardBlogTableData"), GetDashboardBlockJSON(path))
+            .done(function(template, json) {
+                var data = { "user": json };
+                //  console.log("GetBlogTableData:" + JSON.stringify(data));
+                var compiledTemplate = Handlebars.compile(template);
+                var html = compiledTemplate(data);
+                $(".divUserInnerTable").html('');
+                $(".divUserInnerTable").html(html).show();
+
+                // var icons = {
+                //     header: "ui-icon-circle-arrow-e",
+                //     activeHeader: "ui-icon-circle-arrow-s"
+                // };
+
+                $('#accordion').accordion({
+                    heightStyle: 'content',
+                    collapsible: true,
+                    // icons: icons,
+                    header: "> div > h3",
+                    event: "mouseup"
+                }).sortable({
+                    axis: "y",
+                    handle: "h3",
+                    stop: function(event, ui) {
+                        ui.item.children("h3").triggerHandler("focusout");
+                        $(this).accordion("refresh");
+                    }
+                });
+            }).fail(function(err) {
+                console.log("Err:" + JSON.stringify(err));
+            }).always(function() {
                 stop_waitMe("divUserBlogs");
             });
     } else
