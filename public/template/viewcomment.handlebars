@@ -4,6 +4,6 @@
         {{this.comment}}
     </div>
     <div class="panel-footer text-right">by <i>{{this.username}} <span class="glyphicon glyphicon-time"></span> Posted on 
-      {{this.creationdate}}</i></div>
+      {{#CovertISODate this.creationdate}}{{/CovertISODate}}</i></div>
 </div>
 {{/each}} {{/Compare}}{{/if}} 

@@ -358,3 +358,38 @@ function getFileExtension(filename) {
     }
     return extension;
 }
+
+router.post("/updatecomment", function(req, res) {
+    if (req.body._id != null && req.body.status != null) {
+        let path = serviceURL + "/updatecomment/";
+        var status = "";
+        switch (req.body.status) {
+            case "approve":
+                status = "1";
+                break;
+            case "reject":
+                status = "2";
+                break;
+            case "pending":
+                status = "0";
+                break;
+            default:
+                status = "0";
+        }
+        var result = {
+            "_id": req.body._id,
+            "status": status
+        };
+        console.log("updatecomment collection:" + JSON.stringify(result));
+        axios.post(path, result)
+            .then(function(response) {
+                console.log("updatecomment api response:" + response);
+                res.json(true);
+            })
+            .catch(function(error) {
+                console.log(" updatecomment api error:" + error);
+                res.json({ "Error": "signUp api error" });
+            });
+    } else
+        res.json(false);
+});

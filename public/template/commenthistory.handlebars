@@ -1,0 +1,60 @@
+{{#if commenthistory }} {{#Compare commenthistory.count ">" 0}}
+<div>
+
+  {{#each commenthistory.result}}
+
+  <div data-id="{{this._id}}" class="panel panel-default comment-panel-default commenttable">
+    <div class="panel-body">
+      <div class="row">
+        <div class="col-lg-12">
+          <span class="commentstats">
+          <label class="radio-inline">            
+           {{#Compare "1" this.status}}
+             <input type="radio" name="blogGroup_{{@index}}" checked="checked" data-type="approve" value="1"/>
+           {{else}} 
+         <input type="radio" name="blogGroup_{{@index}}" data-type="approve" value="1"/>
+          {{/Compare}}
+          Approve
+        </label>
+
+          <label class="radio-inline">            
+           {{#Compare "2" this.status}}
+             <input type="radio" name="blogGroup_{{@index}}" data-type="reject" checked="checked" value="2"/>
+           {{else}} 
+         <input type="radio" name="blogGroup_{{@index}}" data-type="reject" value="2"/>
+          {{/Compare}}
+          Reject
+        </label>
+
+          <label class="radio-inline">            
+           {{#Compare "0" this.status}}
+             <input type="radio" name="blogGroup_{{@index}}" data-type="pending" checked="checked" value="3"/>
+           {{else}} 
+         <input type="radio" name="blogGroup_{{@index}}" data-type="pending" value="3"/>
+          {{/Compare}}
+          Pending
+        </label>
+
+          <button type="button" class="btn btn-info btn-xs commentDataColumn">Update</button>
+          </span>
+        </div>
+      </div>
+      <hr>
+      <div class="row">
+        <div class="col-lg-12">{{{this.comment}}}</div>
+      </div>
+
+    </div>
+
+    <div class="panel-footer commentFooter"><strong>by {{this.username}}</strong>
+      <span class="blogpostdate glyphicon glyphicon-time"></span> on {{#CovertISODate this.creationdate}}{{/CovertISODate}}
+    </div>
+  </div>
+
+  {{/each}}
+</div>
+{{else}}
+<div class="nocommenthistory text-warning">
+  <strong>Sorry, No comments available!!!</strong>
+</div>
+{{/Compare}} {{/if}}
