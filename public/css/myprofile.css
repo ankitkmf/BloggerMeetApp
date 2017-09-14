@@ -238,3 +238,39 @@ span#loadmoreblogbyuserid {
     font-size: 20px;
     cursor: pointer;
 }
+
+.fa {
+    /* padding: 20px !important;
+    font-size: 30px !important; */
+    font-size: 25px;
+    text-align: center !important;
+    text-decoration: none !important;
+    border-radius: 50% !important;
+    display: inline !important;
+    float: right;
+}
+
+
+/* .social a:hover {    
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+    -webkit-transition: all 1s;
+    -moz-transition: all 1s;
+    -ms-transition: all 1s;
+    -o-transition: all 1s;
+    transition: all 1s;
+} */
+
+
+/* 
+.social ul li:hover {
+    -webkit-transform: translate(110px, 0);
+    -moz-transform: translate(110px, 0);
+    -ms-transform: translate(110px, 0);
+    -o-transform: translate(110px, 0);
+    transform: translate(110px, 0);
+    background: rgba(255, 255, 255, 0.4);
+} */
