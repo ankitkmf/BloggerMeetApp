@@ -103,10 +103,6 @@
                       </div>
                     </div>
                   </div>
-
-                  <input type="hidden" name="userid" id="userid" value="{{user._id}}" />
-                  <input type="hidden" name="username" id="username" value="{{user.username}}" />
-
                 </div>
               </p>
             </div>
@@ -163,9 +159,6 @@
                       </div>
                     </div>
                   </div>
-
-                  <input type="hidden" name="userid" id="userid" value="{{user._id}}" />
-                  <input type="hidden" name="username" id="username" value="{{user.username}}" />
                 </div>
               </p>
             </div>
@@ -178,6 +171,8 @@
   </div>
 </div>
 
+<input type="hidden" name="userid" id="userid" value="{{user._id}}" />
+<input type="hidden" name="username" id="username" value="{{user.username}}" />
 <input type="hidden" id="selectedBlogID">
 <input type="hidden" id="selectedBlogIDCmnt">
 <script type="text/javascript" src="/js/myprofile.js"></script>

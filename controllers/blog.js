@@ -132,6 +132,8 @@ router.post("/savedata/edit", function(req, res) {
                 "userid": userid
             }
 
+            console.log("savedata " + JSON.stringify(data));
+
             blogger.editblog(data).then(function(results) {
 
                 res.json(true);

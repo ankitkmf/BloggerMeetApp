@@ -86,6 +86,27 @@ let getproffessionaldetails = function(userid) {
 //     });
 // }
 
+let updateprofilephotopath = (userid, profilepath) => {
+    let path = serviceURL + "/updateprofilephotopath/";
+    console.log("path:" + path);
+
+    var data = {
+        "userid": userid,
+        "localphoto": profilepath
+    };
+
+    axios.post(path, data)
+        .then(function(response) {
+            log.logger.info("Model layer updateprofilephotopath method : service call : success");
+            //res.json(true);
+        })
+        .catch(function(error) {
+            console.log("api error:" + error);
+            log.logger.error("Model layer blogs : updateprofilephotopath call : error : " + error);
+            //res.json({ "Error": "updateprofilephotopath api error" });
+        });
+}
+
 router.post('/updateaboutme', function(req, res) {
 
     if (req.url == '/updateaboutme') {
@@ -132,6 +153,8 @@ router.get('/:_id', function(req, res) {
 
     var userid = req.params._id;
 
+    console.log("_id " + userid);
+
     var collectionCountList = {};
 
     Promise.all([
@@ -144,12 +167,13 @@ router.get('/:_id', function(req, res) {
         var personaldetails = data[1].data;
         var proffessionaldetails = data[2].data;
 
-
         // var lastbloghistoryid = "0";
         // _.forEach(bloghistory.result, function(result) {
         //     //console.log(1);
         //     lastbloghistoryid = result._id
         // });
+
+        console.log(JSON.stringify(aboutme.result));
 
         log.logger.info("Successfully retrive my-profile data");
         res.render("myprofile", {
@@ -201,13 +225,16 @@ router.post('/uploadphoto', function(req, res) {
                         } else {
                             var uploadedfilepath = path.join(uploadpath, user_id + ".jpg");
 
+                            var profilepath = "/" + user_id + "/" + user_id + ".jpg";
+                            updateprofilephotopath(user_id, profilepath);
+
                             mv(oldpath, uploadedfilepath, function(err) {
                                 if (err) {
                                     throw err;
                                 }
                                 console.log('file moved successfully. File Path : ' + uploadedfilepath);
                                 log.logger.info("uploadphoto : mv method : file moved successfully. File Path : " + uploadedfilepath);
-                                res.json({ "filepath": "/" + user_id + "/" + user_id + ".jpg" });
+                                res.json({ "filepath": profilepath });
                             });
                         }
                     });

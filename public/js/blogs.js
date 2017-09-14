@@ -220,6 +220,8 @@ $(function() {
             "userid": userid
         }
 
+        console.log("datacollection " + JSON.stringify(datacollection));
+
         if (isValid) {
             $(".blogeditvalidationpanel").html("");
 
