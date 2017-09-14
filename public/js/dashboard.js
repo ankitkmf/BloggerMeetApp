@@ -60,7 +60,7 @@ $(function() {
     });
 
     $(".divUserTable").on("click", "td>button", function() {
-        //console.log("click");
+        console.log("click1");
         var item = {};
         var jsonObj = [];
         item["id"] = $(this).closest("tr").data("id");
@@ -76,6 +76,40 @@ $(function() {
         });
         jsonObj.push(item);
         UpdateTableRecords(jsonObj, userName);
+    });
+
+    $(".divUserTable").on("click", "div>button", function() {
+        console.log("Click :" + $(this).closest(".blogtable").data("name"));
+        console.log($(this).parent("div").find($("input[type='radio']:checked")).data("type"));
+        console.log("click");
+        var data = {
+            id: $(this).closest(".blogtable").data("name"),
+            type: $(this).parent("div").find($("input[type='radio']:checked")).data("type")
+        };
+        if (data.id != null && data.type != null) {
+            swal({
+                title: "Are you sure?",
+                text: "Are you sure that you want to update this records?",
+                type: "warning",
+                showCancelButton: true,
+                closeOnConfirm: false,
+                confirmButtonText: "Yes, update it!",
+                confirmButtonColor: "#ec6c62"
+            }, function() {
+                $.ajax({
+                        method: "Post",
+                        url: "/commonAPI/data/updateBlogTableRecords",
+                        data: data
+                    })
+                    .done(function(result) {
+                        GetUserBlogs("all", "");
+                        swal("Updated! Blog is successfully updated!", "success");
+                    })
+                    .error(function(data) {
+                        swal("Oops", "We couldn't connect to the server!", "error");
+                    });
+            });
+        }
     });
 });
 
@@ -205,7 +239,7 @@ let GetUserInfo = (type, id) => {
 };
 
 let UpdateTableRecords = (record, userName) => {
-    console.log("record:" + JSON.stringify(record));
+    // console.log("record:" + JSON.stringify(record));
     swal({
         title: "Are you sure?",
         text: "Are you sure that you want to update this records?",
@@ -247,7 +281,7 @@ let GetUserTableData = type => {
                 var html = compiledTemplate(data);
                 $(".divUserInnerTable").html('');
                 // $(".divUserInnerTable").html(html).show();
-                console.log("GetUserTableData:" + JSON.stringify(data));
+                //console.log("GetUserTableData:" + JSON.stringify(data));
                 var html = compiledTemplate(data);
                 $(".divUserInnerTable").html(html).show();
                 $('.tbUserTable').DataTable({
