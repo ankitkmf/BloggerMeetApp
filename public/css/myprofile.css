@@ -274,3 +274,18 @@ span#loadmoreblogbyuserid {
     transform: translate(110px, 0);
     background: rgba(255, 255, 255, 0.4);
 } */
+
+.commentstats {
+    float: right;
+}
+
+.commentFooter {
+    background-color: #3498db !important;
+    color: white;
+    padding: 5px 8px
+}
+
+.comment-panel-default {
+    border-color: cadetblue;
+    background-color: aliceblue;
+}

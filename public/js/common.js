@@ -42,6 +42,12 @@ $(function() {
         }
     });
 
+    Handlebars.registerHelper("CovertISODate", function(isodate) {
+        if (isodate != undefined) {
+            return new Date(isodate).toUTCString();
+        }
+    });
+
     $(".loginBtn").on("click", () => {
         //$(".modalLogin").removeClass("hidden");
         // run_waitMe("signUp");

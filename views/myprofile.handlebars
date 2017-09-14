@@ -69,98 +69,124 @@
                         <div class="alert alert-info">
                           <strong>View Your Blog History!</strong>
                         </div>
+                      </div>
+                    </div>
+                  </div>
 
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <div class="bs-component">
                         <div class="nobloghistoryonprofile hidden">
                           <p class="text-danger"><strong>Please select a valid Blog!!!</strong></p>
-                        </div>
-
-                        {{!--
-                        <div class="col-sm-offset-4 col-sm-8 col-md-offset-4 col-md-8 col-lg-offset-4 col-lg-8"> --}}
-                          <div class="col-lg-12">
-                            <div class="form-group bloglistbyuserid">
-                              <div class="form-group serach">
-                                <div>
-                                  <div class="input-group">
-                                    <input type="text" class="form-control input-sm" id="inputSearch" placeholder="Search Blog Name">
-                                    <span class="input-group-btn">
-                                   <button type="submit" id="BlogHistorySearchBtn" class="btn btn-info btn-sm ">
-                                   <span class="glyphicon glyphicon-search"></span>
-                                    </button>
-                                    </span>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-
-                          <div class="bloghistorybyuserid">
-                          </div>
-
-                          <input type="hidden" name="userid" id="userid" value="{{user._id}}" />
-                          <input type="hidden" name="username" id="username" value="{{user.username}}" />
-
                         </div>
                       </div>
                     </div>
                   </div>
-              </p>
-              </div>
-              <div class="tab-pane fade" id="commenttab">
-                <p>
-                  <div class="bs-docs-section">
-                    <div class="row">
-                      <div class="col-lg-12">
-                        <div class="bs-component">
 
-                          <div class="alert alert-info">
-                            <strong>View Blog Wise Comment and take action</strong>
-                          </div>
-
-                          <div class="nocommenthistoryonprofile hidden">
-                            <p class="text-danger"><strong>Please select a valid Blog!!!</strong></p>
-                          </div>
-
-                          {{!--
-                          <div class="col-sm-offset-4 col-sm-8 col-md-offset-4 col-md-8 col-lg-offset-4 col-lg-8">
-                          --}}
-                            <div class="col-lg-12">
-                              <div class="form-group bloglistbyuseridcmnt">
-                                <div class="form-group serach">
-                                  <div>
-                                    <div class="input-group">
-                                      <input type="text" class="form-control input-sm" id="inputSearchcmnt" placeholder="Search Blog Name">
-                                      <span class="input-group-btn">
-                                   <button type="submit" id="CommentHistorySearchBtn" class="btn btn-info btn-sm ">
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <div class="bs-component">
+                        <div class="form-group bloglistbyuserid">
+                          <div class="form-group serach">
+                            <div>
+                              <div class="input-group">
+                                <input type="text" class="form-control input-sm" id="inputSearch" placeholder="Search Blog Name">
+                                <span class="input-group-btn">
+                                   <button type="submit" id="BlogHistorySearchBtn" class="btn btn-info btn-sm ">
                                    <span class="glyphicon glyphicon-search"></span>
-                                      </button>
-                                      </span>
-                                    </div>
-                                  </div>
-                                </div>
+                                </button>
+                                </span>
                               </div>
                             </div>
-
-                            <div class="commenthistorybyblogid">
-                            </div>
-
-                            <input type="hidden" name="userid" id="userid" value="{{user._id}}" />
-                            <input type="hidden" name="username" id="username" value="{{user.username}}" />
-
                           </div>
                         </div>
                       </div>
                     </div>
-                </p>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <div class="bs-component">
+                        <div class="bloghistorybyuserid">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <input type="hidden" name="userid" id="userid" value="{{user._id}}" />
+                  <input type="hidden" name="username" id="username" value="{{user.username}}" />
+
                 </div>
-              </div>
+              </p>
             </div>
+            <div class="tab-pane fade" id="commenttab">
+              <p>
+                <div class="bs-docs-section">
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <div class="bs-component">
 
+                        <div class="alert alert-info">
+                          <strong>View Blog Wise Comment and take action</strong>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <div class="bs-component">
+                        <div class="nocommenthistoryonprofile hidden">
+                          <p class="text-danger"><strong>Please select a valid Blog!!!</strong></p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <div class="bs-component">
+                        <div class="form-group bloglistbyuseridcmnt">
+                          <div class="form-group serach">
+                            <div>
+                              <div class="input-group">
+                                <input type="text" class="form-control input-sm" id="inputSearchcmnt" placeholder="Search Blog Name">
+                                <span class="input-group-btn">
+                                   <button type="submit" id="CommentHistorySearchBtn" class="btn btn-info btn-sm ">
+                                   <span class="glyphicon glyphicon-search"></span>
+                                </button>
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <div class="bs-component">
+                        <div class="commenthistorybyblogid">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <input type="hidden" name="userid" id="userid" value="{{user._id}}" />
+                  <input type="hidden" name="username" id="username" value="{{user.username}}" />
+                </div>
+              </p>
+            </div>
           </div>
-          <!--/.Second column-->
         </div>
-      </div>
-    </div>
 
-    <input type="hidden" id="selectedBlogID">
-    <input type="hidden" id="selectedBlogIDCmnt">
-    <script type="text/javascript" src="/js/myprofile.js"></script>
+      </div>
+      <!--/.Second column-->
+    </div>
+  </div>
+</div>
+
+<input type="hidden" id="selectedBlogID">
+<input type="hidden" id="selectedBlogIDCmnt">
+<script type="text/javascript" src="/js/myprofile.js"></script>

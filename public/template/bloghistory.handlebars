@@ -13,14 +13,15 @@
         <tr data-key="{{this._id}}">
             <td>
             <span class="glyphicon glyphicon-hand-right" /></td>
-            <td>{{this.date}}</td>
+            <td>{{#CovertISODate this.date}}{{/CovertISODate}}</td>
             <td>Blog was {{this.actiontype}}</td>
         </tr>
         {{/each}}
     </tbody>
 </table>
-{{/Compare}} {{else}}
+{{else}}
 <div class="nobloghistory">
     <strong>No records available!!!</strong>
 </div>
+{{/Compare}} 
 {{/if}}

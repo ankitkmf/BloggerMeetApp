@@ -7,8 +7,8 @@
                     <!-- Title ,Author ,Date/Time-->
                     <h3 class="h3-responsive"><a href="/viewblog/showdetails/{{this._id}}">
                     <img border="0" src="/images/article.png" title="article"></a>{{{this.topic}}}</h3>
-                    <p>Written by <a href="#">{{this.createdby}}</a>,
-                        <span class="glyphicon glyphicon-time"></span> Posted on {{this.creationdate}}</p>
+                    <p>Written by <a href="#">{{this.createdby}}</a>, 
+                    <span class="glyphicon glyphicon-time"></span> Posted on {{#CovertISODate this.creationdate}}{{/CovertISODate}}</p>
 
                     <!--Content-->
                     <span class="limitblogdata">{{{this.content}}}</span>

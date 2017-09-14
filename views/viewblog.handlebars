@@ -8,7 +8,7 @@
                     <h3 class="h3-responsive"><a href="/viewblog/showdetails/{{blog._id}}">
                     <img border="0" src="/images/article.png" title="article"></a>{{{blog.topic}}}</h3>
                     <p>Written by <a href="#">{{blog.createdby}}</a>,
-                        <span class="glyphicon glyphicon-time"></span> Posted on {{blog.creationdate}}</p>
+                        <span class="glyphicon glyphicon-time"></span> Posted on {{#CovertISODate blog.creationdate}}{{/CovertISODate}}</p>
 
                     <!--Content-->
                     <span class="limitblogdata">{{{blog.content}}}</span>
@@ -48,8 +48,8 @@
                         <div class="panel-body">
                             {{this.comment}}
                         </div>
-                        <div class="panel-footer text-right">by <i>{{this.username}} <span class="glyphicon glyphicon-time"></span> Posted on 
-      {{this.creationdate}}</i></div>
+                        <div class="panel-footer text-right">by <i>{{this.username}} 
+                            <span class="glyphicon glyphicon-time"></span> Posted on {{#CovertISODate this.creationdate}}{{/CovertISODate}}</i></div>
                     </div>
                     {{/each}} {{/Compare}}{{/if}}
                 </div>

@@ -16,7 +16,7 @@ $(function() {
     // $('#accordion').accordion({
     //     heightStyle: 'content',
     //     collapsible: true,
-    //     icons: icons,
+    //     //icons: icons,
     //     header: "> div > h3"
     // }).sortable({
     //     axis: "y",
@@ -510,6 +510,43 @@ $(function() {
         }
     });
 
+    $(".commenthistorybyblogid").on("click", "span>button", function() {
+        console.log("click");
+        console.log("Click :" + $(this).closest(".commenttable").data("id"));
+        console.log($(this).parent("span").find($("input[type='radio']:checked")).data("type"));
+        console.log("click");
+        var data = {
+            _id: $(this).closest(".commenttable").data("id"),
+            status: $(this).parent("span").find($("input[type='radio']:checked")).data("type")
+        };
+        if (data._id != null && data.status != null) {
+            swal({
+                title: "Are you sure?",
+                text: "Are you sure that you want to update this records?",
+                type: "warning",
+                showCancelButton: true,
+                closeOnConfirm: false,
+                confirmButtonText: "Yes, update it!",
+                confirmButtonColor: "#ec6c62"
+            }, function() {
+                $.ajax({
+                        method: "Post",
+                        url: "/myprofile/updatecomment",
+                        data: data
+                    })
+                    .done(function(result) {
+                        // var selectedBlogIDCmnt = "";
+                        // if ($('#selectedBlogIDCmnt').val() != undefined)
+                        //     selectedBlogIDCmnt = $('#selectedBlogIDCmnt').val();
+
+                        swal("Updated! Comment is successfully updated!", "Success");
+                    })
+                    .error(function(data) {
+                        swal("Oops", "We couldn't connect to the server!", "Error");
+                    });
+            });
+        }
+    });
 });
 
 let LoadBlogHistory = (userid, selectedBlogID) => {
@@ -553,9 +590,26 @@ let LoadCommentHistory = (selectedBlogID) => {
             var data = { "commenthistory": json, "selectedBlogID": selectedBlogID };
             var compiledTemplate = Handlebars.compile(template);
             var newhtml = compiledTemplate(data);
-
             $(".commenthistorybyblogid").html("");
             $(".commenthistorybyblogid").html(newhtml);
+
+            // $('#accordion').accordion({
+            //     heightStyle: 'content',
+            //     collapsible: true,
+            //     //icons: icons,
+            //     header: "> div > h3"
+            // }).sortable({
+            //     axis: "y",
+            //     handle: "h3",
+            //     stop: function(event, ui) {
+            //         // IE doesn't register the blur when sorting
+            //         // so trigger focusout handlers to remove .ui-state-focus
+            //         ui.item.children("h3").triggerHandler("focusout");
+
+            //         // Refresh accordion to handle new order
+            //         $(this).accordion("refresh");
+            //     }
+            // });
         });
     stop_waitMe("commenthistorybyblogid");
 };
