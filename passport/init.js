@@ -16,9 +16,8 @@ passport.use(new LocalStrategy(function(username, password, done) {
     passportauth.find(username).then((response) => {
         console.log("Step 5");
         console.log("response.data:" + JSON.stringify(response.data));
-        if (response != null && response.data != null) {
-            user = response.data;
-            console.log("user.result._id:" + user.result._id);
+        if (response != null && response.data != null && response.data.result.count > 0) {
+            user = response.data.result;
             log.logger.info("Passport Init : passportauth find : User _id : " + user.result._id + " , name : " + user.result.username);
             bcrypt.compare(password, user.result.password, function(err, result) {
                 if (result) {
@@ -53,9 +52,10 @@ passport.use(new GoogleStrategy({
     function(accessToken, refreshToken, profile, done) {
         if (profile.emails[0].value != null && profile.id != null) {
             passportauth.find(profile.emails[0].value).then((response) => {
-                if (response != null && response.data != null) {
+                if (response != null && response.data != null && response.data.result.count > 0) {
                     var user = {};
-                    user = response.data.result;
+                    user = response.data.result.result;
+                    console.log(JSON.stringify(user));
                     console.log("Google user found in DB");
                     return done(null, user);
                 } else {
@@ -93,7 +93,7 @@ passport.use(new GoogleStrategy({
                 }
             }).catch(function(err) {
                 console.log("Gooel passport find exception:" + err);
-                log.logger.error("Passport Init : passportauth find : User Name : " + username + " Error : " + err);
+                log.logger.error("Passport Init : passportauth find : User Name : " + profile.displayName + " Error : " + err);
                 return done(null, false);
             });
         }

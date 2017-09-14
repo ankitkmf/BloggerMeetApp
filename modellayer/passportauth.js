@@ -9,13 +9,10 @@ exports.find = function(email) {
     var filter = {
         "email": email
     };
-    console.log("Step 2 path:" + path);
-    // console.log("Step 2.1 filter:" + JSON.stringify(filter));
     return new Promise(function(resolve, reject) {
         axios.get(path).then(function(response) {
-                console.log("Step 3");
-                // log.logger.info("Passport Auth : find : user info retrival : success");
-                // saveLoginHistory(response, email);
+                if (response.data.result.count > 0)
+                    saveLoginHistory(response.data.result.result, email);
                 resolve(response);
             })
             .catch(function(error) {
@@ -30,15 +27,15 @@ exports.find = function(email) {
 let saveLoginHistory = (response, email) => {
     let path = serviceURL + "/saveLoginHistory";
     var result = {
-        "username": response.data.result.username,
-        "name": response.data.result.username,
+        "username": response.username,
+        "name": response.username,
         "email": email,
-        "authType": response.data.result.authType,
-        "profileID": response.data.result._id
+        "authType": response.authType,
+        "profileID": response._id
     };
     axios.post(path, result)
         .then(function(response) {
-            console.log("saveLoginHistory api response:" + response);
+            //   console.log("saveLoginHistory api response:" );
         })
         .catch(function(error) {
             console.log("saveLoginHistory api error:" + error);
