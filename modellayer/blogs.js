@@ -184,21 +184,75 @@ exports.addcomment = function(data) {
     });
 }
 
-exports.GetBlogHistoryuserid = function(userid, lastbloghistoryid) {
-    let path = serviceURL + "/getbloghistoryuserid/" + userid + "/" + lastbloghistoryid;
+// exports.GetBlogHistoryuserid = function(userid, lastbloghistoryid) {
+//     let path = serviceURL + "/getbloghistoryuserid/" + userid + "/" + lastbloghistoryid;
+//     console.log("path:" + path);
+//     log.logger.info("Model layer : GetBlogHistoryuserid : service call : " + path);
+//     //console.log("getblogcommentbyblogid 1114");
+//     return new Promise(function(resolve, reject) {
+//         axios.get(path).then(function(response) {
+//                 //console.log("getblogcommentbyblogid 21");
+//                 log.logger.info("Model layer : GetBlogHistoryuserid : service call : success");
+//                 resolve(response);
+//             })
+//             .catch(function(error) {
+//                 //console.log("getblogcommentbyblogid 31");
+//                 var err = { "Error": error };
+//                 log.logger.error("Model layer : GetBlogHistoryuserid : service call : error : " + error);
+//                 reject(err);
+//             });
+//     });
+// }
+
+exports.GetBlogListByUserid = function(userid) {
+    let path = serviceURL + "/getbloglistbyuserid/" + userid;
     console.log("path:" + path);
-    log.logger.info("Model layer : GetBlogHistoryuserid : service call : " + path);
+    log.logger.info("Model layer : GetBlogListByUserid : service call : " + path);
     //console.log("getblogcommentbyblogid 1114");
     return new Promise(function(resolve, reject) {
         axios.get(path).then(function(response) {
                 //console.log("getblogcommentbyblogid 21");
-                log.logger.info("Model layer : GetBlogHistoryuserid : service call : success");
+                log.logger.info("Model layer : GetBlogListByUserid : service call : success");
                 resolve(response);
             })
             .catch(function(error) {
                 //console.log("getblogcommentbyblogid 31");
                 var err = { "Error": error };
-                log.logger.error("Model layer : GetBlogHistoryuserid : service call : error : " + error);
+                log.logger.error("Model layer : GetBlogListByUserid : service call : error : " + error);
+                reject(err);
+            });
+    });
+}
+
+exports.GetBlogHistoryByBlogID = function(userid, selectedBlogID) {
+    let path = serviceURL + "/getbloghistorybyblogid/" + userid + "/" + selectedBlogID;
+    console.log("path:" + path);
+    log.logger.info("Model layer : GetBlogHistoryByBlogID : service call : " + path);
+    return new Promise(function(resolve, reject) {
+        axios.get(path).then(function(response) {
+                log.logger.info("Model layer : GetBlogHistoryByBlogID : service call : success");
+                resolve(response);
+            })
+            .catch(function(error) {
+                var err = { "Error": error };
+                log.logger.error("Model layer : GetBlogHistoryByBlogID : service call : error : " + error);
+                reject(err);
+            });
+    });
+}
+
+exports.GetCommentByBlogID = function(selectedBlogID) {
+    let path = serviceURL + "/getcommentbyblogid/" + selectedBlogID;
+    console.log("path:" + path);
+    log.logger.info("Model layer : GetCommentByBlogID : service call : " + path);
+    return new Promise(function(resolve, reject) {
+        axios.get(path).then(function(response) {
+                log.logger.info("Model layer : GetCommentByBlogID : service call : success");
+                resolve(response);
+            })
+            .catch(function(error) {
+                var err = { "Error": error };
+                log.logger.error("Model layer : GetCommentByBlogID : service call : error : " + error);
                 reject(err);
             });
     });

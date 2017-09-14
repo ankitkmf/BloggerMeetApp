@@ -1,16 +1,26 @@
- {{#if bloghistory}} {{#Compare bloghistory.count ">" 0}}
-  {{#each bloghistory.result}}
-<div>
-    <h3>
-        <span>{{this.blogtopic}}</span>
-    </h3>
-    <div>This Blog was {{this.actiontype}} on {{this.date}}.
-        <br/><br/>
-        Click here to <a href="/viewblog/showdetails/{{this._id}}">view the blog</a>
-    </div>
+{{#if bloghistory}} {{#Compare bloghistory.count ">" 0}}
+<a href="/viewblog/showdetails/{{selectedBlogID}}">View Blog</a>
+<table class="table table-striped table-hover ">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Date</th>
+            <th>Activity</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each bloghistory.result}}
+        <tr data-key="{{this._id}}">
+            <td>
+            <span class="glyphicon glyphicon-hand-right" /></td>
+            <td>{{this.date}}</td>
+            <td>Blog was {{this.actiontype}}</td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+{{/Compare}} {{else}}
+<div class="nobloghistory">
+    <strong>No records available!!!</strong>
 </div>
-
-
-
-
-{{/each}} {{/Compare}} {{/if}}
+{{/if}}

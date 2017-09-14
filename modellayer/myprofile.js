@@ -10,7 +10,7 @@ var formidable = require('formidable');
 var path = require("path");
 var mv = require("mv");
 var mkdirp = require("mkdirp");
-var _ = require("lodash");
+//var _ = require("lodash");
 
 let getaboutme = function(userid) {
     let path = serviceURL + "/getaboutme/" + userid;
@@ -66,25 +66,25 @@ let getproffessionaldetails = function(userid) {
     });
 }
 
-let getbloghistoryuserid = function(userid, lastbloghistoryid) {
-    let path = serviceURL + "/getbloghistoryuserid/" + userid + "/" + lastbloghistoryid;
-    console.log("path:" + path);
-    log.logger.info("Model layer : getbloghistoryuserid : service call : " + path);
-    //console.log("getblogcommentbyblogid 1114");
-    return new Promise(function(resolve, reject) {
-        axios.get(path).then(function(response) {
-                //console.log("getblogcommentbyblogid 21");
-                log.logger.info("Model layer : getbloghistoryuserid : service call : success");
-                resolve(response);
-            })
-            .catch(function(error) {
-                //console.log("getblogcommentbyblogid 31");
-                var err = { "Error": error };
-                log.logger.error("Model layer : getbloghistoryuserid : service call : error : " + error);
-                reject(err);
-            });
-    });
-}
+// let getbloghistoryuserid = function(userid, lastbloghistoryid) {
+//     let path = serviceURL + "/getbloghistoryuserid/" + userid + "/" + lastbloghistoryid;
+//     console.log("path:" + path);
+//     log.logger.info("Model layer : getbloghistoryuserid : service call : " + path);
+//     //console.log("getblogcommentbyblogid 1114");
+//     return new Promise(function(resolve, reject) {
+//         axios.get(path).then(function(response) {
+//                 //console.log("getblogcommentbyblogid 21");
+//                 log.logger.info("Model layer : getbloghistoryuserid : service call : success");
+//                 resolve(response);
+//             })
+//             .catch(function(error) {
+//                 //console.log("getblogcommentbyblogid 31");
+//                 var err = { "Error": error };
+//                 log.logger.error("Model layer : getbloghistoryuserid : service call : error : " + error);
+//                 reject(err);
+//             });
+//     });
+// }
 
 router.post('/updateaboutme', function(req, res) {
 
@@ -137,19 +137,19 @@ router.get('/:_id', function(req, res) {
     Promise.all([
         getaboutme(userid),
         getpersonaldetails(userid),
-        getproffessionaldetails(userid),
-        getbloghistoryuserid(userid, "0")
+        getproffessionaldetails(userid)
+
     ]).then(data => {
         var aboutme = data[0].data;
         var personaldetails = data[1].data;
         var proffessionaldetails = data[2].data;
-        var bloghistory = data[3].data;
 
-        var lastbloghistoryid = "0";
-        _.forEach(bloghistory.result, function(result) {
-            //console.log(1);
-            lastbloghistoryid = result._id
-        });
+
+        // var lastbloghistoryid = "0";
+        // _.forEach(bloghistory.result, function(result) {
+        //     //console.log(1);
+        //     lastbloghistoryid = result._id
+        // });
 
         log.logger.info("Successfully retrive my-profile data");
         res.render("myprofile", {
@@ -157,9 +157,9 @@ router.get('/:_id', function(req, res) {
             title: 'My Profile Page',
             aboutme: aboutme.result,
             personaldetails: personaldetails.result,
-            proffessionaldetails: proffessionaldetails.result,
-            bloghistory: bloghistory,
-            lastbloghistoryid: lastbloghistoryid
+            proffessionaldetails: proffessionaldetails.result
+                // bloghistory: bloghistory,
+                // lastbloghistoryid: lastbloghistoryid
         });
 
     }).catch(function(err) {

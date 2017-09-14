@@ -121,23 +121,88 @@ router.get('/getcomments/:blogid/:lastcommentid', function(req, res) {
     return;
 });
 
-//Retrieve Blog history by user id 
-router.get('/GetBlogHistoryuserid/:userid/:lastbloghistoryid', function(req, res) {
+//Retrieve Blog list by user id 
+router.get('/GetBlogListByUserid/:userid', function(req, res) {
 
     var userid = req.params.userid;
-    var lbhid = req.params.lastbloghistoryid;
-    var lastbloghistoryid = "0";
 
-    var data = { "bloghistory": [], "count": 0, "lastbloghistoryid": "0" };
+    var data = { "blogs": [], "count": 0 };
 
-    blogger.GetBlogHistoryuserid(userid, lbhid).then(function(results) {
+    blogger.GetBlogListByUserid(userid).then(function(results) {
         if (results != null)
 
-            _.forEach(results.data.result, function(result) {
-            lastbloghistoryid = result._id;
-        });
+            data = { "result": results.data.result, "count": results.data.count };
 
-        data = { "result": results.data.result, "count": results.data.count, "lastbloghistoryid": lastbloghistoryid };
+        res.json(data);
+    }).catch(function(err) {
+
+        console.log(err);
+        res.json(data);
+
+    });
+    return;
+});
+
+//Retrieve Blog history by user id 
+// router.get('/GetBlogHistoryuserid/:userid/:lastbloghistoryid', function(req, res) {
+
+//     var userid = req.params.userid;
+//     var lbhid = req.params.lastbloghistoryid;
+//     var lastbloghistoryid = "0";
+
+//     var data = { "bloghistory": [], "count": 0, "lastbloghistoryid": "0" };
+
+//     blogger.GetBlogHistoryuserid(userid, lbhid).then(function(results) {
+//         if (results != null)
+
+//             _.forEach(results.data.result, function(result) {
+//             lastbloghistoryid = result._id;
+//         });
+
+//         data = { "result": results.data.result, "count": results.data.count, "lastbloghistoryid": lastbloghistoryid };
+
+//         res.json(data);
+//     }).catch(function(err) {
+
+//         console.log(err);
+//         res.json(data);
+
+//     });
+//     return;
+// });
+
+router.get('/GetBlogHistoryByBlogID/:userid/:selectedBlogID', function(req, res) {
+
+    var userid = req.params.userid;
+    var blogid = req.params.selectedBlogID;
+
+    var data = { "result": [], "count": 0 };
+
+    blogger.GetBlogHistoryByBlogID(userid, blogid).then(function(results) {
+        if (results != null)
+
+            data = { "result": results.data.result, "count": results.data.count };
+
+        res.json(data);
+    }).catch(function(err) {
+
+        console.log(err);
+        res.json(data);
+
+    });
+    return;
+});
+
+router.get('/GetCommentByBlogID/:selectedBlogID', function(req, res) {
+
+    var blogid = req.params.selectedBlogID;
+
+    var data = { "result": [], "count": 0 };
+
+    blogger.GetCommentByBlogID(blogid).then(function(results) {
+        if (results != null)
+
+            data = { "result": results.data.result, "count": results.data.count };
 
         res.json(data);
     }).catch(function(err) {
