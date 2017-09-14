@@ -24,9 +24,14 @@ router.post("/data/signUp", function(req, res) {
         var result = {
             "username": req.body.username,
             "name": req.body.name,
-            "email": req.body.email,
+            "localemail": req.body.email,
+            "googlename": "",
+            "facebookname": "",
+            "googleemail": "",
+            "facebookemail": "",
             "password": bcrypt.hashSync(req.body.password, 10),
             "authType": "local",
+            "userImage": "",
             "dateTime": new Date().toDateString()
         };
 

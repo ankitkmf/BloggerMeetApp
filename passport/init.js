@@ -10,24 +10,24 @@ var config = require("config");
 const serviceURL = config.get("app.restAPIEndpoint.v1ContractPath");
 
 passport.use(new LocalStrategy(function(username, password, done) {
-    log.logger.info("Passport Init : User Name : " + username + " , Password : " + password);
+    //log.logger.info("Passport Init : User Name : " + username + " , Password : " + password);
     var user = {};
+    console.log("Step 1");
     passportauth.find(username).then((response) => {
-        if (response != null && response.data != null && response.data.count > 0) {
-
-            user = response.data;
-
-            log.logger.info("Passport Init : passportauth find : User _id : " + user.result[0]._id + " , name : " + user.result[0].username);
-
-            bcrypt.compare(password, user.result[0].password, function(err, result) {
+        console.log("Step 5");
+        console.log("response.data:" + JSON.stringify(response.data));
+        if (response != null && response.data != null && response.data.result.count > 0) {
+            user = response.data.result;
+            log.logger.info("Passport Init : passportauth find : User _id : " + user.result._id + " , name : " + user.result.username);
+            bcrypt.compare(password, user.result.password, function(err, result) {
                 if (result) {
                     console.log("user pwd match");
-                    log.logger.info("Passport Init : password match : User _id : " + user.result[0]._id + " , name : " + user.result[0].username);
-                    user = user.result[0];
+                    log.logger.info("Passport Init : password match : User _id : " + user.result._id + " , name : " + user.result.username);
+                    user = user.result;
                     return done(null, user);
                 } else {
                     console.log("user pwd does not matched");
-                    log.logger.error("Passport Init : password does not match : User _id : " + user.result[0]._id + " , name : " + user.result[0].username);
+                    log.logger.error("Passport Init : password does not match : User _id : " + user.result._id + " , name : " + user.result.username);
                     return done(null, false);
                 }
             });
@@ -38,7 +38,7 @@ passport.use(new LocalStrategy(function(username, password, done) {
         }
 
     }).catch(function(err) {
-        console.log("passport.find exception:" + err);
+        console.log("passport find exception:" + err);
         log.logger.error("Passport Init : passportauth find : User Name : " + username + " Error : " + err);
         return done(null, false);
     });
@@ -52,9 +52,10 @@ passport.use(new GoogleStrategy({
     function(accessToken, refreshToken, profile, done) {
         if (profile.emails[0].value != null && profile.id != null) {
             passportauth.find(profile.emails[0].value).then((response) => {
-                if (response != null && response.data != null && response.data.count > 0) {
+                if (response != null && response.data != null && response.data.result.count > 0) {
                     var user = {};
-                    user = response.data.result[0];
+                    user = response.data.result.result;
+                    console.log(JSON.stringify(user));
                     console.log("Google user found in DB");
                     return done(null, user);
                 } else {
@@ -69,7 +70,11 @@ passport.use(new GoogleStrategy({
                     var result = {
                         "username": profile.displayName,
                         "name": profile.displayName,
-                        "email": profile.emails[0].value,
+                        "googlename": profile.displayName,
+                        "facebookname": "",
+                        "localemail": "",
+                        "facebookemail": "",
+                        "googleemail": profile.emails[0].value,
                         "password": bcrypt.hashSync("test", 10),
                         "authType": "google",
                         "profileID": profile.id,
@@ -87,8 +92,8 @@ passport.use(new GoogleStrategy({
                         });
                 }
             }).catch(function(err) {
-                console.log("passport.find exception:" + err);
-                log.logger.error("Passport Init : passportauth find : User Name : " + username + " Error : " + err);
+                console.log("Gooel passport find exception:" + err);
+                log.logger.error("Passport Init : passportauth find : User Name : " + profile.displayName + " Error : " + err);
                 return done(null, false);
             });
         }
