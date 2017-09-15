@@ -152,44 +152,38 @@ router.post('/updateaboutme', function(req, res) {
 router.get('/:_id', function(req, res) {
 
     var userid = req.params._id;
-
-    console.log("_id " + userid);
-
+    // console.log("_id " + userid);
     var collectionCountList = {};
+    //   console.log("req.user" + JSON.stringify(req.user));
+    if (userid == req.user._id && req.user.authType == "local") {
+        Promise.all([
+            getaboutme(userid),
+            getpersonaldetails(userid),
+            getproffessionaldetails(userid)
 
-    Promise.all([
-        getaboutme(userid),
-        getpersonaldetails(userid),
-        getproffessionaldetails(userid)
+        ]).then(data => {
+            var aboutme = data[0].data;
+            var personaldetails = data[1].data;
+            var proffessionaldetails = data[2].data;
+            console.log(JSON.stringify(aboutme.result));
+            log.logger.info("Successfully retrive my-profile data");
+            res.render("myprofile", {
+                layout: 'default',
+                title: 'My Profile Page',
+                aboutme: aboutme.result,
+                personaldetails: personaldetails.result,
+                proffessionaldetails: proffessionaldetails.result
+                    // bloghistory: bloghistory,
+                    // lastbloghistoryid: lastbloghistoryid
+            });
 
-    ]).then(data => {
-        var aboutme = data[0].data;
-        var personaldetails = data[1].data;
-        var proffessionaldetails = data[2].data;
-
-        // var lastbloghistoryid = "0";
-        // _.forEach(bloghistory.result, function(result) {
-        //     //console.log(1);
-        //     lastbloghistoryid = result._id
-        // });
-
-        console.log(JSON.stringify(aboutme.result));
-
-        log.logger.info("Successfully retrive my-profile data");
-        res.render("myprofile", {
-            layout: 'default',
-            title: 'My Profile Page',
-            aboutme: aboutme.result,
-            personaldetails: personaldetails.result,
-            proffessionaldetails: proffessionaldetails.result
-                // bloghistory: bloghistory,
-                // lastbloghistoryid: lastbloghistoryid
+        }).catch(function(err) {
+            log.logger.error("Error while retieveing my-profile data. Error " + err);
+            res.status(500).send();
         });
-
-    }).catch(function(err) {
-        log.logger.error("Error while retieveing my-profile data. Error " + err);
-        res.status(500).send();
-    });
+    } else {
+        res.redirect('/');
+    }
 
 });
 

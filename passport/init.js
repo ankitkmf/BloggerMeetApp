@@ -21,6 +21,7 @@ passport.use(new LocalStrategy(function(username, password, done) {
             log.logger.info("Passport Init : passportauth find : User _id : " + user.result._id + " , name : " + user.result.username);
             bcrypt.compare(password, user.result.password, function(err, result) {
                 if (result) {
+                    user.result.password = "";
                     console.log("user pwd match");
                     log.logger.info("Passport Init : password match : User _id : " + user.result._id + " , name : " + user.result.username);
                     user = user.result;

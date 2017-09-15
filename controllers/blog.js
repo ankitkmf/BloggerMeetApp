@@ -15,25 +15,30 @@ router.get('/profile/:_id', function(req, res) {
 
     var blogs = {};
     var userid = req.params._id;
+    // console.log("current user:" + req.user._id);
+    // console.log("requested user id:" + userid);
+    if (userid == req.user._id) {
+        blogger.blogsbyuserid(userid, "0").then(function(response) {
 
-    blogger.blogsbyuserid(userid, "0").then(function(response) {
+            blogs = response.data;
 
-        blogs = response.data;
+            log.logger.info("Blogger Page : retrieve blogs : blogs count " + blogs.count);
 
-        log.logger.info("Blogger Page : retrieve blogs : blogs count " + blogs.count);
+            var lastblogid = "0";
+            _.forEach(blogs.result, function(result) {
+                lastblogid = result._id
+            });
 
-        var lastblogid = "0";
-        _.forEach(blogs.result, function(result) {
-            lastblogid = result._id
+            //console.log("Blogger Page :lastblogid " + lastblogid);
+
+            res.render('blogs', { title: 'Blogs', category: categoryList, blogs: blogs, lastblogid: lastblogid });
+
+        }).catch(function(err) {
+            res.status(500).send();
         });
-
-        //console.log("Blogger Page :lastblogid " + lastblogid);
-
-        res.render('blogs', { title: 'Blogs', category: categoryList, blogs: blogs, lastblogid: lastblogid });
-
-    }).catch(function(err) {
-        res.status(500).send();
-    });
+    } else {
+        res.redirect('/');
+    }
 });
 
 router.post('/profile', function(req, res) {

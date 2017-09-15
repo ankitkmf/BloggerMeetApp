@@ -55,19 +55,20 @@ app.use(passport.session());
 // };
 
 let authenticationMiddleware = function(req, res, next) {
-    console.log("**************start******************");
-    console.log("start req.session.redirectUrl:" + req.session.redirectUrl);
+    // console.log("req.params._id:" + req.params._id);
+    // console.log("**************start******************");
+    // console.log("start req.session.redirectUrl:" + req.session.redirectUrl);
     if (req.session) {
-        console.log("***user is visiting :" + req.session.userVisit);
-        console.log("req.headers.referer:" + req.headers.referer);
-        console.log("req.originalUrl:" + req.originalUrl);
-        console.log("req.url:" + req.url);
+        // console.log("***user is visiting :" + req.session.userVisit);
+        // console.log("req.headers.referer:" + req.headers.referer);
+        // console.log("req.originalUrl:" + req.originalUrl);
+        // console.log("req.url:" + req.url);
         req.session.redirectUrl = req.originalUrl || req.url;
     }
-    console.log("end req.session.redirectUrl:" + req.session.redirectUrl);
-    console.log("**************end******************");
+    // console.log("end req.session.redirectUrl:" + req.session.redirectUrl);
+    // console.log("**************end******************");
     if (req.isAuthenticated()) {
-        console.log("*****user Authenticated");
+        // console.log("*****user Authenticated");
         res.locals.user = req.user;
         return next();
     }
@@ -79,24 +80,24 @@ let authenticationMiddleware = function(req, res, next) {
 let authNotRequired = (req, res, next) => {
     // req.session.returnTo = req.path;
     //console.log("req.path1:" + req.path);
-    console.log("---------------start---------------------");
-    console.log("start 1req.session.redirectUrl:" + req.session.redirectUrl);
+    // console.log("---------------start---------------------");
+    // console.log("start 1req.session.redirectUrl:" + req.session.redirectUrl);
     if (req.isAuthenticated()) {
-        console.log("-----user Authenticated");
+        // console.log("-----user Authenticated");
         res.locals.user = req.user;
         req.session.userVisit += 1;
     } else {
         req.session.userVisit = req.session.userVisit != null ? ++(req.session.userVisit) : 1;
     }
-    if (req.session) {
-        console.log("1---user is visiting :" + req.session.userVisit);
-        console.log("1req.headers.referer:" + req.headers.referer);
-        console.log("1req.originalUrl:" + req.originalUrl);
-        console.log("1req.url:" + req.url);
-        // req.session.redirectUrl = req.originalUrl || req.url;
-        console.log("end 1req.session.redirectUrl:" + req.session.redirectUrl);
-        console.log("----------------end--------------------");
-    }
+    // if (req.session) {
+    //     console.log("1---user is visiting :" + req.session.userVisit);
+    //     console.log("1req.headers.referer:" + req.headers.referer);
+    //     console.log("1req.originalUrl:" + req.originalUrl);
+    //     console.log("1req.url:" + req.url);
+    //     // req.session.redirectUrl = req.originalUrl || req.url;
+    //     console.log("end 1req.session.redirectUrl:" + req.session.redirectUrl);
+    //     console.log("----------------end--------------------");
+    // }
 
 
     next();

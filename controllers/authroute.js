@@ -9,7 +9,7 @@ module.exports = router;
 // }));
 
 router.post('/login', passport.authenticate('local'), function(req, res) {
-    console.log("++++In login post:" + req.session.redirectUrl);
+    // console.log("++++In login post:" + req.session.redirectUrl);
     res.redirect(req.session.redirectUrl || '/');
     // delete req.session.returnTo;
 });
