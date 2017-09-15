@@ -47,8 +47,13 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 let authenticationMiddleware = function(req, res, next) {
+
+    //req.session.returnTo = req.path;
+    //console.log("req.path:" + req.path);
     if (req.isAuthenticated()) {
         res.locals.user = req.user;
+        // req.session.returnTo = req.path;
+        // console.log("req.path:" + req.path);
         //     if (req.user != undefined) {
         //         if (req.user.result.length > 0)
         //             res.locals.user = req.user.result[0];
@@ -60,8 +65,12 @@ let authenticationMiddleware = function(req, res, next) {
 };
 
 let authNotRequired = (req, res, next) => {
+    // req.session.returnTo = req.path;
+    //console.log("req.path1:" + req.path);
     if (req.isAuthenticated()) {
         res.locals.user = req.user;
+        // req.session.returnTo = req.path;
+        // console.log("req.path1:" + req.path);
     }
     next();
 };

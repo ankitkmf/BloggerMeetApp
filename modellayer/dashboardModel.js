@@ -10,7 +10,7 @@ exports.GetAllUserCount = function(id) {
     let findAllUserPath = serviceURL + "/findall/users/all/";
     let findSubscribeUserAllPath = serviceURL + "/findall/subscribeUser/all";
     let findOnePath = serviceURL + "/findone/" + "users" + "/" + id;
-    console.log("Path:" + findOnePath);
+    // console.log("Path:" + findOnePath);
     return new Promise(function(resolve, reject) {
         Promise.all([
             findAll(findAllUserPath),
@@ -110,7 +110,7 @@ exports.GetUserHistory = function(type, id) {
         findUserHistory = serviceURL + "/findall/userLoginHistory/alluserhistory";
     else
         findUserHistory = serviceURL + "/findall/userLoginHistory/userhistorybyid/" + id;
-    console.log(findUserHistory);
+    //console.log(findUserHistory);
     return new Promise(function(resolve, reject) {
         findAll(findUserHistory)
             .then(data => {

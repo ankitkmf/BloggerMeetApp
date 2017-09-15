@@ -12,10 +12,10 @@ const serviceURL = config.get("app.restAPIEndpoint.v1ContractPath");
 passport.use(new LocalStrategy(function(username, password, done) {
     //log.logger.info("Passport Init : User Name : " + username + " , Password : " + password);
     var user = {};
-    console.log("Step 1");
+    //console.log("Step 1");
     passportauth.find(username).then((response) => {
-        console.log("Step 5");
-        console.log("response.data:" + JSON.stringify(response.data));
+        //console.log("Step 5");
+        // console.log("response.data:" + JSON.stringify(response.data));
         if (response != null && response.data != null && response.data.result.count > 0) {
             user = response.data.result;
             log.logger.info("Passport Init : passportauth find : User _id : " + user.result._id + " , name : " + user.result.username);
@@ -50,6 +50,7 @@ passport.use(new GoogleStrategy({
         callbackURL: config.get("google.callbackURL")
     },
     function(accessToken, refreshToken, profile, done) {
+        //console.log("user:" + (req.user));
         if (profile.emails[0].value != null && profile.id != null) {
             passportauth.find(profile.emails[0].value).then((response) => {
                 if (response != null && response.data != null && response.data.result.count > 0) {

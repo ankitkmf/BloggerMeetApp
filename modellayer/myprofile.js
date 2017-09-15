@@ -14,7 +14,7 @@ var mkdirp = require("mkdirp");
 
 let getaboutme = function(userid) {
     let path = serviceURL + "/getaboutme/" + userid;
-    console.log("path:" + path);
+    //console.log("path:" + path);
     log.logger.info("Model layer getaboutme method : service call : " + path);
 
     return new Promise(function(resolve, reject) {
@@ -32,7 +32,7 @@ let getaboutme = function(userid) {
 
 let getpersonaldetails = function(userid) {
     let path = serviceURL + "/getpersonaldetails/" + userid;
-    console.log("path:" + path);
+    // console.log("path:" + path);
     log.logger.info("Model layer getpersonaldetails method : service call : " + path);
 
     return new Promise(function(resolve, reject) {
@@ -50,7 +50,7 @@ let getpersonaldetails = function(userid) {
 
 let getproffessionaldetails = function(userid) {
     let path = serviceURL + "/getproffessionaldetails/" + userid;
-    console.log("path:" + path);
+    //console.log("path:" + path);
     log.logger.info("Model layer getproffessionaldetails method : service call : " + path);
 
     return new Promise(function(resolve, reject) {
@@ -88,7 +88,7 @@ let getproffessionaldetails = function(userid) {
 
 let updateprofilephotopath = (userid, profilepath) => {
     let path = serviceURL + "/updateprofilephotopath/";
-    console.log("path:" + path);
+    //console.log("path:" + path);
 
     var data = {
         "userid": userid,
@@ -120,7 +120,7 @@ router.post('/updateaboutme', function(req, res) {
             var isValid = (userid != null && data != null);
             if (isValid) {
                 let path = serviceURL + "/updateaboutme/";
-                console.log("path:" + path);
+                //console.log("path:" + path);
 
                 var data = {
                     "userid": userid,
@@ -278,7 +278,7 @@ router.post('/updatepersonaldetails', function(req, res) {
             if (isValid) {
 
                 let path = serviceURL + "/updatepersonaldetails/";
-                console.log("path:" + path);
+                //console.log("path:" + path);
 
                 var data = {
                     "userid": userid,
@@ -335,7 +335,7 @@ router.post('/updateprofdetails', function(req, res) {
             if (isValid) {
 
                 let path = serviceURL + "/updateproffessionaldetails/";
-                console.log("path:" + path);
+                //console.log("path:" + path);
 
                 var data = {
                     "userid": userid,

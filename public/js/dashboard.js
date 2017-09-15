@@ -114,10 +114,10 @@ $(function() {
 });
 
 let GetUserLoginHistory = (type, id) => {
-    console.log("userSelectedID id:" + id);
+    //console.log("userSelectedID id:" + id);
     id = (id != null && id != "") ? id : "test";
     var path = "/commonAPI/data/GetUserHistory/" + type + "/" + id;
-    console.log("Path:" + path);
+    //console.log("Path:" + path);
     run_waitMe("divUserLoginHistoryGraph");
     if (type != null) {
         $.ajax({

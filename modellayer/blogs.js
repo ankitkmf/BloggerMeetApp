@@ -8,7 +8,7 @@ exports.category = require("../data/blogcategory.json");
 
 exports.blogs = function(lastblogid, categorytype) {
     let path = serviceURL + "/getblogs/" + lastblogid + "/" + categorytype;
-    console.log("path:" + path);
+    //console.log("path:" + path);
     log.logger.info("Model layer blogs : service call : " + path);
 
     return new Promise(function(resolve, reject) {
@@ -26,7 +26,7 @@ exports.blogs = function(lastblogid, categorytype) {
 
 exports.blogsbyuserid = function(userid, lastblogid) {
     let path = serviceURL + "/getblogsbyuserid/" + userid + "/" + lastblogid;
-    console.log("path:" + path);
+    //console.log("path:" + path);
     log.logger.info("Model layer blogsbyuserid : service call : " + path);
     //console.log("111");
     return new Promise(function(resolve, reject) {
@@ -46,7 +46,7 @@ exports.blogsbyuserid = function(userid, lastblogid) {
 
 exports.addblog = function(data) {
     let path = serviceURL + "/addblog";
-    console.log("path:" + path);
+    //console.log("path:" + path);
     log.logger.info("Model layer addblog : service call : " + path);
     //console.log("111");
     return new Promise(function(resolve, reject) {
@@ -66,7 +66,7 @@ exports.addblog = function(data) {
 
 exports.getblogbyblogid = function(blogid) {
     let path = serviceURL + "/getblogbyblogid/" + blogid;
-    console.log("path:" + path);
+    //console.log("path:" + path);
     log.logger.info("Model layer getblogbyblogid : service call : " + path);
     //console.log("getblogbyblogid 111");
     return new Promise(function(resolve, reject) {
@@ -86,7 +86,7 @@ exports.getblogbyblogid = function(blogid) {
 
 exports.deleteblogbyblogid = function(_id, userid) {
     let path = serviceURL + "/deleteblogbyblogid/" + _id + "/" + userid;
-    console.log("path:" + path);
+    //console.log("path:" + path);
     log.logger.info("Model layer deleteblogbyblogid : service call : " + path);
     //console.log("111");
     return new Promise(function(resolve, reject) {
@@ -106,7 +106,7 @@ exports.deleteblogbyblogid = function(_id, userid) {
 
 exports.editblog = function(data) {
     let path = serviceURL + "/editblog";
-    console.log("path:" + path);
+    //console.log("path:" + path);
     log.logger.info("Model layer editblog : service call : " + path);
     //console.log("111");
     return new Promise(function(resolve, reject) {
@@ -126,7 +126,7 @@ exports.editblog = function(data) {
 
 exports.getblogcommentbyblogid = function(blogid, lastcommentid) {
     let path = serviceURL + "/getblogcommentbyblogid/" + blogid + "/" + lastcommentid;
-    console.log("path:" + path);
+    //console.log("path:" + path);
     log.logger.info("Model layer : getblogcommentbyblogid : service call : " + path);
     //console.log("getblogcommentbyblogid 1114");
     return new Promise(function(resolve, reject) {
@@ -146,7 +146,7 @@ exports.getblogcommentbyblogid = function(blogid, lastcommentid) {
 
 exports.viewrecentblogs = function() {
     let path = serviceURL + "/getmostrecentblogs";
-    console.log("path:" + path);
+    //console.log("path:" + path);
     log.logger.info("Model layer : viewrecentblogs : service call : " + path);
     //console.log("viewrecentblogs 1114");
     return new Promise(function(resolve, reject) {
@@ -166,7 +166,7 @@ exports.viewrecentblogs = function() {
 
 exports.addcomment = function(data) {
     let path = serviceURL + "/addblogcomment";
-    console.log("path:" + path);
+    //console.log("path:" + path);
     log.logger.info("Model layer : addblogcomment : service call : " + path);
     //console.log("addblogcomment 1114");
     return new Promise(function(resolve, reject) {
@@ -206,7 +206,7 @@ exports.addcomment = function(data) {
 
 exports.GetBlogListByUserid = function(userid) {
     let path = serviceURL + "/getbloglistbyuserid/" + userid;
-    console.log("path:" + path);
+    //console.log("path:" + path);
     log.logger.info("Model layer : GetBlogListByUserid : service call : " + path);
     //console.log("getblogcommentbyblogid 1114");
     return new Promise(function(resolve, reject) {
@@ -226,7 +226,7 @@ exports.GetBlogListByUserid = function(userid) {
 
 exports.GetBlogHistoryByBlogID = function(userid, selectedBlogID) {
     let path = serviceURL + "/getbloghistorybyblogid/" + userid + "/" + selectedBlogID;
-    console.log("path:" + path);
+    //console.log("path:" + path);
     log.logger.info("Model layer : GetBlogHistoryByBlogID : service call : " + path);
     return new Promise(function(resolve, reject) {
         axios.get(path).then(function(response) {
@@ -243,7 +243,7 @@ exports.GetBlogHistoryByBlogID = function(userid, selectedBlogID) {
 
 exports.GetCommentByBlogID = function(selectedBlogID) {
     let path = serviceURL + "/getcommentbyblogid/" + selectedBlogID;
-    console.log("path:" + path);
+    //console.log("path:" + path);path:
     log.logger.info("Model layer : GetCommentByBlogID : service call : " + path);
     return new Promise(function(resolve, reject) {
         axios.get(path).then(function(response) {

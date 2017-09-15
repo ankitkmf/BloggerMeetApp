@@ -19,7 +19,7 @@ router.post("/data/signUp", function(req, res) {
     var isValid = (req.body != null && req.body != undefined && req.body.username != "" && req.body.name != "" && req.body.email != "" && req.body.password != "");
     if (isValid) {
         let path = serviceURL + "/saveSignUp/";
-        console.log("path:" + path);
+        //console.log("path:" + path);
 
         var result = {
             "username": req.body.username,
@@ -111,7 +111,7 @@ router.get('/subscribe', function(req, res) {
         } else {
             console.log("success");
             let path = serviceURL + "/updatesubscribe/";
-            console.log("path:" + path);
+            //console.log("path:" + path);
 
             var data = {
                 "name": req.query.name,
