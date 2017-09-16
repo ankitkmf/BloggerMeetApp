@@ -170,6 +170,9 @@ app.use('/auth', authNotRequired, changepwdCtrl);
 var dashboardCtrl = require('./controllers/dashboardCtrl');
 app.use('/auth', authenticationMiddleware, dashboardCtrl);
 
+var verifiedemail = require('./controllers/verifiedemail');
+app.use('/verifiedemail', authNotRequired, verifiedemail);
+
 //Error handling
 app.get('*', authNotRequired, function(req, res, next) {
     var err = new Error("Failed to load resource");

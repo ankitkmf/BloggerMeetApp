@@ -108,6 +108,23 @@ let updateprofilephotopath = (userid, profilepath) => {
         });
 }
 
+let validateemail = (userid) => {
+    let path = serviceURL + "/validateemail/" + userid;
+    //console.log("path:" + path);
+
+    return new Promise(function(resolve, reject) {
+        axios.get(path).then(function(response) {
+                log.logger.info("Model layer validateemail method : service call : success");
+                resolve(response);
+            })
+            .catch(function(error) {
+                var err = { "Error": error };
+                log.logger.error("Model layer validateemail method : service call : error : " + error);
+                reject(err);
+            });
+    });
+}
+
 router.post('/updateaboutme', function(req, res) {
 
     if (req.url == '/updateaboutme') {
@@ -463,23 +480,23 @@ router.post('/verifyemail', function(req, res) {
                 } else {
                     console.log("mail sent success");
 
-                    // let path = serviceURL + "/updatesubscribe/";
-                    // //console.log("path:" + path);
+                    let path = serviceURL + "/verifyemailtrigger/";
+                    console.log("path:" + path);
 
-                    // var data = {
-                    //     "name": req.query.name,
-                    //     "emailID": req.query.emailID
-                    // };
+                    var data = {
+                        "userid": userid,
+                        "dt": DT
+                    };
 
-                    // axios.post(path, data)
-                    //     .then(function(response) {
-                    //         console.log("api response:" + response);
-                    //         res.json(true);
-                    //     })
-                    //     .catch(function(error) {
-                    //         console.log("api error:" + error);
-                    //         res.json({ "Error": "updatesubscribe api error" });
-                    //     });
+                    axios.post(path, data)
+                        .then(function(response) {
+                            console.log("api response:" + response);
+                            res.json(true);
+                        })
+                        .catch(function(error) {
+                            console.log("api error:" + error);
+                            res.json({ "Error": "verifyemailtrigger api error" });
+                        });
 
                     // Track email verification trigger in Database
                     //var filter = { "userid": userid };

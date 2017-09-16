@@ -5,12 +5,12 @@
         <input type="hidden" id="hndemailverified" name="hndemailverified" value={{user.IsEmailVerified}} />
     </div>
     {{else}}
-    <div class="alert alert-danger hidden vemailerrorResult" role="alert">
-        Currently there are some technical issue . Please try again later.
+    <div class="text-danger hidden vemailerrorResult">
+        Currently there are some technical issue.Please try again later.
     </div>
-    <div class="alert alert-success hidden vemailsuccessResult" role="alert">
-        <strong>One mail is sent to your registered email i.e. {{user.email}} with a verification link. 
-        Please click that link to verify your email within 24Hours.</strong>
+    <div class="text-success hidden vemailsuccessResult">
+        One mail is sent to your registered email i.e. <strong>{{user.email}}</strong> with a verification link. 
+        Please click that link to verify your email within 24Hours.
     </div>
     <div class="emailverificationform ">
         <form id="frmemailverification">
