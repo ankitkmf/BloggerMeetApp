@@ -154,8 +154,15 @@ router.get('/:_id', function(req, res) {
     var userid = req.params._id;
     // console.log("_id " + userid);
     var collectionCountList = {};
+
     //   console.log("req.user" + JSON.stringify(req.user));
     if (userid == req.user._id && req.user.authType == "local") {
+        var mappingObj = {
+            "page": "profile",
+            "profileID": userid,
+            "pageURL": "/myprofile/595cde84f8ce4a2250f38820"
+        };
+        req.session.mappingObj = mappingObj;
         Promise.all([
             getaboutme(userid),
             getpersonaldetails(userid),

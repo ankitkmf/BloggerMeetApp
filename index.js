@@ -55,7 +55,7 @@ app.use(passport.session());
 // };
 
 let authenticationMiddleware = function(req, res, next) {
-    // console.log("req.params._id:" + req.params._id);
+    // console.log("***req.session.mappingObj :" + JSON.stringify(req.session.mappingObj));
     // console.log("**************start******************");
     // console.log("start req.session.redirectUrl:" + req.session.redirectUrl);
     if (req.session) {
@@ -78,6 +78,7 @@ let authenticationMiddleware = function(req, res, next) {
 };
 
 let authNotRequired = (req, res, next) => {
+    //console.log("---req.session.mappingObj :" + JSON.stringify(req.session.mappingObj));
     // req.session.returnTo = req.path;
     //console.log("req.path1:" + req.path);
     // console.log("---------------start---------------------");
