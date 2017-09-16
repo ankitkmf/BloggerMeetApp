@@ -4,20 +4,29 @@
 <div class="bs-docs-section">
   <div class="container-fluid">
     <div class="row">
-          <div class="col-md-8 col-sm-8 col-xs-6">
-            Email verification pending
-          </div>
-          <div class="col-md-4 col-sm-4 col-xs-6">           
-            <a href="/auth/facebookLink" class="fa fa-facebook" title="link current to facebook account"></a>
-            <a href="/auth/googleLink" class="fa fa-google" title="link current to gmail account"></a>
-          </div>
-        </div>
-    <div class="row">
+      <div class="col-md-8 col-sm-8 col-xs-6">
+        Email verification pending
+      </div>
+      <div class="col-md-4 col-sm-4 col-xs-6">
+        <a href="/auth/facebookLink" class="fa fa-facebook" title="link current to facebook account"></a>
+        <a href="/auth/googleLink" class="fa fa-google" title="link current to gmail account"></a>
+      </div>
+    </div>
 
+    <div class="row">
       <!--First column-->
       <div class="col-lg-4 col-md-4 col-sm-4">
         {{> uploadprofilephoto}}
+
+        <hr>
+
+        <!-- my profile status section -->
+        {{> myprofilestatus}}
+        <!-- /.my profile status section -->
+        
       </div>
+
+      
       <!--/.First column-->
 
       <!--Second column-->
@@ -184,4 +193,6 @@
 <input type="hidden" name="username" id="username" value="{{user.username}}" />
 <input type="hidden" id="selectedBlogID">
 <input type="hidden" id="selectedBlogIDCmnt">
+<link rel="stylesheet" href="/css/plugin/imgProgress.css">
 <script type="text/javascript" src="/js/myprofile.js"></script>
+<script type="text/javascript" src="/js/plugin/imgProgress.js"></script>

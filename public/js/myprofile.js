@@ -8,6 +8,26 @@ $(function() {
 
     $("#inputDOB").datepicker();
 
+    $(".profileprogress").imgProgress({
+        // path to the image
+        // path to the image
+        //img_url: "sss.jpg",
+        // size in pixels
+        size: 200,
+        // bar size
+        barSize: 12,
+        // background color
+        backgroundColor: "white",
+        // foreground color
+        foregroundColor: "#4abde8",
+        // CSS background-size property
+        backgroundSize: "cover",
+        // current percentage value
+        percent: 5
+    });
+
+    $(".profileprogress").imgProgressTo(profileCompleteStatus());
+
     // var icons = {
     //     header: "ui-icon-circle-arrow-e",
     //     activeHeader: "ui-icon-circle-arrow-s"
@@ -182,7 +202,7 @@ $(function() {
                         $(".Successpanel").removeClass("hidden");
                         $(".uploadprofilephoto").attr("style", "display:none;");
                         $("#checker").attr("checked", false);
-                        // $(".profileprogress").imgProgressTo(profileCompleteStatus());
+                        $(".profileprogress").imgProgressTo(profileCompleteStatus());
                         stop_waitMe("uploadphotostatus");
                     }
                 },
@@ -231,7 +251,7 @@ $(function() {
                     $(".amsuccessResult").removeClass("hidden");
                     $(".amerrorResult").addClass("hidden");
                     $(".saveaboutmeinfo").addClass("hidden");
-                    //$(".profileprogress").imgProgressTo(profileCompleteStatus());
+                    $(".profileprogress").imgProgressTo(profileCompleteStatus());
                     stop_waitMe("aboutmestatus");
                 },
                 error: function(error) {
@@ -315,7 +335,7 @@ $(function() {
                     $(".pderrorResult").addClass("hidden");
                     $(".pdsuccessResult").removeClass("hidden");
                     $(".savepersonalinfo").addClass("hidden");
-                    //$(".profileprogress").imgProgressTo(profileCompleteStatus());
+                    $(".profileprogress").imgProgressTo(profileCompleteStatus());
                     stop_waitMe("personaldetailstatus");
                 },
                 error: function(error) {
@@ -397,7 +417,7 @@ $(function() {
                     $(".proferrorResult").addClass("hidden");
                     $(".profsuccessResult").removeClass("hidden");
                     $(".savepersonalinfo").addClass("hidden");
-                    //$(".profileprogress").imgProgressTo(profileCompleteStatus());
+                    $(".profileprogress").imgProgressTo(profileCompleteStatus());
                     stop_waitMe("proffessionaldetailstatus");
                 },
                 error: function(error) {
@@ -900,4 +920,59 @@ let blogListAutoSuggestCmnt = (data) => {
             return $("<li>")
                 .append("<div class='list-group list-group-item'>" + item.label + "</div>").appendTo(ul);
         };
+};
+
+let profileCompleteStatus = () => {
+    var totalFields = 20;
+    var percentagePerFields = 100 / totalFields;
+
+    var i = 1;
+    i = checkControlContent("_id", i, true);
+    i = checkControlContent("aboutme", i, false);
+    i = checkControlContent("inputfirstname", i, false);
+    i = checkControlContent("inputlastname", i, false);
+    i = checkControlContent("inputDOB", i, false);
+    i = checkControlContent("inputaddress1", i, false);
+    i = checkControlContent("inputaddress2", i, false);
+    i = checkControlContent("inputcountry", i, false);
+    i = checkControlContent("inputpinno", i, false);
+    i = checkControlContent("inputphone", i, false);
+    i = checkControlContent("inputproffession", i, false);
+    i = checkControlContent("inputexperience", i, false);
+    i = checkControlContent("inputdepartment", i, false);
+    i = checkControlContent("inputcompanyname", i, false);
+    i = checkControlContent("inputcompemail", i, false);
+    i = checkControlContent("inputcompphone", i, false);
+    i = checkControlContent("inputqualification", i, false);
+    i = checkControlContent("inputeduyear", i, false);
+    i = checkControlContent("inputlocation", i, false);
+
+    var totalpercentage = percentagePerFields * i;
+
+    $(".profileCompleted").html("");
+    $(".profileCompleted").append(
+        "<strong>" + totalpercentage + "% completed</strong>"
+    );
+
+    return totalpercentage;
+};
+
+let checkControlContent = (control_id, i, isImage) => {
+    var ctrlVal = $("#" + control_id).val();
+
+    if (isImage && ctrlVal !== "" && ctrlVal !== undefined) {
+        var imgPath = ("/" + ctrlVal + "/" + ctrlVal + ".jpg").toLowerCase();
+        var imgSRC = $(".reloadimage").attr("src").toLowerCase();
+
+
+        if (imgSRC.indexOf('?') != -1)
+            imgSRC = imgSRC.substring(0, imgSRC.indexOf('?'));
+
+        if (imgPath == imgSRC)
+            return i + 1;
+        else
+            return i;
+
+    } else if (ctrlVal !== "" && ctrlVal !== undefined) return i + 1;
+    else return i;
 };

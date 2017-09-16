@@ -108,7 +108,7 @@ exports.editblog = function(data) {
     let path = serviceURL + "/editblog";
     //console.log("path:" + path);
     log.logger.info("Model layer editblog : service call : " + path);
-    //console.log("111");
+    //console.log("savedata " + JSON.stringify(data));
     return new Promise(function(resolve, reject) {
         axios.post(path, data).then(function(response) {
                 //console.log("2");
