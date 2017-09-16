@@ -12,6 +12,7 @@ const serviceURL = config.get("app.restAPIEndpoint.v1ContractPath");
 passport.use(new LocalStrategy(function(username, password, done) {
     //log.logger.info("Passport Init : User Name : " + username + " , Password : " + password);
     var user = {};
+    // console.log("Local req.session.reqType :" + req.session.reqType);
     //console.log("Step 1");
     passportauth.find(username).then((response) => {
         //console.log("Step 5");
@@ -52,53 +53,63 @@ passport.use(new GoogleStrategy({
     },
     function(accessToken, refreshToken, profile, done) {
         //console.log("user:" + (req.user));
-        if (profile.emails[0].value != null && profile.id != null) {
-            passportauth.find(profile.emails[0].value).then((response) => {
-                if (response != null && response.data != null && response.data.result.count > 0) {
-                    var user = {};
-                    user = response.data.result.result;
-                    console.log(JSON.stringify(user));
-                    console.log("Google user found in DB");
-                    return done(null, user);
-                } else {
-                    console.log("Google user doesn't found");
-                    let path = serviceURL + "/saveSignUp/";
-                    var user = {
-                        "id": profile.id,
-                        "username": profile.displayName,
-                        "userImage": profile.photos != null ? profile.photos[0].value : "",
-                        "authType": "google"
-                    };
-                    var result = {
-                        "username": profile.displayName,
-                        "name": profile.displayName,
-                        "googlename": profile.displayName,
-                        "facebookname": "",
-                        "localemail": "",
-                        "facebookemail": "",
-                        "googleemail": profile.emails[0].value,
-                        "password": bcrypt.hashSync("test", 10),
-                        "authType": "google",
-                        "profileID": profile.id,
-                        "userImage": profile.photos != null ? profile.photos[0].value : ""
-                    };
+        // console.log("Gooele req.session.reqType :" + req.session.reqType);
+        console.log("callback 2");
+        var user = {
+            "id": profile.id,
+            "username": profile.displayName,
+            "userImage": profile.photos != null ? profile.photos[0].value : "",
+            "authType": "google",
+            "email": profile.emails[0].value
+        };
+        return done(null, user);
+        // if (profile.emails[0].value != null && profile.id != null) {
+        //     passportauth.find(profile.emails[0].value).then((response) => {
+        //         if (response != null && response.data != null && response.data.result.count > 0) {
+        //             var user = {};
+        //             user = response.data.result.result;
+        //             //console.log(JSON.stringify(user));
+        //             console.log("Google user found in DB");
+        //             return done(null, user);
+        //         } else {
+        //             console.log("Google user doesn't found");
+        //             let path = serviceURL + "/saveSignUp/";
+        //             var user = {
+        //                 "id": profile.id,
+        //                 "username": profile.displayName,
+        //                 "userImage": profile.photos != null ? profile.photos[0].value : "",
+        //                 "authType": "google"
+        //             };
+        //             var result = {
+        //                 "username": profile.displayName,
+        //                 "name": profile.displayName,
+        //                 "googlename": profile.displayName,
+        //                 "facebookname": "",
+        //                 "localemail": "",
+        //                 "facebookemail": "",
+        //                 "googleemail": profile.emails[0].value,
+        //                 "password": bcrypt.hashSync("test", 10),
+        //                 "authType": "google",
+        //                 "profileID": profile.id,
+        //                 "userImage": profile.photos != null ? profile.photos[0].value : ""
+        //             };
 
-                    axios.post(path, result)
-                        .then(function(response) {
-                            console.log("Google user inserted in db ");
-                            return done(null, user);
-                        })
-                        .catch(function(error) {
-                            console.log("Error in inseration Google user in db ");
-                            return done(null, false);
-                        });
-                }
-            }).catch(function(err) {
-                console.log("Gooel passport find exception:" + err);
-                log.logger.error("Passport Init : passportauth find : User Name : " + profile.displayName + " Error : " + err);
-                return done(null, false);
-            });
-        }
+        //             axios.post(path, result)
+        //                 .then(function(response) {
+        //                     console.log("Google user inserted in db ");
+        //                     return done(null, user);
+        //                 })
+        //                 .catch(function(error) {
+        //                     console.log("Error in inseration Google user in db ");
+        //                     return done(null, false);
+        //                 });
+        //         }
+        //     }).catch(function(err) {
+        //         console.log("Gooel passport find exception:" + err);
+        //         log.logger.error("Passport Init : passportauth find : User Name : " + profile.displayName + " Error : " + err);
+        //         return done(null, false);
+        //     });
+        // }
     }
 ));
 
