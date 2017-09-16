@@ -132,3 +132,58 @@ let validateGoogleUser = (googleUser) => {
         } else reject("");
     });
 };
+
+
+let mapGoogleUserAccount = (googleUser, mapUserAccount) => {
+    return new Promise(function(resolve, reject) {
+        if (googleUser.email != null && googleUser.id != null) {
+            passportauth.find(googleUser.email).then((response) => {
+                if (response != null && response.data != null && response.data.result.count > 0) {
+                    var user = {};
+                    user = response.data.result.result;
+                    //console.log(JSON.stringify(user));
+                    console.log("Google user found in DB");
+                    resolve(user); //done(null, user);
+                } else {
+                    console.log("Google user doesn't found");
+                    let path = serviceURL + "/saveSignUp/";
+                    var user = {
+                        "id": googleUser.id,
+                        "username": googleUser.username,
+                        "userImage": googleUser.userImage != null ? googleUser.userImage : "",
+                        "authType": "google"
+                    };
+                    var result = {
+                        // "username": googleUser.username,
+                        // "name": googleUser.username,
+                        "id": mapUserAccount.id,
+                        "googlename": googleUser.username,
+                        // "facebookname": "",
+                        // "email": "",
+                        // "facebookemail": "",
+                        "googleemail": googleUser.email,
+                        //  "password": bcrypt.hashSync("test", 10),
+                        "authType": "local-google",
+                        // "profileID": googleUser.id,
+                        "userImage": googleUser.userImage != null ? googleUser.userImage : ""
+                    };
+
+                    axios.post(path, result)
+                        .then(function(response) {
+                            console.log("Google user inserted in db ");
+                            //return done(null, user);
+                            resolve(user);
+                        })
+                        .catch(function(error) {
+                            console.log("Error in inseration Google user in db ");
+                            reject("");
+                        });
+                }
+            }).catch(function(err) {
+                console.log("Gooel passport find exception:" + err);
+                log.logger.error("Passport Init : passportauth find : User Name : " + googleUser.username + " Error : " + err);
+                reject("");
+            });
+        } else reject("");
+    });
+};

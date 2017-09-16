@@ -160,7 +160,7 @@ router.get('/:_id', function(req, res) {
     if (userid == req.user._id && req.user.authType == "local") {
         var mappingObj = {
             "page": "profile",
-            "profileID": userid,
+            "id": userid,
             "pageURL": "/myprofile/595cde84f8ce4a2250f38820"
         };
         req.session.mappingObj = mappingObj;
