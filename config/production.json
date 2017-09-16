@@ -10,6 +10,9 @@
             "port": 2000
         }
     },
+    "verifyemail": {
+        "timeofactivate": "86400"
+    },
     "mongoDB": {
         "connectString": "mongodb://vaskar:12345678@ds161001.mlab.com:61001/mytest_mongodb"
     },

@@ -10,6 +10,7 @@ var formidable = require('formidable');
 var path = require("path");
 var mv = require("mv");
 var mkdirp = require("mkdirp");
+var nodemailer = require('nodemailer');
 //var _ = require("lodash");
 
 let getaboutme = function(userid) {
@@ -420,4 +421,106 @@ router.post("/updatecomment", function(req, res) {
             });
     } else
         res.json(false);
+});
+
+router.post('/verifyemail', function(req, res) {
+    if (req.url == '/verifyemail') {
+        var form = new formidable.IncomingForm();
+        form.parse(req, function(err, fields, files) {
+            var userid = fields.hnduserid;
+            var emailid = fields.hndemailid;
+
+            var service = config.get("nodeMailer.service");
+            var uid = config.get("nodeMailer.user");
+            var pwd = config.get("nodeMailer.pass");
+
+            var nodemailer = require('nodemailer');
+            var transporter = nodemailer.createTransport({
+                service: service,
+                auth: {
+                    user: uid,
+                    pass: pwd
+                }
+            });
+
+            var DT = new Date().toISOString();
+            path = config.get("app.webserver.protocol") + "://" +
+                config.get("app.webserver.host") + ":" +
+                config.get("app.webserver.port") + "/verifiedemail?i=" +
+                userid + "&ts=" + DT;
+
+            var mailOptions = {
+                from: uid,
+                to: emailid,
+                subject: 'Verify email id',
+                text: "Please click here to verify email " + path
+            };
+
+            transporter.sendMail(mailOptions, function(error, info) {
+                if (error) {
+                    console.log("mail sent error: " + error);
+                    res.json(false);
+                } else {
+                    console.log("mail sent success");
+
+                    // let path = serviceURL + "/updatesubscribe/";
+                    // //console.log("path:" + path);
+
+                    // var data = {
+                    //     "name": req.query.name,
+                    //     "emailID": req.query.emailID
+                    // };
+
+                    // axios.post(path, data)
+                    //     .then(function(response) {
+                    //         console.log("api response:" + response);
+                    //         res.json(true);
+                    //     })
+                    //     .catch(function(error) {
+                    //         console.log("api error:" + error);
+                    //         res.json({ "Error": "updatesubscribe api error" });
+                    //     });
+
+                    // Track email verification trigger in Database
+                    //var filter = { "userid": userid };
+
+                    // db.findOne('verifyemailtrigger', filter).then(function(results) {
+                    //     if (results != undefined && results._id != undefined) {
+
+                    //         filter = { "_id": ObjectId(results._id) };
+
+                    //         var updateQuery = {
+                    //             "dt": DT
+                    //         };
+
+                    //         db.get().collection("verifyemailtrigger").update(filter, {
+                    //             $set: updateQuery
+                    //         }, { upsert: false }, (err, results) => {
+                    //             if (err) {
+                    //                 res.json(false);
+                    //             } else {
+                    //                 console.log("details updated Successfully");
+                    //                 res.json(true);
+                    //             }
+                    //         });
+                    //     } else {
+                    //         filter = {
+                    //             "userid": userid,
+                    //             "dt": DT
+                    //         };
+
+                    //         db.Insert("verifyemailtrigger", filter).then(function(results) {
+                    //             res.json(true);
+                    //         }).catch(function(err) {
+                    //             res.json(false);
+                    //         });
+                    //     }
+                    // }).catch(function(e) {
+                    //     res.json(false);
+                    // });
+                }
+            });
+        });
+    }
+    return;
 });

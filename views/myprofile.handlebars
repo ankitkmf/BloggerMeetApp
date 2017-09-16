@@ -4,16 +4,14 @@
 <div class="bs-docs-section">
   <div class="container-fluid">
     <div class="row">
-          <div class="col-md-8 col-sm-8 col-xs-6">
-            Email verification pending
-          </div>
-          <div class="col-md-4 col-sm-4 col-xs-6">           
-            <a href="/auth/facebook" class="fa fa-facebook" title="link current to facebook account"></a>
-            <a href="/auth/google" class="fa fa-google" title="link current to gmail account"></a>
-          </div>
-        </div>
-    <div class="row">
-
+      <div class="col-md-8 col-sm-8 col-xs-6">
+        {{> verifyemail}}
+      </div>
+      <div class="col-md-4 col-sm-4 col-xs-6">
+        <a href="/auth/facebook" class="fa fa-facebook" title="link current to facebook account"></a>
+        <a href="/auth/google" class="fa fa-google" title="link current to gmail account"></a>
+      </div>
+    </div>
     <div class="row">
       <!--First column-->
       <div class="col-lg-4 col-md-4 col-sm-4">
@@ -24,10 +22,10 @@
         <!-- my profile status section -->
         {{> myprofilestatus}}
         <!-- /.my profile status section -->
-        
+
       </div>
 
-      
+
       <!--/.First column-->
 
       <!--Second column-->
@@ -42,8 +40,8 @@
             <li class="disabled"><a>Disabled</a></li> --}}
             <li class="dropdown">
               <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
-      Activity <span class="caret"></span>
-    </a>
+                Activity <span class="caret"></span>
+              </a>
               <ul class="dropdown-menu">
                 <li><a href="#blogtab" data-toggle="tab" class="blogactivitytab">Blogs</a></li>
                 <li class="divider"></li>

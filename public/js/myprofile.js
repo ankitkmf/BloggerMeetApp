@@ -567,6 +567,35 @@ $(function() {
             });
         }
     });
+
+    /* Code toverify email id in the my profile page */
+    $("#frmemailverification").submit(function(e) {
+        e.preventDefault();
+
+        var data = new FormData(this); // <-- 'this' is your form element
+
+        $.ajax({
+            url: "/myprofile/verifyemail",
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: "POST",
+            success: function(data) {
+                console.log("success : " + JSON.stringify(data));
+                $(".vemailsuccessResult").removeClass("hidden");
+                $(".vemailerrorResult").addClass("hidden");
+                $(".emailverificationform").addClass("hidden");
+                $(".profileprogress").imgProgressTo(profileCompleteStatus());
+            },
+            error: function(error) {
+                console.log("error : " + error);
+                $(".vemailsuccessResult").addClass("hidden");
+                $(".vemailerrorResult").removeClass("hidden");
+            }
+        });
+
+    });
 });
 
 let LoadBlogHistory = (userid, selectedBlogID) => {
@@ -946,6 +975,7 @@ let profileCompleteStatus = () => {
     i = checkControlContent("inputqualification", i, false);
     i = checkControlContent("inputeduyear", i, false);
     i = checkControlContent("inputlocation", i, false);
+    i = checkControlContent("hndemailverified", i, false);
 
     var totalpercentage = percentagePerFields * i;
 

@@ -26,6 +26,8 @@ passport.use(new LocalStrategy(function(username, password, done) {
                     console.log("user pwd match");
                     log.logger.info("Passport Init : password match : User _id : " + user.result._id + " , name : " + user.result.username);
                     user = user.result;
+
+                    console.log("User details " + JSON.stringify(user));
                     return done(null, user);
                 } else {
                     console.log("user pwd does not matched");

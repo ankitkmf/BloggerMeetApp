@@ -10,6 +10,9 @@
             "port": 2000
         }
     },
+    "verifyemail": {
+        "timeofactivate": "86400"
+    },
     "google": {
         "clientID": "953892900929-tvldpm1p7c0d3ak5atanrhdufj0mca2r.apps.googleusercontent.com",
         "clientSecret": "ZH-GU8fMKxJhZsKopce7jfG3",
