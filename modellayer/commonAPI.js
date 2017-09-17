@@ -141,10 +141,18 @@ router.post('/data/fpwd', function(req, res) {
     var result = {
         "email": req.body.email,
     };
+
+    console.log("2");
+
     axios.post(path, result)
         .then(function(response) {
+            console.log("3");
             if (response.data != null && response.data.count > 0) {
-                path = config.get("nodeMailer.path") + "/auth/changepwd/" + response.data.result[0]._id;
+                console.log("4");
+                var DT = new Date().toISOString();
+                var userid = response.data.result[0]._id;
+                path = config.get("nodeMailer.path") + "/auth/changepwd?i=" +
+                    userid + "&ts=" + DT;
                 console.log("validateUserEmail api response:" + path);
                 var mailOptions = {
                     from: uid,
@@ -165,6 +173,13 @@ router.post('/data/fpwd', function(req, res) {
                         res.json(false);
                     } else {
                         console.log("Send fpwd success");
+
+                        changePwd.triggerfpwdemail(userid, DT).then(function(results) {
+                            res.json(true);
+                        }).catch(function(err) {
+                            res.json({ "Error": "Forgot password email trigger api error" });
+                        });
+
                         res.json(true);
                     }
                 });

@@ -55,3 +55,26 @@ exports.validatePassword = function(cupwd, oldPwd) {
         });
     });
 }
+
+exports.triggerfpwdemail = (userid, DT) => {
+    let path = serviceURL + "/triggerfpwdemail/";
+    console.log("path:" + path);
+
+    var data = {
+        "userid": userid,
+        "dt": DT
+    };
+
+    return new Promise(function(resolve, reject) {
+        axios.post(path, data)
+            .then(function(response) {
+                console.log("api response:" + response);
+                resolve(response);
+            })
+            .catch(function(error) {
+                var err = { "Error": error };
+                console.log("api error:" + error);
+                reject(err);
+            });
+    });
+}
