@@ -78,3 +78,20 @@ exports.triggerfpwdemail = (userid, DT) => {
             });
     });
 }
+
+exports.verifyfpwdemail = (userid) => {
+    let path = serviceURL + "/verifyfpwdemail/" + userid;
+    console.log("path:" + path);
+
+    return new Promise(function(resolve, reject) {
+        axios.get(path).then(function(response) {
+                log.logger.info("Model layer verifyfpwdemail method : service call : success");
+                resolve(response);
+            })
+            .catch(function(error) {
+                var err = { "Error": error };
+                log.logger.error("Model layer verifyfpwdemail method : service call : error : " + error);
+                reject(err);
+            });
+    });
+}

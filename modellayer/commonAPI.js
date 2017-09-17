@@ -137,26 +137,27 @@ router.post('/data/fpwd', function(req, res) {
     var service = config.get("nodeMailer.service");
     var uid = config.get("nodeMailer.user");
     var pwd = config.get("nodeMailer.pass");
+    var emailid = req.body.email;
     let path = serviceURL + "/validateUserEmail/";
     var result = {
-        "email": req.body.email,
+        "email": emailid,
     };
 
-    console.log("2");
+    console.log("2 " + path + " , " + emailid);
 
     axios.post(path, result)
         .then(function(response) {
-            console.log("3");
-            if (response.data != null && response.data.count > 0) {
+            console.log("3 " + response.data.result.count);
+            if (response != null && response.data.result != null && response.data.result.count > 0) {
                 console.log("4");
                 var DT = new Date().toISOString();
-                var userid = response.data.result[0]._id;
+                var userid = response.data.result.result._id;
                 path = config.get("nodeMailer.path") + "/auth/changepwd?i=" +
                     userid + "&ts=" + DT;
                 console.log("validateUserEmail api response:" + path);
                 var mailOptions = {
                     from: uid,
-                    to: req.body.email,
+                    to: emailid,
                     subject: 'Blogger app reset password alert!',
                     text: path
                 };
@@ -416,5 +417,18 @@ router.get("/data/GetUserHistory/:type/:id", function(req, res) {
     }).catch(function(err) {
         console.log("GetUserHistory1 err:" + err);
         res.json(false);
+    });
+});
+
+router.get('/changepwd', function(req, res) {
+    var userid = req.query.i;
+    changePwd.verifyfpwdemail(userid).then(function(results) {
+        console.log("1 " + results.data.state);
+        var data = { state: results.data.state };
+        res.render('emailverified', { layout: 'default', title: 'Email Verification Page', state: data });
+    }).catch(function(err) {
+        var data = { state: "0" };
+        res.render('emailverified', { layout: 'default', title: 'Email Verification Page', state: data });
+        //res.status(500).send();
     });
 });
