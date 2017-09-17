@@ -571,11 +571,12 @@ $(function() {
     /* Code toverify email id in the my profile page */
     $("#frmemailverification").submit(function(e) {
         e.preventDefault();
+        run_waitMe("divverifyemail");
 
         var data = new FormData(this); // <-- 'this' is your form element
 
         $.ajax({
-            url: "/myprofile/verifyemail",
+            url: "/verifyemail/triggeremail",
             data: data,
             cache: false,
             contentType: false,
@@ -587,11 +588,13 @@ $(function() {
                 $(".vemailerrorResult").addClass("hidden");
                 $(".emailverificationform").addClass("hidden");
                 $(".profileprogress").imgProgressTo(profileCompleteStatus());
+                stop_waitMe("divverifyemail");
             },
             error: function(error) {
                 console.log("error : " + error);
                 $(".vemailsuccessResult").addClass("hidden");
                 $(".vemailerrorResult").removeClass("hidden");
+                stop_waitMe("divverifyemail");
             }
         });
 

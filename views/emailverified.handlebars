@@ -1,0 +1,41 @@
+<div class="container">
+    <div>
+        {{#if state}} {{#Compare state.state "0"}}
+        <div class="panel panel-danger">
+            <div class="panel-heading">
+                <h3 class="panel-title">Email verification status</h3>
+            </div>
+            <div class="panel-body">
+                <strong>Sorry!</strong> Your email verification status is failed. Please try again later.
+            </div>
+        </div>
+        {{/Compare}} {{#Compare state.state "1"}}
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                <h3 class="panel-title">Email verification status</h3>
+            </div>
+            <div class="panel-body">
+                <strong>Hello!</strong> Thank you for verifying your registered email.
+            </div>
+        </div>
+        {{/Compare}} {{#Compare state.state "2"}}
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                <h3 class="panel-title">Email verification status</h3>
+            </div>
+            <div class="panel-body">
+                <strong>Hello!</strong> Your registered email is already verified.
+            </div>
+        </div>
+        {{/Compare}} {{#Compare state.state "3"}}
+        <div class="panel panel-warning">
+            <div class="panel-heading">
+                <h3 class="panel-title">Email verification status</h3>
+            </div>
+            <div class="panel-body">
+                <strong>Hello!</strong> You are too late. This URL is no longer valid.
+            </div>
+        </div>
+        {{/Compare}} {{/if}}
+    </div>
+</div>
