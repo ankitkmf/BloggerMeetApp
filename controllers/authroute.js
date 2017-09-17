@@ -41,7 +41,7 @@ router.get('/google',
 router.get('/google/callback', passport.authenticate('google'), function(req, res) {
     //console.log("2:" + req.session.returnTo);
     // console.log("callback 1");
-    // console.log("Google User:" + JSON.stringify(req.user));
+    console.log("Google User:" + JSON.stringify(req.user));
     if (req.session.mappingObj != null) {
         // console.log("req.session.mappingObj :" + JSON.stringify(req.session.mappingObj));
         //req.session.mappingObj = "";
