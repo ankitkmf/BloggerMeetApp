@@ -14,28 +14,20 @@ exports.find = function(email) {
         findUser(email).then(result => {
             resolve(result);
         }).catch(function(error) {
-            var err = { "exports.find": error };
-            console.log("Step 4 err:" + error);
-            // log.logger.error("Passport Auth : find : error " + error);
-            reject(err);
+            console.log("exports.find err:" + error);
+            reject(error);
         });
     });
 }
 exports.validateGoogleUser = (googleUser) => {
-    console.log("1");
     return new Promise(function(resolve, reject) {
-        console.log("2");
         if (googleUser.email != null && googleUser.id != null) {
-            console.log("3");
             findUser(googleUser.email).then((response) => {
-                console.log("4");
                 if (response != null && response.data != null && response.data.result.count > 0) {
-                    console.log("5");
                     var user = {};
                     user = response.data.result.result;
-                    //console.log(JSON.stringify(user));
                     console.log("Google user found in DB");
-                    resolve(user); //done(null, user);
+                    resolve(user);
                 } else {
                     console.log("6");
                     console.log("Google user doesn't found");
@@ -82,7 +74,59 @@ exports.validateGoogleUser = (googleUser) => {
 
 exports.mapGoogleUser = function(googleUser, mapUserAccount) {
     return new Promise(function(resolve, reject) {
-        mapGoogleUserAccount(googleUser, mapUserAccount);
+
+        var path = serviceURL + "/updaterecords";
+        var mapGoogleAccountData = {
+            "id": googleUser.id,
+            "type": "mapgoogleaccount",
+            "googleemail": googleUser.email,
+            "googlename": googleUser.username,
+            "userImage": googleUser.userImage,
+            "authType": googleUser.authType,
+        };
+        var mapBlogsData = {
+            "type": "blogs",
+            "userid": googleUser.id,
+            "createdby": googleUser.username
+        };
+        var mapCommentsData = {
+            "type": "comments",
+            "userid": googleUser.id,
+            "createdby": googleUser.username
+        };
+        var deactiveGoogleUserData = {
+            "type": "users",
+            "active": false,
+            "id": googleUser.id
+        };
+        var blogsHistoryPath = {
+            "type": "blogshistory",
+            "userid": googleUser.id
+        };
+        var loginHistoryPath = {
+            "type": "loginhistory",
+            "profileID": googleUser.id,
+            "username": googleUser.username
+        };
+        Promise.all([
+            saveRecords(path, mapGoogleAccountData),
+            saveRecords(path, mapGoogleAccountData),
+            saveRecords(path, mapGoogleAccountData)
+        ]).then(data => {
+            // console.log("data:" + JSON.stringify(data[2].data));
+            var collectionList = GetAllUserCountCollection(data);
+            var collection = {
+                "totalUser": collectionList[0][0].total, // data[0].data.count,
+                "totalSbUser": collectionList[3][0].total,
+                "totalGoogleUser": collectionList[1][0].total,
+                "totalFBUser": collectionList[2][0].total,
+                "userID": (data[2].data.result != null) ? id : ""
+            };
+            resolve(collection);
+        }).catch(function(err) {
+            console.log("GetAllUserCount err:" + err);
+            reject(err);
+        });
     });
 }
 
@@ -125,29 +169,14 @@ let saveLoginHistory = (response, email) => {
         });
 };
 
-let mapGoogleUserAccount = (googleUser, mapUserAccount) => {
+let saveRecords = (path, data) => {
     return new Promise(function(resolve, reject) {
-        if (googleUser.email != null && googleUser.id != null) {
-            Promise.all([
-                findAll(findAllUserPath),
-                findAll(findSubscribeUserAllPath),
-                findOne(findOnePath),
-            ]).then(data => {
-                // console.log("data:" + JSON.stringify(data[2].data));
-                var collectionList = GetAllUserCountCollection(data);
-                var collection = {
-                    "totalUser": collectionList[0][0].total, // data[0].data.count,
-                    "totalSbUser": collectionList[3][0].total,
-                    "totalGoogleUser": collectionList[1][0].total,
-                    "totalFBUser": collectionList[2][0].total,
-                    "userID": (data[2].data.result != null) ? id : ""
-                };
-                resolve(collection);
-            }).catch(function(err) {
-                console.log("GetAllUserCount err:" + err);
-                reject(err);
+        axios.post(path, data).then(function(response) {
+                resolve(response);
+            })
+            .catch(function(error) {
+                console.log("saveRecords err:" + error);
+                reject(error);
             });
-
-        } else reject("");
     });
 };
