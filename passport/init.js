@@ -11,11 +11,12 @@ const serviceURL = config.get("app.restAPIEndpoint.v1ContractPath");
 
 passport.use(new LocalStrategy(function(username, password, done) {
     //log.logger.info("Passport Init : User Name : " + username + " , Password : " + password);
+    console.log("Passport Init : User Name : " + username + " , Password : " + password);
     var user = {};
     // console.log("Local req.session.reqType :" + req.session.reqType);
-    //console.log("Step 1");
+    console.log("Step 1");
     passportauth.find(username).then((response) => {
-        //console.log("Step 5");
+        console.log("Step 2");
         // console.log("response.data:" + JSON.stringify(response.data));
         if (response != null && response.data != null && response.data.result.count > 0) {
             user = response.data.result;
