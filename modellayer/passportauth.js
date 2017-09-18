@@ -25,8 +25,9 @@ exports.validateGoogleUser = (googleUser) => {
             findUser(googleUser.email).then((response) => {
                 if (response != null && response.data != null && response.data.result.count > 0) {
                     var user = {};
+                    // console.log(JSON.stringify(response.data.result.result));
                     user = response.data.result.result;
-                    console.log("Google user found in DB");
+                    //  console.log("Google user found in DB user:" + user._id);
                     resolve(user);
                 } else {
                     console.log("6");
@@ -43,7 +44,7 @@ exports.validateGoogleUser = (googleUser) => {
                         "name": googleUser.username,
                         "googlename": googleUser.username,
                         "facebookname": "",
-                        "localemail": "",
+                        "email": "",
                         "facebookemail": "",
                         "googleemail": googleUser.email,
                         "password": bcrypt.hashSync("test", 10),
@@ -95,7 +96,7 @@ exports.mapGoogleUser = function(googleUser, mapUserAccount) {
             "createdby": googleUser.username
         };
         var deactiveGoogleUserData = {
-            "type": "users",
+            "type": "deactivegoogleuser",
             "active": false,
             "id": googleUser.id
         };
@@ -108,21 +109,25 @@ exports.mapGoogleUser = function(googleUser, mapUserAccount) {
             "profileID": googleUser.id,
             "username": googleUser.username
         };
+        resolve("true");
         Promise.all([
             saveRecords(path, mapGoogleAccountData),
-            saveRecords(path, mapGoogleAccountData),
-            saveRecords(path, mapGoogleAccountData)
+            saveRecords(path, mapBlogsData),
+            saveRecords(path, mapCommentsData),
+            saveRecords(path, blogsHistoryPath),
+            saveRecords(path, loginHistoryPath),
+            saveRecords(path, deactiveGoogleUserData)
         ]).then(data => {
             // console.log("data:" + JSON.stringify(data[2].data));
-            var collectionList = GetAllUserCountCollection(data);
-            var collection = {
-                "totalUser": collectionList[0][0].total, // data[0].data.count,
-                "totalSbUser": collectionList[3][0].total,
-                "totalGoogleUser": collectionList[1][0].total,
-                "totalFBUser": collectionList[2][0].total,
-                "userID": (data[2].data.result != null) ? id : ""
-            };
-            resolve(collection);
+            // var collectionList = GetAllUserCountCollection(data);
+            // var collection = {
+            //     "totalUser": collectionList[0][0].total, // data[0].data.count,
+            //     "totalSbUser": collectionList[3][0].total,
+            //     "totalGoogleUser": collectionList[1][0].total,
+            //     "totalFBUser": collectionList[2][0].total,
+            //     "userID": (data[2].data.result != null) ? id : ""
+            // };
+            resolve(true);
         }).catch(function(err) {
             console.log("GetAllUserCount err:" + err);
             reject(err);
@@ -170,6 +175,8 @@ let saveLoginHistory = (response, email) => {
 };
 
 let saveRecords = (path, data) => {
+    console.log("saveRecords ,data:" + JSON.stringify(data));
+    // console.log("saveRecords for " + data + " ,whereQuery:" + JSON.stringify(whereQuery));
     return new Promise(function(resolve, reject) {
         axios.post(path, data).then(function(response) {
                 resolve(response);

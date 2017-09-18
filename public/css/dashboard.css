@@ -79,6 +79,10 @@ body {
     margin-bottom: 25px !important;
 }
 
+.ui-accordion .ui-accordion-content {
+    width: 100%;
+}
+
 
 /* .ui-state-active,
 .ui-widget-content,
