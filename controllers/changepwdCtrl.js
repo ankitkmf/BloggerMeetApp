@@ -17,3 +17,17 @@ router.get("/changepwd/:id", function(req, res) {
         res.render('changepwd', { layout: 'default', title: 'changepwd Page', isValidReq: false });
     });
 });
+
+router.get("/resetpwd", function(req, res) {
+    //http://localhost:2000/auth/resetpwd
+    var userid = req.query.i;
+    changePwd.findUser(userid).then((response) => {
+        if (response != null && response.data.result.count > 0) {
+            res.render('resetpwd', { layout: 'default', title: 'Reset Password Page', isValidReq: true, userID: userid });
+        } else {
+            res.render('resetpwd', { layout: 'default', title: 'Reset Password Page', isValidReq: false });
+        }
+    }).catch(function(err) {
+        res.render('resetpwd', { layout: 'default', title: 'Reset Password Page', isValidReq: false });
+    });
+});

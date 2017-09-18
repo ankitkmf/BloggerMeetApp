@@ -138,7 +138,7 @@ router.post('/data/fpwd', function(req, res) {
     var uid = config.get("nodeMailer.user");
     var pwd = config.get("nodeMailer.pass");
     var emailid = req.body.email;
-    let path = serviceURL + "/validateUserEmail/";
+    let path = serviceURL + "/validateUserOnReset/";
     var result = {
         "email": emailid,
     };
@@ -152,9 +152,9 @@ router.post('/data/fpwd', function(req, res) {
                 console.log("4");
                 var DT = new Date().toISOString();
                 var userid = response.data.result.result._id;
-                path = config.get("nodeMailer.path") + "/auth/changepwd?i=" +
+                path = config.get("nodeMailer.path") + "/auth/resetpwd?i=" +
                     userid + "&ts=" + DT;
-                console.log("validateUserEmail api response:" + path);
+                console.log("validateUserOnReset api response:" + path);
                 var mailOptions = {
                     from: uid,
                     to: emailid,
@@ -188,8 +188,8 @@ router.post('/data/fpwd', function(req, res) {
                 res.json(false);
         })
         .catch(function(error) {
-            console.log("validateUserEmail api error:" + error);
-            res.json({ "Error": "validateUserEmail api error" });
+            console.log("validateUserOnReset api error:" + error);
+            res.json({ "Error": "validateUserOnReset api error" });
         });
 });
 
@@ -420,15 +420,22 @@ router.get("/data/GetUserHistory/:type/:id", function(req, res) {
     });
 });
 
-router.get('/changepwd', function(req, res) {
-    var userid = req.query.i;
-    changePwd.verifyfpwdemail(userid).then(function(results) {
-        console.log("1 " + results.data.state);
-        var data = { state: results.data.state };
-        res.render('emailverified', { layout: 'default', title: 'Email Verification Page', state: data });
-    }).catch(function(err) {
-        var data = { state: "0" };
-        res.render('emailverified', { layout: 'default', title: 'Email Verification Page', state: data });
-        //res.status(500).send();
-    });
+//Reset user pwd on forgot
+router.post('/data/ResetUserPwd', function(req, res, next) {
+    if (req.body._id != null && req.body.npwd != null) {
+        changePwd.findUser(req.body._id).then((response) => {
+                return changePwd.updatePassword(response.data.result._id, req.body.npwd);
+            }).then((response) => {
+                console.log("success");
+                res.json(true);
+            })
+            .catch(function(err) {
+                console.log("ResetUserPwd common step 1.9:" + err);
+                res.json(false);
+                // res.render('changepwd', { layout: 'default', title: 'changepwd Page', isValidReq: false });
+            });
+    } else {
+        console.log("ResetUserPwd common step 1.10");
+        res.json(false);
+    }
 });

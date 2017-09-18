@@ -13,7 +13,7 @@ exports.findUser = function(id) {
     return new Promise(function(resolve, reject) {
         axios.get(path).then(function(response) {
                 console.log(" findUser model Step 1.2,Success:");
-                resolve(JSON.parse(response.data));
+                resolve(response);
             })
             .catch(function(error) {
                 reject(error);

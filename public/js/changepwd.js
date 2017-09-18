@@ -5,6 +5,12 @@ $(function() {
         run_waitMe("changepwd");
         changePwd(servicePath);
     });
+
+    $(".resetpwdBtn").on("click", () => {
+        run_waitMe("resetpwd");
+        resetPwd(servicePath);
+    });
+
 });
 
 let changePwd = (servicePath) => {
@@ -73,6 +79,68 @@ let changePwd = (servicePath) => {
         $(".ErrorPanel").html(errorPanel);
         showErrorPanal();
         stop_waitMe("changepwd");
+    }
+}
+
+let resetPwd = (servicePath) => {
+    var isValid = true;
+    var errorPanel = $("<div></div>");
+    var _npwd = $("#NPassword").val();
+    var _conpwd = $("#CoPassword").val();
+    var _userID = $("#NPassword").data("id")
+    clearControlClass();
+    if (_npwd == "" || _npwd == undefined) {
+        isValid = false;
+        $("#NPassword").parent().addClass("has-error");
+        errorPanel.append(showMessage("Please enter new password."));
+    }
+
+    if (_conpwd == "" || _conpwd == undefined) {
+        isValid = false;
+        $("#CoPassword").parent().addClass("has-error");
+        errorPanel.append(showMessage("Please enter confirm password."));
+    }
+
+    if (_npwd != _conpwd) {
+        isValid = false;
+        $("#CoPassword").parent().addClass("has-error");
+        errorPanel.append(showMessage("Password is not matching"));
+    }
+
+    if (isValid && (_userID != "" || _userID != undefined)) {
+        var result = { "_id": _userID, "npwd": _npwd };
+        console.log("step 1 " + JSON.stringify(result));
+        $.ajax({
+                method: "Post",
+                url: "/commonAPI/data/ResetUserPwd",
+                data: result
+            })
+            .done(function(jsonResult) {
+                console.log("step 2");
+                if (jsonResult) {
+                    clearControlClass();
+                    clearInputFields();
+                    $(".successPanel").html("<strong>Your password has been reset! Kindly login.</strong> <a href='/' class='alert-link'>Go to home page</a>");
+                    showSuccessPanal();
+                } else {
+                    $("#inputEmail").focus().parent().addClass("has-error");
+                    $(".ErrorPanel").html("Technical error !");
+                    showErrorPanal();
+                }
+            })
+            .fail(function(err) {
+                $("#inputEmail").focus().parent().addClass("has-error");
+                $(".ErrorPanel").html("Technical error !");
+                showErrorPanal();
+            })
+            .always(function() {
+                console.log("step 6");
+                stop_waitMe("resetpwd");
+            });
+    } else {
+        $(".ErrorPanel").html(errorPanel);
+        showErrorPanal();
+        stop_waitMe("resetpwd");
     }
 }
 
