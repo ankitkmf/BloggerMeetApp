@@ -196,3 +196,7 @@ body {
     width: 30px;
     height: auto;
 }
+
+label.col-lg-2.control-label {
+    margin-top: -11px;
+}

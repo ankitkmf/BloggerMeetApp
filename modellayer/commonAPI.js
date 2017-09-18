@@ -24,7 +24,7 @@ router.post("/data/signUp", function(req, res) {
         var result = {
             "username": req.body.username,
             "name": req.body.name,
-            "localemail": req.body.email,
+            "email": req.body.email,
             "googlename": "",
             "facebookname": "",
             "googleemail": "",
