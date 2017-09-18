@@ -69,7 +69,7 @@ let authenticationMiddleware = function(req, res, next) {
     // console.log("**************end******************");
     if (req.isAuthenticated()) {
         // console.log("*****user Authenticated");
-        res.locals.user = req.user;
+        res.locals.user = req.session.user;
         return next();
     }
     req.session.userVisit = req.session.userVisit != null ? ++(req.session.userVisit) : 1;
@@ -85,7 +85,8 @@ let authNotRequired = (req, res, next) => {
     // console.log("start 1req.session.redirectUrl:" + req.session.redirectUrl);
     if (req.isAuthenticated()) {
         // console.log("-----user Authenticated");
-        res.locals.user = req.user;
+        console.log("--req.session.user:" + JSON.stringify(req.session.user));
+        res.locals.user = req.session.user;
         req.session.userVisit += 1;
     } else {
         req.session.userVisit = req.session.userVisit != null ? ++(req.session.userVisit) : 1;

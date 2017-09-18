@@ -1,8 +1,8 @@
 <div id="accordion">
   {{#each user.result}}
   <div data-name={{_id}} class="blogtable">
-    <h3>
-      {{{this.topic}}}
+    <div class="header">
+      <h3>{{{this.topic}}}</h3>
       <div class="pull-right">
         <label class="radio-inline">            
            {{#Compare "1" this.status}}
@@ -31,7 +31,7 @@
         </label>
         <button type="button" class="btn btn-primary btn-xs userBlogDataColumn">Update</button>
       </div>
-    </h3>
+    </div>
     <div>
       {{{content}}}
     </div>

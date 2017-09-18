@@ -41,7 +41,8 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li class="active"><a href="/">Home</a></li>
-        {{#if user}}
+        {{#if user}}ankit
+        {{{user._id}}}
         <li><a href="/auth/dashboard">Dashboard</a></li>
         <li><a href="/blogs/profile/{{user._id}}">Blogs</a></li>{{/if}}
       </ul>
