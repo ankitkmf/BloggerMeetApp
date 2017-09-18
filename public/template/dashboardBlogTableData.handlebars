@@ -2,8 +2,11 @@
   {{#each user.result}}
   <div data-name={{_id}} class="blogtable">
     <div class="header">
-      <h3>{{{this.topic}}}</h3>
-      <div class="pull-right">
+      <div class="col-xs-6">
+        <h6>{{{this.topic}}}</h6>
+      </div>
+
+      <div class="pull-right ol-xs-6">
         <label class="radio-inline">            
            {{#Compare "1" this.status}}
              <input type="radio" name="blogGroup_{{@index}}" checked="checked" data-type="approve" value="1"/>

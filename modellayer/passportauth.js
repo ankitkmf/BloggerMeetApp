@@ -8,7 +8,6 @@ const serviceURL = config.get("app.restAPIEndpoint.v1ContractPath");
 
 
 exports.find = function(email) {
-    // console.log("Step 3");
     return new Promise(function(resolve, reject) {
         // console.log("Step 4");
         findUser(email).then(result => {
@@ -80,8 +79,8 @@ exports.validateGoogleUser = (googleUser) => {
 
 exports.mapGoogleUser = function(googleUser, mapUserAccount) {
 
-    console.log("mapGoogleUser googleUser:" + JSON.stringify(googleUser));
-    console.log("mapGoogleUser mapUserAccount:" + JSON.stringify(mapUserAccount));
+    // console.log("mapGoogleUser googleUser:" + JSON.stringify(googleUser));
+    //console.log("mapGoogleUser mapUserAccount:" + JSON.stringify(mapUserAccount));
     return new Promise(function(resolve, reject) {
         var path = serviceURL + "/updaterecords";
         var mapGoogleAccountData = {
@@ -124,22 +123,22 @@ exports.mapGoogleUser = function(googleUser, mapUserAccount) {
         };
         // resolve("true");
         Promise.all([
-            saveRecords(path, mapGoogleAccountData),
-            saveRecords(path, mapBlogsData),
-            saveRecords(path, mapCommentsData),
-            saveRecords(path, blogsHistoryPath),
-            saveRecords(path, loginHistoryPath),
-            saveRecords(path, deactiveGoogleUserData)
+            // saveRecords(path, mapGoogleAccountData),
+            saveRecords(path, mapBlogsData)
+            // saveRecords(path, mapCommentsData),
+            // saveRecords(path, blogsHistoryPath),
+            // saveRecords(path, loginHistoryPath),
+            // saveRecords(path, deactiveGoogleUserData)
         ]).then(collectionList => {
             // console.log("data:" + JSON.stringify(data[2].data));
             // var collectionList = GetAllUserCountCollection(data);
             var collection = {
-                "mapGoogleAccountData": collectionList[0].data, // data[0].data.count,
-                "mapBlogsData": collectionList[1].data,
-                "mapCommentsData": collectionList[2].data,
-                "blogsHistoryPath": collectionList[3].data,
-                "loginHistoryPath": collectionList[4].data,
-                "deactiveGoogleUserData": collectionList[5].data,
+                "mapGoogleAccountData": collectionList[0].data // data[0].data.count,
+                    // "mapBlogsData": collectionList[1].data
+                    // "mapCommentsData": collectionList[2].data,
+                    // "blogsHistoryPath": collectionList[3].data,
+                    // "loginHistoryPath": collectionList[4].data,
+                    // "deactiveGoogleUserData": collectionList[5].data,
             };
 
             console.log("collection:" + JSON.stringify(collection));
@@ -191,7 +190,7 @@ let saveLoginHistory = (response, email) => {
 };
 
 let saveRecords = (path, data) => {
-    console.log("saveRecords ,data:" + JSON.stringify(data));
+    // console.log("saveRecords ,data:" + JSON.stringify(data));
     // console.log("saveRecords for " + data + " ,whereQuery:" + JSON.stringify(whereQuery));
     return new Promise(function(resolve, reject) {
         axios.post(path, data).then(function(response) {
