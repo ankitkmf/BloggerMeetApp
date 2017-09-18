@@ -27,7 +27,7 @@ exports.validateGoogleUser = (googleUser) => {
                     var user = {};
                     // console.log(JSON.stringify(response.data.result.result));
                     user = response.data.result.result;
-                    //  console.log("Google user found in DB user:" + user._id);
+                    console.log("Google user found in DB user:" + user._id);
                     resolve(user);
                 } else {
                     console.log("6");
@@ -56,8 +56,13 @@ exports.validateGoogleUser = (googleUser) => {
                     axios.post(path, result)
                         .then(function(response) {
                             console.log("Google user inserted in db ");
-                            //return done(null, user);
-                            resolve(user);
+                            console.log("response.data:" + JSON.stringify(response.data));
+                            if (response.data != null && response.data.resultID != null) {
+                                user._id = response.data.resultID;
+                                // console.log("user:" + JSON.stringify(user));
+                                resolve(user);
+                            }
+                            reject(false);
                         })
                         .catch(function(error) {
                             console.log("Error in inseration Google user in db ");

@@ -37,7 +37,7 @@ router.post("/data/signUp", function(req, res) {
 
         axios.post(path, result)
             .then(function(response) {
-                console.log("api response:" + response);
+                //console.log("saveSignUp api response:" + JSON.stringify(response.data));
                 res.json(true);
             })
             .catch(function(error) {
