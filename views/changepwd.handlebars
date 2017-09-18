@@ -11,12 +11,12 @@
                         </div>
                         <div class="alert alert-dismissible alert-danger ErrorPanel hidden">
                         </div>
-                        {{#if isValidReq}}
+                        {{#if user}}
                         <div class="changepwd">
                             <div class="form-group">
                                 <label for="inputPassword" class="col-lg-2 control-label">Current Password</label>
                                 <div class="col-lg-10">
-                                    <input type="password" class="form-control input-sm"  data-id="{{userID}}" id="CuPassword" placeholder="Password">
+                                    <input type="password" class="form-control input-sm"  data-id="{{user._id}}" id="CuPassword" placeholder="Password">
                                 </div>
                             </div>
                             <div class="form-group">

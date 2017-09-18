@@ -46,7 +46,7 @@ let changePwd = (servicePath) => {
     }
 
     if (isValid && (_userID != "" || _userID != undefined)) {
-        var result = { "cupwd": _cupwd, "id": _userID, "npwd": _npwd };
+        var result = { "cupwd": _cupwd, "userid": _userID, "npwd": _npwd };
         console.log("step 1");
         $.ajax({
                 method: "Post",

@@ -57,6 +57,9 @@ exports.updatePassword = function(id, pwd) {
 }
 
 exports.validatePassword = function(cupwd, oldPwd) {
+
+    console.log(cupwd + " , " + oldPwd);
+
     return new Promise(function(resolve, reject) {
         bcrypt.compare(oldPwd, cupwd, function(err, res) {
             if (res) {

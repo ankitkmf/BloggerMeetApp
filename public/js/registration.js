@@ -74,13 +74,22 @@ let checkUserName = (servicePath) => {
 
     } else {
 
+        //servicePath = servicePath != null ? servicePath : "http://localhost:3000";
+        //var url = servicePath + "/checkUserName/" + $("#inputUserName").val();
+
         servicePath = servicePath != null ? servicePath : "http://localhost:3000";
-        var url = servicePath + "/checkUserName/" + $("#inputUserName").val();
+        var url = "/commonAPI/data/checkUserName"; // servicePath + "/validateUserEmail";
+        var result = {
+            "username": $("#inputUserName").val()
+        };
+
         $.ajax({
+            method: "Post",
             url: url, // "https://www.emirates.com/api/fares/featured/uk/english/LHR",   
-            dataType: 'json',
+            //dataType: 'json',
+            data: result,
             success: function(data) {
-                if (data != null && data.result != null && data.result == true) {
+                if (!data) {
                     setErrorClass("inputUserName");
                     $("#inputUserName").focus();
                     setSpanErrorMsgAndErrorIcon("inputUserName", "User-name already taken");

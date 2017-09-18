@@ -196,15 +196,14 @@ router.post('/data/fpwd', function(req, res) {
 // valdidate user & send passsword reset mail to user
 router.post('/data/checkUserEmail', function(req, res) {
     console.log("checkUserEmail 1");
-    let path = serviceURL + "/validateUserEmail/";
-    var result = {
-        "email": req.body.email,
-    };
-    axios.post(path, result)
+    var email = req.body.email;
+    let path = serviceURL + "/validateUserEmail/" + email;
+
+    axios.get(path)
         .then(function(response) {
             console.log("checkUserEmail 2");
-            if (response.data != null && response.data.count > 0) {
-                console.log("checkUserEmail 3:response.data.count:" + response.data.count);
+            if (response.data != null && response.data.result.count > 0) {
+                console.log("checkUserEmail 3:response.data.count:" + response.data.result.count);
                 res.json(false);
                 // if (error) {
                 //     console.log("checkUserEmail 3");
@@ -225,14 +224,47 @@ router.post('/data/checkUserEmail', function(req, res) {
         });
 });
 
+// valdidate username during signup
+router.post('/data/checkUserName', function(req, res) {
+    console.log("checkUserName 1");
+    var username = req.body.username;
+    let path = serviceURL + "/checkUserName/" + username;
+
+    axios.get(path)
+        .then(function(response) {
+            console.log("checkUserName 2 " + JSON.stringify(response.data.result));
+            if (response.data != null && response.data.result) {
+                res.json(false);
+            } else {
+                console.log("checkUserName 5");
+                res.json(true);
+            }
+        })
+        .catch(function(error) {
+            console.log("checkUserName 6:" + error);
+            res.json(false);
+            // res.json({ "Error": "validateUserEmail api error" });
+        });
+});
+
 //validate user pwd for reseting passsword
 router.post('/data/ValidateUserPwd', function(req, res, next) {
-    if (req.body.id != null && req.body.cupwd != null && req.body.npwd != null) {
-        changePwd.findUser(req.body.id).then((response) => {
-                return changePwd.validatePassword(response.result.password, req.body.cupwd);
+    if (req.body.userid != null && req.body.cupwd != null && req.body.npwd != null) {
+
+        var userid = req.body.userid;
+        var cupwd = req.body.cupwd;
+        var npwd = req.body.npwd;
+
+        console.log("ValidateUserPwd " + userid + " ," + cupwd + " , " + npwd);
+
+        changePwd.findUser(userid).then((response) => {
+                console.log("2 " + response.data.result.result.password);
+                return changePwd.validatePassword(response.data.result.result.password, cupwd);
             }).then((response) => {
-                return changePwd.updatePassword(req.body.id, req.body.npwd);
+                console.log("12");
+                return changePwd.updatePassword(userid, npwd);
             }).then((response) => {
+                console.log("112");
                 res.json(true);
             })
             .catch(function(err) {
