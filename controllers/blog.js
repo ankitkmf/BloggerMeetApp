@@ -17,7 +17,7 @@ router.get('/profile/:_id', function(req, res) {
     var userid = req.params._id;
     // console.log("current user:" + req.user._id);
     // console.log("requested user id:" + userid);
-    if (userid == req.user._id) {
+    if (userid == req.session.user._id) {
         blogger.blogsbyuserid(userid, "0").then(function(response) {
 
             blogs = response.data;

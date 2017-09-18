@@ -14,9 +14,9 @@ passport.use(new LocalStrategy(function(username, password, done) {
     console.log("Passport Init : User Name : " + username + " , Password : " + password);
     var user = {};
     // console.log("Local req.session.reqType :" + req.session.reqType);
-    console.log("Step 1");
+    // console.log("Step 1");
     passportauth.find(username).then((response) => {
-        console.log("Step 2");
+        //console.log("Step 2");
         // console.log("response.data:" + JSON.stringify(response.data));
         if (response != null && response.data != null && response.data.result.count > 0) {
             user = response.data.result;
@@ -28,7 +28,7 @@ passport.use(new LocalStrategy(function(username, password, done) {
                     log.logger.info("Passport Init : password match : User _id : " + user.result._id + " , name : " + user.result.username);
                     user = user.result;
 
-                    console.log("User details " + JSON.stringify(user));
+                    //  console.log("User details " + JSON.stringify(user));
                     return done(null, user);
                 } else {
                     console.log("user pwd does not matched");

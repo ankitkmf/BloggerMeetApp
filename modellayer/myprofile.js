@@ -157,11 +157,12 @@ router.get('/:_id', function(req, res) {
     var collectionCountList = {};
 
     //   console.log("req.user" + JSON.stringify(req.user));
-    if (userid == req.user._id && req.user.authType == "local") {
+    if (userid == req.session.user._id && req.session.user.authType == "local") {
         var mappingObj = {
             "page": "profile",
             "id": userid,
-            "pageURL": "/myprofile/595cde84f8ce4a2250f38820"
+            "usename": req.session.user.username,
+            "pageURL": "/myprofile/" + userid
         };
         req.session.mappingObj = mappingObj;
         Promise.all([

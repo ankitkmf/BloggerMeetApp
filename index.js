@@ -85,7 +85,7 @@ let authNotRequired = (req, res, next) => {
     // console.log("start 1req.session.redirectUrl:" + req.session.redirectUrl);
     if (req.isAuthenticated()) {
         // console.log("-----user Authenticated");
-        console.log("--req.session.user:" + JSON.stringify(req.session.user));
+        //console.log("--req.session.user:" + JSON.stringify(req.session.user));
         res.locals.user = req.session.user;
         req.session.userVisit += 1;
     } else {
