@@ -87,7 +87,7 @@ let resetPwd = (servicePath) => {
     var errorPanel = $("<div></div>");
     var _npwd = $("#NPassword").val();
     var _conpwd = $("#CoPassword").val();
-    var _userID = $("#NPassword").data("id")
+    var _userID = $(".resetpwdBtn").data("id")
     clearControlClass();
     if (_npwd == "" || _npwd == undefined) {
         isValid = false;

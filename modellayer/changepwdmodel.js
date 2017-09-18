@@ -21,11 +21,25 @@ exports.findUser = function(id) {
     });
 }
 
+exports.vaidateURL = function(id) {
+    let path = serviceURL + "/findone/" + "fpwdemailtrigger" + "/" + id;
+    console.log(" findUser model Step 1 ,path:" + path);
+    return new Promise(function(resolve, reject) {
+        axios.get(path).then(function(response) {
+                console.log(" findUser model Step 1.2,Success:");
+                resolve(response);
+            })
+            .catch(function(error) {
+                reject(error);
+            });
+    });
+}
+
 exports.updatePassword = function(id, pwd) {
     let path = serviceURL + "/updatepassword"; // + "users" + "/" + id;
     console.log("updatePassword model step 1");
     var result = {
-        "id": id,
+        "userid": id,
         "pwd": bcrypt.hashSync(pwd, 10)
     };
     console.log("updatePassword model step 2, result:" + JSON.stringify(result));

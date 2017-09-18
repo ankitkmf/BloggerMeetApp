@@ -423,8 +423,13 @@ router.get("/data/GetUserHistory/:type/:id", function(req, res) {
 //Reset user pwd on forgot
 router.post('/data/ResetUserPwd', function(req, res, next) {
     if (req.body._id != null && req.body.npwd != null) {
-        changePwd.findUser(req.body._id).then((response) => {
-                return changePwd.updatePassword(response.data.result._id, req.body.npwd);
+        changePwd.vaidateURL(req.body._id).then((response) => {
+
+                return changePwd.findUser(req.body._id);
+
+            }).then((response) => {
+                var userid = response.data.result.result._id;
+                return changePwd.updatePassword(userid, req.body.npwd);
             }).then((response) => {
                 console.log("success");
                 res.json(true);
