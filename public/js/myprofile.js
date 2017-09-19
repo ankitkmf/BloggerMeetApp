@@ -56,6 +56,7 @@ $(function() {
         if ($("#checker").is(':checked')) {
             $(".Successpanel").addClass("hidden");
             $(".uploadprofilephoto").attr("style", "display:block");
+            $(".editphoto").addClass("hidden");
         } else {
             $(".uploadprofilephoto").attr("style", "display:none");
         }
@@ -68,6 +69,9 @@ $(function() {
             $(".amerrorResult").addClass("hidden");
             $(".amerrorpanel").addClass("hidden");
             $(".saveaboutmeinfo").removeClass("hidden");
+            $(".editaboutme").addClass("hidden");
+            $(".dataaboutme").addClass("hidden");
+            $(".frmaboutme").removeClass("hidden");
         } else {
             $(".saveaboutmeinfo").addClass("hidden");
         }
@@ -80,6 +84,7 @@ $(function() {
             $(".pdsuccessResult").addClass("hidden");
             $(".pderrorResult").addClass("hidden");
             $(".savepersonalinfo").removeClass("hidden");
+            $(".editpersonalinfo").addClass("hidden");
         } else {
             $(".savepersonalinfo").addClass("hidden");
         }
@@ -92,6 +97,7 @@ $(function() {
             $(".profsuccessResult").addClass("hidden");
             $(".proferrorResult").addClass("hidden");
             $(".saveprofinfo").removeClass("hidden");
+            $(".editproffdetails").addClass("hidden");
         } else {
             $(".saveprofinfo").addClass("hidden");
         }
@@ -102,6 +108,7 @@ $(function() {
         $(".Successpanel").addClass("hidden");
         $(".uploadprofilephoto").attr("style", "display:none;");
         $("#checker").attr("checked", false);
+        $(".editphoto").removeClass("hidden");
     });
 
     $("#frmaboutme .clearmsg").on("focus", () => {
@@ -114,11 +121,15 @@ $(function() {
     $("#frmaboutme .hidefrmaboutme").on("click", () => {
         $(".saveaboutmeinfo").addClass("hidden");
         $("#checkeraboutme").attr("checked", false);
+        $(".editaboutme").removeClass("hidden");
+        $(".dataaboutme").removeClass("hidden");
+        $(".frmaboutme").addClass("hidden");
     });
 
     $("#frmpersonaldetails .hidefrmpersonaldetails").on("click", () => {
         $(".savepersonalinfo").addClass("hidden");
         $("#checkerpersonalinfo").attr("checked", false);
+        $(".editpersonalinfo").removeClass("hidden");
     });
 
     $("#frmpersonaldetails .clearmsg").on("focus", () => {
@@ -131,6 +142,7 @@ $(function() {
     $("#frmprofdetails .hidefrmprofdetails").on("click", () => {
         $(".saveprofinfo").addClass("hidden");
         $("#checkerprofinfo").attr("checked", false);
+        $(".editproffdetails").removeClass("hidden");
     });
 
     $("#frmprofdetails .clearmsg").on("focus", () => {
@@ -203,7 +215,10 @@ $(function() {
                         $(".uploadprofilephoto").attr("style", "display:none;");
                         $("#checker").attr("checked", false);
                         $(".profileprogress").imgProgressTo(profileCompleteStatus());
+                        $(".editphoto").removeClass("hidden");
                         stop_waitMe("uploadphotostatus");
+
+                        hidesuccessmessage("Successpanel");
                     }
                 },
                 error: function(error) {
@@ -252,12 +267,20 @@ $(function() {
                     $(".amerrorResult").addClass("hidden");
                     $(".saveaboutmeinfo").addClass("hidden");
                     $(".profileprogress").imgProgressTo(profileCompleteStatus());
+                    $(".editaboutme").removeClass("hidden");
+                    $(".dataaboutme").removeClass("hidden");
+                    $(".frmaboutme").addClass("hidden");
+                    $(".dataaboutme").html(content);
+                    $("#aboutme").val(content);
                     stop_waitMe("aboutmestatus");
+
+                    hidesuccessmessage("amsuccessResult");
                 },
                 error: function(error) {
                     console.log("error : " + error);
                     $(".amsuccessResult").addClass("hidden");
                     $(".amerrorResult").removeClass("hidden");
+                    //$(".editaboutme").addClass("hidden");
                     stop_waitMe("aboutmestatus");
                 }
             });
@@ -336,7 +359,10 @@ $(function() {
                     $(".pdsuccessResult").removeClass("hidden");
                     $(".savepersonalinfo").addClass("hidden");
                     $(".profileprogress").imgProgressTo(profileCompleteStatus());
+                    $(".editpersonalinfo").removeClass("hidden");
                     stop_waitMe("personaldetailstatus");
+
+                    hidesuccessmessage("pdsuccessResult");
                 },
                 error: function(error) {
                     console.log("error : " + error);
@@ -418,7 +444,10 @@ $(function() {
                     $(".profsuccessResult").removeClass("hidden");
                     $(".savepersonalinfo").addClass("hidden");
                     $(".profileprogress").imgProgressTo(profileCompleteStatus());
+                    $(".editproffdetails").removeClass("hidden");
                     stop_waitMe("proffessionaldetailstatus");
+
+                    hidesuccessmessage("profsuccessResult");
                 },
                 error: function(error) {
                     console.log("error : " + error);
@@ -984,8 +1013,11 @@ let profileCompleteStatus = () => {
 
     $(".profileCompleted").html("");
     $(".profileCompleted").append(
-        "<strong>" + totalpercentage + "% completed</strong>"
+        "<strong>" + totalpercentage + "% Completed</strong>"
     );
+
+    var w = totalpercentage + "%";
+    $('.progress-bar').attr('aria-valuenow', totalpercentage).css('width', w);
 
     return totalpercentage;
 };
@@ -1009,3 +1041,9 @@ let checkControlContent = (control_id, i, isImage) => {
     } else if (ctrlVal !== "" && ctrlVal !== undefined) return i + 1;
     else return i;
 };
+
+function hidesuccessmessage(divID) {
+    setTimeout(function() {
+        $('.' + divID).addClass("hidden");
+    }, 5000);
+}

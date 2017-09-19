@@ -45,10 +45,21 @@
     z-index: 999;
 }
 
-.bg-form {
+
+/* .bg-form {
     width: 100%;
     position: relative;
     background: url("/background/6.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin-top: 0px;
+     background-color: aliceblue; 
+} */
+
+.bg-form {
+    width: 100%;
+    position: relative;
+    /* background: url("/background/6.jpg"); */
     background-repeat: no-repeat;
     background-size: cover;
     margin-top: 0px;
@@ -180,9 +191,10 @@
     border-radius: 27px;
 }
 
-.panel-border-radius {
+
+/* .panel-border-radius {
     border-radius: 28px;
-}
+} */
 
 
 /* .nav-tabs>li.active>a,
@@ -197,7 +209,8 @@
 }
 
 .panel-info {
-    border-color: #ecf0f1;
+    /* border-color: #ecf0f1; */
+    border-color: TRANSPARENT;
 }
 
 .panel-edit-checker {
@@ -206,11 +219,10 @@
     margin-right: 20px;
 }
 
-.profile-content-panel-border-radius {
+
+/* .profile-content-panel-border-radius {
     border-radius: 28px;
-    /* border-bottom-left-radius: 0px;
-    border-bottom-right-radius: 0px; */
-}
+} */
 
 textarea {
     background: rgba(0, 0, 0, 0);
@@ -288,4 +300,16 @@ span#loadmoreblogbyuserid {
 .comment-panel-default {
     border-color: cadetblue;
     background-color: aliceblue;
+}
+
+.progress {
+    height: 21px;
+}
+
+span.profileCompleted {
+    font-size: 12px;
+}
+
+.progress-bar {
+    padding: 5px 0px 0px 0px !important;
 }
