@@ -41,14 +41,16 @@ router.get('/google/callback', passport.authenticate('google'), function(req, re
     //     });
 
     // } else {
-    console.log("mapping not found");
-    passportauth.validateGoogleUser(req.user).then(function(results) {
+    // console.log("mapping not found");
+    passportauth.validateGoogleUser(req.user, mapUser).then(function(results) {
         if (results != "") {
             req.session.user = results;
-            console.log("data not null");
+            console.log("validateGoogleUser success, results:" + JSON.stringify(results));
         } else
-            console.log("data null");
-        res.redirect(req.session.redirectUrl || '/');
+            console.log("validateGoogleUser not success");
+
+        var path = mapUser != null ? mapUser.pageURL : req.session.redirectUrl;
+        res.redirect(path || '/');
     }).catch(function(error) {
         console.log("Error in inseration Google user in db ,error:" + error);
         res.redirect(req.session.redirectUrl || '/');
