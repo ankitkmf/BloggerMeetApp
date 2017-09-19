@@ -442,7 +442,7 @@ $(function() {
                     console.log("success : " + JSON.stringify(data));
                     $(".proferrorResult").addClass("hidden");
                     $(".profsuccessResult").removeClass("hidden");
-                    $(".savepersonalinfo").addClass("hidden");
+                    $(".saveprofinfo").addClass("hidden");
                     $(".profileprogress").imgProgressTo(profileCompleteStatus());
                     $(".editproffdetails").removeClass("hidden");
                     stop_waitMe("proffessionaldetailstatus");

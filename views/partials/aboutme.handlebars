@@ -3,38 +3,38 @@
         <h4><span class="glyphicon glyphicon-edit"></span></h4>
         <input type="checkbox" class="form-control" id="checkeraboutme" value="true" />
     </div>
-    
+
     <div class="panel-body">
         <div class="amerrorpanel hidden">
         </div>
-         <div class="amsuccessResult alert alert-dismissible alert-success hidden">
+        <div class="amsuccessResult alert alert-dismissible alert-success hidden">
             {{!-- <button type="button" class="close" data-dismiss="alert">&times;</button> --}}
             <strong>Thank you!</strong> You have successfully updated about yourself.
         </div>
         <div class="alert alert-danger hidden amerrorResult" role="alert">
             Currently there are some technical issue . Please try again later.
-        </div> 
+        </div>
 
         <div class="dataaboutme">{{#if aboutme}}{{aboutme.content}}{{else}}Let us know about yourself...{{/if}}</div>
 
         <div class="frmaboutme hidden">
-        <form id="frmaboutme">
-            <div class="form-group">
-                <textarea rows="3" class="form-control clearmsg" name="aboutme" id="aboutme" 
-                placeholder="Let us know about yourself..." 
-                autofocus="autofocus">{{#if aboutme}}{{aboutme.content}}{{/if}}</textarea>
-            </div>
-            <div class="form-group hidden saveaboutmeinfo text-right">
-                <button type="reset" class="btn btn-default btn-sm hidefrmaboutme">Cancel</button>
-                <button type="submit" class="btn btn-info btn-sm">Save</button>
-            </div>
+            <form id="frmaboutme">
+                <div class="form-group hidden saveaboutmeinfo text-right">
+                    <button type="reset" class="btn btn-default btn-sm hidefrmaboutme">Cancel</button>
+                    <button type="submit" class="btn btn-info btn-sm">Save</button>
+                </div>
 
-            {{#if aboutme}}
-            <input type="hidden" id='userid' name='userid' value="{{aboutme.userid}}">
-            <input type="hidden" id='_id' name='_id' value="{{aboutme._id}}"> {{else}}
-            <input type="hidden" id='userid' name='userid' value="{{user._id}}">
-            <input type="hidden" id='_id' name='_id' value=""> {{/if}}
-        </form>
+                <div class="form-group">
+                    <textarea rows="3" class="form-control clearmsg" name="aboutme" id="aboutme" placeholder="Let us know about yourself..."
+                        autofocus="autofocus">{{#if aboutme}}{{aboutme.content}}{{/if}}</textarea>
+                </div>
+
+                {{#if aboutme}}
+                <input type="hidden" id='userid' name='userid' value="{{aboutme.userid}}">
+                <input type="hidden" id='_id' name='_id' value="{{aboutme._id}}"> {{else}}
+                <input type="hidden" id='userid' name='userid' value="{{user._id}}">
+                <input type="hidden" id='_id' name='_id' value=""> {{/if}}
+            </form>
         </div>
     </div>
 </div>

@@ -15,41 +15,48 @@
         </div>
         <form class="form-horizontal" id="frmpersonaldetails">
             <fieldset>
+                <div class="form-group hidden savepersonalinfo">
+                    <div class="col-lg-3"></div>
+                    <div class="text-right col-lg-8">
+                        <button type="reset" class="btn btn-default btn-sm hidefrmpersonaldetails">Cancel</button>
+                        <button type="submit" class="btn btn-info btn-sm">Save</button>
+                    </div>
+                </div>
+
                 <div class="form-group">
                     <label for="inputfirstname" class="col-lg-3 control-label">First Name</label>
                     <div class="col-lg-8">
-                        <input type="text" class="form-control clearmsg" maxlength="50" 
-                        id="inputfirstname" name="inputfirstname" placeholder="First Name" value="{{personaldetails.firstname}}">
+                        <input type="text" class="form-control clearmsg" maxlength="50" id="inputfirstname" name="inputfirstname" placeholder="First Name"
+                            value="{{personaldetails.firstname}}">
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="inputlastname" class="col-lg-3 control-label">Last Name</label>
                     <div class="col-lg-8">
-                        <input type="text" class="form-control clearmsg" maxlength="50" id="inputlastname" name="inputlastname" 
-                        placeholder="Last Name" value="{{personaldetails.lastname}}">
+                        <input type="text" class="form-control clearmsg" maxlength="50" id="inputlastname" name="inputlastname" placeholder="Last Name"
+                            value="{{personaldetails.lastname}}">
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="inputDOB" class="col-lg-3 control-label">DOB</label>
                     <div class="col-lg-8">
-                        <input type="text" class="form-control clearmsg" maxlength="12" id="inputDOB" name="inputDOB" 
-                        placeholder="DOB" value="{{personaldetails.dob}}">
+                        <input type="text" class="form-control clearmsg" maxlength="12" id="inputDOB" name="inputDOB" placeholder="DOB" value="{{personaldetails.dob}}">
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label for="inputaddress1" class="col-lg-3 control-label">Address1</label>
                     <div class="col-lg-8">
-                        <input type="text" class="form-control clearmsg" maxlength="100" placeholder="Address1" 
-                        id="inputaddress1" name="inputaddress1" value="{{personaldetails.address1}}">
+                        <input type="text" class="form-control clearmsg" maxlength="100" placeholder="Address1" id="inputaddress1" name="inputaddress1"
+                            value="{{personaldetails.address1}}">
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label for="inputaddress2" class="col-lg-3 control-label">Address2</label>
                     <div class="col-lg-8">
-                        <input type="text" class="form-control clearmsg" maxlength="100" placeholder="Address1" 
-                        id="inputaddress2" name="inputaddress2" value="{{personaldetails.address2}}">
+                        <input type="text" class="form-control clearmsg" maxlength="100" placeholder="Address1" id="inputaddress2" name="inputaddress2"
+                            value="{{personaldetails.address2}}">
                     </div>
                 </div>
 
@@ -64,24 +71,14 @@
                 <div class="form-group">
                     <label for="inputpinno" class="col-lg-3 control-label">Pin Number</label>
                     <div class="col-lg-8">
-                        <input type="text" class="form-control clearmsg" maxlength="15" placeholder="pinno" 
-                        id="inputpinno" name="inputpinno" value="{{personaldetails.pinno}}">
+                        <input type="text" class="form-control clearmsg" maxlength="15" placeholder="pinno" id="inputpinno" name="inputpinno" value="{{personaldetails.pinno}}">
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label for="inputphone" class="col-lg-3 control-label">Contact Number</label>
                     <div class="col-lg-8">
-                        <input type="text" class="form-control clearmsg" maxlength="15" id="inputphone" 
-                        name="inputphone" placeholder="Phone" value="{{personaldetails.phone}}">
-                    </div>
-                </div>
-
-                <div class="form-group hidden savepersonalinfo">
-                    <div class="col-lg-3"></div>
-                    <div class="text-right col-lg-8">
-                    <button type="reset" class="btn btn-default btn-sm hidefrmpersonaldetails">Cancel</button>
-                    <button type="submit" class="btn btn-info btn-sm">Save</button>
+                        <input type="text" class="form-control clearmsg" maxlength="15" id="inputphone" name="inputphone" placeholder="Phone" value="{{personaldetails.phone}}">
                     </div>
                 </div>
 
