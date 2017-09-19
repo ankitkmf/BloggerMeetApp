@@ -161,7 +161,7 @@ router.get('/:_id', function(req, res) {
         var mappingObj = {
             "page": "profile",
             "id": userid,
-            "usename": req.session.user.username,
+            "username": req.session.user.username,
             "pageURL": "/myprofile/" + userid
         };
         req.session.mappingObj = mappingObj;
