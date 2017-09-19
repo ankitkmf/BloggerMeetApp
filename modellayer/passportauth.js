@@ -32,6 +32,8 @@ exports.validateGoogleUser = (googleUser, mapUser) => {
                         console.log("mapping found");
                         googleUser.id = user._id;
                         mapGoogleUserToAllAccount(googleUser, mapUser).then((collection) => {
+                            console.log("mapGoogleUserToAllAccount success:user:" + JSON.stringify(user));
+                            console.log("mapGoogleUserToAllAccount success:collection:" + JSON.stringify(collection));
                             resolve(user);
                         }).catch(function(error) {
                             console.log("mapGoogleUserToAllAccount err:" + error);
@@ -127,14 +129,7 @@ let mapGoogleUserToAllAccount = function(googleUser, mapUserAccount) {
             "userImage": googleUser.userImage
                 // "authType": googleUser.authType
         };
-        var mapGoogleAccountData = {
-            "type": "mapgoogleaccount",
-            "id": mapUserAccount.id,
-            "googleemail": googleUser.email,
-            "googlename": googleUser.username,
-            "userImage": googleUser.userImage,
-            "authType": googleUser.authType
-        };
+
         var mapBlogsData = {
             "type": "blogs",
             "userid": googleUser.id,
@@ -145,7 +140,7 @@ let mapGoogleUserToAllAccount = function(googleUser, mapUserAccount) {
             "type": "comments",
             "userid": googleUser.id,
             "mapuserid": mapUserAccount.id,
-            "createdby": mapUserAccount.username
+            "username": mapUserAccount.username
         };
         var deactiveGoogleUserData = {
             "type": "deactivegoogleuser",
@@ -154,38 +149,39 @@ let mapGoogleUserToAllAccount = function(googleUser, mapUserAccount) {
             "googleemail": googleUser.email,
             "username": googleUser.username
         };
-        var blogsHistoryPath = {
+        var blogsHistoryData = {
             "type": "blogshistory",
             "userid": googleUser.id,
             "mapuserid": mapUserAccount.id
         };
-        var loginHistoryPath = {
+        var loginHistoryData = {
             "type": "loginhistory",
             "userid": googleUser.id,
             "mapuserid": mapUserAccount.id,
-            "username": googleUser.username
+            "username": mapUserAccount.username
         };
+        // console.log("loginHistoryData:" + JSON.stringify(loginHistoryData));
         // resolve("true");
         Promise.all([
-            // saveRecords(path, mapGoogleAccountData),
-            saveRecords(path, mapBlogsData)
-            // saveRecords(path, mapCommentsData),
-            // saveRecords(path, blogsHistoryPath),
-            // saveRecords(path, loginHistoryPath),
-            // saveRecords(path, deactiveGoogleUserData)
+            saveRecords(path, mapGoogleAccountData),
+            saveRecords(path, mapBlogsData),
+            saveRecords(path, mapCommentsData),
+            saveRecords(path, blogsHistoryData),
+            saveRecords(path, loginHistoryData),
+            saveRecords(path, deactiveGoogleUserData)
         ]).then(collectionList => {
             // console.log("data:" + JSON.stringify(data[2].data));
             // var collectionList = GetAllUserCountCollection(data);
-            var collection = {
-                "mapGoogleAccountData": collectionList[0].data // data[0].data.count,
-                    // "mapBlogsData": collectionList[1].data
-                    // "mapCommentsData": collectionList[2].data,
-                    // "blogsHistoryPath": collectionList[3].data,
-                    // "loginHistoryPath": collectionList[4].data,
-                    // "deactiveGoogleUserData": collectionList[5].data,
-            };
+            // var collection = {
+            //     "mapGoogleAccountData": collectionList[0].data, // data[0].data.count,
+            //     "mapBlogsData": collectionList[1].data
+            //         // "mapCommentsData": collectionList[2].data,
+            //         // "blogsHistoryPath": collectionList[3].data,
+            //         // "loginHistoryPath": collectionList[4].data,
+            //         // "deactiveGoogleUserData": collectionList[5].data,
+            // };
 
-            console.log("collection:" + JSON.stringify(collection));
+            // console.log("collection:" + JSON.stringify(collection));
             resolve(true);
         }).catch(function(err) {
             console.log("GetAllUserCount err:" + err);
@@ -249,8 +245,8 @@ let saveLoginHistory = (response, email) => {
     let path = serviceURL + "/saveLoginHistory";
     var result = {
         "username": response.username,
-        "name": response.username,
-        "email": email,
+        // "name": response.username,
+        //   "email": email,
         "authType": response.authType,
         "profileID": response._id
     };
@@ -264,7 +260,7 @@ let saveLoginHistory = (response, email) => {
 };
 
 let saveRecords = (path, data) => {
-    //console.log("saveRecords:" + JSON.stringify(data));
+    console.log("saveRecords:" + JSON.stringify(data));
     // console.log("saveRecords for " + data + " ,whereQuery:" + JSON.stringify(whereQuery));
     return new Promise(function(resolve, reject) {
         axios.post(path, data).then(function(response) {
