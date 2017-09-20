@@ -99,9 +99,15 @@ router.get('/google/callback', passport.authenticate('google'), function(req, re
     passportauth.validateGoogleUser(req.user, mapUser).then(function(results) {
         if (results != "") {
             req.session.user = results;
-            // console.log("validateGoogleUser success, results:" + JSON.stringify(results));
-        } else
+            if (mapUser != null)
+                req.flash("success", "Your account have been successfully map with your google account. Now you can login through your gmail email id and currect account password ..Enjoy blogging..");
+            console.log("validateGoogleUser success");
+        } else {
+            if (mapUser != null)
+                req.flash("error", "Error to map your current account with google account , Kindly try after some time");
             console.log("validateGoogleUser not success");
+        }
+
 
         var path = mapUser != null ? mapUser.pageURL : req.session.redirectUrl;
         res.redirect(path || '/');

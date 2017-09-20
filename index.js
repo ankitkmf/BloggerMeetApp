@@ -57,8 +57,12 @@ app.use(flash());
 // };
 
 let authenticationMiddleware = function(req, res, next) {
-    res.locals.messages = req.flash();
-    console.log("****" + JSON.stringify(res.locals.messages));
+    res.locals.errorMsg = req.flash('error')[0];
+    res.locals.successMsg = req.flash('success')[0];
+    if (res.locals.errorMsg != "")
+        console.log("**** ErrorMsg found" + JSON.stringify(res.locals.errorMsg));
+    else
+        console.log("****ErrorMsg not found" + JSON.stringify(res.locals.errorMsg));
     // console.log("***req.session.mappingObj :" + JSON.stringify(req.session.mappingObj));
     // console.log("**************start******************");
     // console.log("start req.session.redirectUrl:" + req.session.redirectUrl);
@@ -82,7 +86,13 @@ let authenticationMiddleware = function(req, res, next) {
 };
 
 let authNotRequired = (req, res, next) => {
-    res.locals.messages = req.flash('error')[0];
+    res.locals.errorMsg = req.flash('error')[0];
+    res.locals.successMsg = req.flash('success')[0];
+
+    if (res.locals.errorMsg != "")
+        console.log("---- ErrorMsg found" + JSON.stringify(res.locals.errorMsg));
+    else
+        console.log("----ErrorMsg not found" + JSON.stringify(res.locals.errorMsg));
     //if (req.flash('messages')[0])
     //  console.log("----1," + JSON.stringify(req.flash('error')));
     //  console.log("----2," + JSON.stringify(res.locals.messages));

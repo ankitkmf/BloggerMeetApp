@@ -205,3 +205,9 @@ label.col-lg-2.control-label {
     top: 12% !important;
     left: 48.3% !important;
 }
+
+.bootstrap-growl.alert.alert-success {
+    top: 53% !important;
+    left: 41% !important;
+    max-width: 80% !important;
+}
