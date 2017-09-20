@@ -10,13 +10,61 @@ var router = express.Router();
 module.exports = router;
 const serviceURL = config.get("app.restAPIEndpoint.v1ContractPath");
 
-router.post('/login', passport.authenticate('local'), function(req, res) {
-    console.log("++++In login post:" + req.session.redirectUrl);
+// router.post('/login', passport.authenticate('local'), function(req, res) {
+//     console.log("++++In login post:" + req.session.redirectUrl);
+//     req.session.user = req.user;
+//     //console.log("Local passport user:" + JSON.stringify(req.user));
+//     res.redirect(req.session.redirectUrl || '/');
+//     // delete req.session.returnTo;
+// });
+
+// router.post('/login', function(req, res, next) {
+//     passport.authenticate('local', function(err, user, info) {
+//         if (err) {
+//             console.log("Step 1");
+//             next(err);
+//             return
+//         }
+//         // User does not exist
+//         if (!user) {
+//             console.log("Step 2, Invalid email or password");
+//             // req.flash('error', 'Invalid email or password');
+//             res.redirect('/');
+//             return
+//         }        
+//         req.logIn(user, function(err) {
+//             // Invalid password
+//             if (err) {
+//                 console.log("Step 3, Invalid email or password");
+//                 //req.flash('error', 'Invalid email or password');
+//                 next(err);
+//                 return
+//             }
+//             console.log("Step 4");
+//             req.session.user = req.user;
+//             res.redirect(req.session.redirectTo || '/');
+//             return
+//         });
+//     })(req, res, next);
+// });
+
+
+router.post('/login', passport.authenticate('local', { failureRedirect: '/' }), (req, res) => {
+    // if (req.user.isAdmin === true) {
+    //     res.redirect('/admin/gifts?filter=review');
+    // }
+    // if (req.user.isAdmin === false) {
+    //     res.redirect('/dashboard/received');
+    // }
     req.session.user = req.user;
-    //console.log("Local passport user:" + JSON.stringify(req.user));
-    res.redirect(req.session.redirectUrl || '/');
-    // delete req.session.returnTo;
+    res.redirect(req.session.redirectTo || '/');
 });
+
+// router.post("/login", passport.authenticate('local', {
+//     successRedirect: '/',
+//     failureRedirect: '/'
+// }));
+
 
 router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 

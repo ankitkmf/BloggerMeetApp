@@ -1,12 +1,12 @@
 <div id="accordion">
   {{#each user.result}}
   <div data-name={{_id}} class="blogtable">
-    <div class="header">
-      <div class="col-xs-6">
-        <h6>{{{this.topic}}}</h6>
+    <div class="header row">
+      <div class="col-xs-12 col-md-5">
+        <span class="h4">{{{this.topic}}}</span>
       </div>
 
-      <div class="pull-right ol-xs-6">
+      <div class="pull-right col-xs-12 col-md-5">
         <label class="radio-inline">            
            {{#Compare "1" this.status}}
              <input type="radio" name="blogGroup_{{@index}}" checked="checked" data-type="approve" value="1"/>
