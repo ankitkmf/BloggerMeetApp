@@ -35,8 +35,11 @@
                 <div class="form-group">
                     <label for="inputexperience" class="col-lg-3 control-label">Experience (in year)</label>
                     <div class="col-lg-8">
-                        <input type="text" class="form-control clearmsg" maxlength="100" id="inputexperience" name="inputexperience" placeholder="Year of experience"
-                            value="{{proffessionaldetails.experience}}">
+                        {{!-- <input type="text" class="form-control clearmsg" maxlength="100" id="inputexperience" name="inputexperience" placeholder="Year of experience"
+                            value="{{proffessionaldetails.experience}}"> --}}
+                            <select class="form-control dropdown clearmsg" id="inputexperience" name="inputexperience">
+                            {{#CreateDropDown "experience" proffessionaldetails.experience}}{{/CreateDropDown}}
+                            </select>
                     </div>
                 </div>
 
@@ -74,29 +77,21 @@
 
                 <div class="form-group">
                     <label for="inputqualification" class="col-lg-3 control-label">Highest Qualification</label>
-                    <div class="col-lg-8">
-
-                        {{!-- <select class="form-control dropdown clearmsg" id="inputqualification" name="inputqualification">
-                            <option value="" selected="selected" disabled="disabled">-- Select Highest Qualification --</option>
-                            <option value="No formal education">No formal education</option>
-                            <option value="Primary education">Primary education</option>
-                            <option value="Secondary education">Secondary education or high school</option>
-                            <option value="GED">GED</option>
-                            <option value="Vocational qualification">Vocational qualification</option>
-                            <option value="Bachelor degree">Bachelor's degree</option>
-                            <option value="Master degree">Master's degree</option>
-                            <option value="Doctorate or higher">Doctorate or higher</option>
-                        </select> --}}
-                        <input type="text" class="form-control clearmsg" maxlength="50" id="inputqualification" name="inputqualification" placeholder="Highest Qualification"
-                            value="{{proffessionaldetails.qualification}}">
+                    <div class="col-lg-8"> 
+                         <select class="form-control dropdown clearmsg" id="inputqualification" name="inputqualification">
+                            {{#CreateDropDown "qualification" proffessionaldetails.qualification}}{{/CreateDropDown}}
+                        </select> 
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label for="inputeduyear" class="col-lg-3 control-label">Year of Passout</label>
                     <div class="col-lg-8">
-                        <input type="text" class="form-control clearmsg" maxlength="50" id="inputeduyear" name="inputeduyear" placeholder="Year of Passout"
-                            value="{{proffessionaldetails.educationyear}}">
+                        {{!-- <input type="text" class="form-control clearmsg" maxlength="50" id="inputeduyear" name="inputeduyear" placeholder="Year of Passout"
+                            value="{{proffessionaldetails.educationyear}}"> --}}
+                        <select class="form-control dropdown clearmsg" id="inputeduyear" name="inputeduyear">
+                            {{#CreateDropDown "educationyear" proffessionaldetails.educationyear}}{{/CreateDropDown}}
+                        </select>
                     </div>
                 </div>
 
