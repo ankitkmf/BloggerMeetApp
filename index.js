@@ -24,8 +24,8 @@ var hbs = exphbs.create({
         CheckIsAdmin: require("./public/js/helper/checkisadmin"),
         Compare: require("./public/js/helper/compare"),
         ValidateBlogs: require("./public/js/helper/validateBlogs"),
-        CovertISODate: require("./public/js/helper/convertisodate")
-            //GetBlogStatus: require("./public/js/helper/getblogstatus")
+        CovertISODate: require("./public/js/helper/convertisodate"),
+        CreateDropDown: require("./public/js/helper/createdropdown")
     },
     partialsDir: ['views/partials/']
 });

@@ -302,8 +302,10 @@ $(function() {
         var lastname = $("#inputlastname").val();
         var phone = $("#inputphone").val();
         var pinno = $("#inputpinno").val();
+        var address1 = $("#inputaddress1").val();
+        var address2 = $("#inputaddress2").val();
 
-        if (firstname == "" || firstname == undefined) {
+        if (firstname.trim() == "" || firstname == undefined) {
             isValid = false;
             errorPanel.append(
                 ErrorMessage("<strong>Warning!</strong> Please add your First Name.")
@@ -315,7 +317,7 @@ $(function() {
             );
         }
 
-        if (lastname == "" || lastname == undefined) {
+        if (lastname.trim() == "" || lastname == undefined) {
             isValid = false;
             errorPanel.append(
                 ErrorMessage("<strong>Warning!</strong> Please add your last name.")
@@ -327,14 +329,28 @@ $(function() {
             );
         }
 
-        if (phone != "" && !($.isNumeric(phone))) {
+        if (address1.trim() != "" && !(alphanumericinputvalidation("inputaddress1"))) {
+            isValid = false;
+            errorPanel.append(
+                ErrorMessage("<strong>Warning!</strong> Only alphabate and number allowed for Address1.")
+            );
+        }
+
+        if (address2.trim() != "" && !(alphanumericinputvalidation("inputaddress2"))) {
+            isValid = false;
+            errorPanel.append(
+                ErrorMessage("<strong>Warning!</strong> Only alphabate and number allowed for Address2.")
+            );
+        }
+
+        if (phone.trim() != "" && !($.isNumeric(phone))) {
             isValid = false;
             errorPanel.append(
                 ErrorMessage("<strong>Warning!</strong> Only digit for Contact number.")
             );
         }
 
-        if (pinno != "" && !($.isNumeric(pinno))) {
+        if (pinno.trim() != "" && !($.isNumeric(pinno))) {
             isValid = false;
             errorPanel.append(
                 ErrorMessage("<strong>Warning!</strong> Only digit for PIN number.")
@@ -390,36 +406,57 @@ $(function() {
         var eduyear = $("#inputeduyear").val();
         var compemail = $("#inputcompemail").val();
         var compphone = $("#inputcompphone").val();
+        var deptname = $("#inputdepartment").val();
+        var compname = $("#inputcompanyname").val();
 
-        if (proffession == "" || proffession == undefined) {
+        if (proffession.trim() == "" || proffession == undefined) {
             isValid = false;
             errorPanel.append(
                 ErrorMessage("<strong>Warning!</strong> Please add your proffession.")
             );
+        } else if (!validateName(proffession)) {
+            isValid = false;
+            errorPanel.append(
+                ErrorMessage("<strong>Warning!</strong> Only alphabate for proffession.")
+            );
         }
 
-        if (experience != "" && !($.isNumeric(experience))) {
+        if (experience.trim() != "" && !($.isNumeric(experience))) {
             isValid = false;
             errorPanel.append(
                 ErrorMessage("<strong>Warning!</strong> Only digit for year of experience.")
             );
         }
 
-        if (eduyear != "" && !($.isNumeric(eduyear))) {
+        if (deptname.trim() != "" && !(validateName(deptname))) {
+            isValid = false;
+            errorPanel.append(
+                ErrorMessage("<strong>Warning!</strong> Only alphabate for depertment name.")
+            );
+        }
+
+        if (compname.trim() != "" && !(validateName(compname))) {
+            isValid = false;
+            errorPanel.append(
+                ErrorMessage("<strong>Warning!</strong> Only alphabate for Company name.")
+            );
+        }
+
+        if (eduyear.trim() != "" && !($.isNumeric(eduyear))) {
             isValid = false;
             errorPanel.append(
                 ErrorMessage("<strong>Warning!</strong> Only digit for year of highest qualification.")
             );
         }
 
-        if (compemail != "" && !(validateEmail(compemail))) {
+        if (compemail.trim() != "" && !(validateEmail(compemail))) {
             isValid = false;
             errorPanel.append(
                 ErrorMessage("<strong>Warning!</strong> Please add a valid emailid.")
             );
         }
 
-        if (compphone != "" && !($.isNumeric(compphone))) {
+        if (compphone.trim() != "" && !($.isNumeric(compphone))) {
             isValid = false;
             errorPanel.append(
                 ErrorMessage("<strong>Warning!</strong> Only digit for company phone number.")
@@ -460,26 +497,6 @@ $(function() {
             $(".proferrorPanel").html(errorPanel).removeClass("hidden");
         }
     });
-
-    $.getJSON("/commonapi/data/countries")
-        .done(function(data) {
-            var result = new Bloodhound({
-                datumTokenizer: Bloodhound.tokenizers.whitespace,
-                queryTokenizer: Bloodhound.tokenizers.whitespace,
-                local: data
-            });
-            $("#bloodhound .typeahead").typeahead({
-                hint: true,
-                highlight: true,
-                minLength: 1
-            }, {
-                name: "states",
-                source: result
-            });
-        })
-        .fail(function(jqxhr, textStatus, error) {
-            var err = textStatus + ", " + error;
-        });
 
     $(".blogactivitytab").on("click", function(e) {
         e.preventDefault();

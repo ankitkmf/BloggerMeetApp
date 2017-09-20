@@ -333,6 +333,8 @@ router.post('/updateprofdetails', function(req, res) {
             var location = fields.inputlocation;
             var id = fields._id;
 
+            console.log("updateprofdetails qualification " + qualification);
+
             var isValid = (userid != null && proffession != null);
 
             if (isValid) {
