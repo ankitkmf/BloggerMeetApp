@@ -200,3 +200,8 @@ body {
 label.col-lg-2.control-label {
     margin-top: -11px;
 }
+
+.bootstrap-growl.alert.alert-danger {
+    top: 12% !important;
+    left: 48.3% !important;
+}
