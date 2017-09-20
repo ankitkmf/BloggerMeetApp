@@ -83,6 +83,19 @@ body {
     width: 100%;
 }
 
+span.ui-accordion-header-icon.ui-icon {
+    max-width: 16px;
+    max-height: 16px;
+    overflow: hidden;
+    float: left;
+    top: 10px;
+}
+
+.pull-right.col-xs-6 {
+    text-align: right;
+    margin-top: 5px
+}
+
 
 /* .ui-state-active,
 .ui-widget-content,

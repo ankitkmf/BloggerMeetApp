@@ -324,7 +324,7 @@ let GetBlogTableData = type => {
                     heightStyle: 'content',
                     collapsible: true,
                     // icons: icons,
-                    header: "> div > .header",
+                    header: "> div > .header ",
                     event: "mouseup"
                 }).sortable({
                     axis: "y",
