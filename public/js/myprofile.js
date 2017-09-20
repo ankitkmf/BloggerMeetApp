@@ -1013,7 +1013,7 @@ let profileCompleteStatus = () => {
 
     $(".profileCompleted").html("");
     $(".profileCompleted").append(
-        "<strong>" + totalpercentage + "% Completed</strong>"
+        "<strong>" + totalpercentage + "%</strong>"
     );
 
     var w = totalpercentage + "%";

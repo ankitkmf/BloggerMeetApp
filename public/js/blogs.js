@@ -14,6 +14,11 @@ $(function() {
         activeHeader: "ui-icon-circle-arrow-s"
     };
 
+    $("#topic").on("blur", () => {
+        $(".blogsuccesserrorpanel").html("");
+        validateTopic();
+    });
+
     $('#accordion').accordion({
         heightStyle: 'content',
         collapsible: true,
@@ -113,18 +118,27 @@ $(function() {
         var content = CKEDITOR.instances['content'].getData();
         var category = $("#category").val();
 
-        if (topic == "" || topic == undefined) {
+        if (topic.trim() == "" || topic == undefined) {
             isValid = false;
+            $("#topic").val("");
             msgPanel.append(
                 ErrorMessage("<strong>Warning!</strong> Please add blog topic.")
             );
+            $("#topic").focus();
+        } else if (!alphanumericinputvalidation("topic")) {
+            isValid = false;
+            msgPanel.append(
+                ErrorMessage("<strong>Warning!</strong> Blog name can have alphabate and number only.")
+            );
+            $("#topic").focus();
         }
 
-        if (content == "" || content == undefined) {
+        if (content.trim() == "" || content == undefined) {
             isValid = false;
             msgPanel.append(
                 ErrorMessage("<strong>Warning!</strong> Please add blog content.")
             );
+            $("#content").focus();
         }
 
         var data = {};
@@ -194,14 +208,21 @@ $(function() {
         var category = $("#category_" + _id).val();
         var creationdate = $("#creationdate_" + _id).val();
 
-        if (topic == "" || topic == undefined) {
+        if (topic.trim() == "" || topic == undefined) {
             isValid = false;
             msgPanel.append(
                 ErrorMessage("<strong>Warning!</strong> Please add blog topic.")
             );
+            $("#topic_" + _id).focus();
+        } else if (!alphanumericinputvalidation("topic_" + _id)) {
+            isValid = false;
+            msgPanel.append(
+                ErrorMessage("<strong>Warning!</strong> Blog name can have alphabate and number only.")
+            );
+            $("#topic_" + _id).focus();
         }
 
-        if (content == "" || content == undefined) {
+        if (content.trim() == "" || content == undefined) {
             isValid = false;
             msgPanel.append(
                 ErrorMessage("<strong>Warning!</strong> Please add blog content.")
@@ -334,6 +355,25 @@ $(function() {
         }
     });
 });
+
+let validateTopic = () => {
+    var topic = $("#topic").val();
+    var msgPanel = $("<div></div>");
+
+    if (topic.trim() == "" || topic == undefined) {
+        $("#topic").val("");
+        msgPanel.append(
+            ErrorMessage("<strong>Warning!</strong> Please add blog topic.")
+        );
+        $("#topic").focus();
+    } else if (!alphanumericinputvalidation("topic")) {
+        msgPanel.append(
+            ErrorMessage("<strong>Warning!</strong> Blog name can have alphabate and number only.")
+        );
+        $("#topic").focus();
+    }
+    $(".blogsuccesserrorpanel").html(msgPanel).removeClass("hidden");
+}
 
 let GetBlogsBySIandUserID = (lastblogid, userid) => {
     var d = $.Deferred();

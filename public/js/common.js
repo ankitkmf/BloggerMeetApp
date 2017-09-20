@@ -66,7 +66,36 @@ $(function() {
             this.style.height = "auto";
             this.style.height = this.scrollHeight + "px";
         });
+
+    //         $("input[type='text']").each(function() {
+    //     $(this).blur(function(e) {
+    //         if (Validate(this.id)) {} else { alert('invalid input'); }
+    //     });
+    // });
+
+
 });
+
+let alphanumericinputvalidation = (evt) => {
+    var isValid = false;
+    var regex = /^([\s]?[a-zA-Z0-9]+)+$/;
+    isValid = regex.test($("#" + evt).val());
+    return isValid;
+}
+
+let alphaiputvalidation = (evt) => {
+    var isValid = false;
+    var regex = /^([\s]?[a-zA-Z]+)+$/;
+    isValid = regex.test($("#" + evt).val());
+    return isValid;
+}
+
+let onlyalphaiputvalidation = (evt) => {
+    var isValid = false;
+    var regex = /^([a-zA-Z]+)+$/;
+    isValid = regex.test($("#" + evt).val());
+    return isValid;
+}
 
 let GetCompiledTemplate = (fileName) => {
     var d = $.Deferred();

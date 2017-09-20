@@ -313,3 +313,7 @@ span.profileCompleted {
 .progress-bar {
     padding: 5px 0px 0px 0px !important;
 }
+
+hr {
+    border-top: 1px solid transparent !important;
+}

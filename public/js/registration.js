@@ -6,6 +6,10 @@ $(function() {
         checkUserName(servicePath);
     });
 
+    $("#inputName").on("blur", () => {
+        checkName();
+    });
+
     $("#inputEmail").on("blur", () => {
         run_waitMe("userEmail");
         checkUserEmail(servicePath);
@@ -70,8 +74,12 @@ let checkUserName = (servicePath) => {
         setErrorClass("inputUserName");
         setSpanErrorMsgAndErrorIcon("inputUserName", "Please enter user name.");
         stop_waitMe("userName");
-        $("#inputUserName").focus()
-
+        $("#inputUserName").focus();
+    } else if (!alphanumericinputvalidation("inputUserName")) {
+        setErrorClass("inputUserName");
+        setSpanErrorMsgAndErrorIcon("inputUserName", "User name can have only alphabates, number and space.");
+        stop_waitMe("userName");
+        $("#inputUserName").focus();
     } else {
 
         //servicePath = servicePath != null ? servicePath : "http://localhost:3000";
@@ -106,6 +114,21 @@ let checkUserName = (servicePath) => {
                 stop_waitMe("userName");
             }
         });
+    }
+}
+
+let checkName = () => {
+    if ($("#inputName").val() == "" || $("#inputName").val() == undefined) {
+        setErrorClass("inputName");
+        setSpanErrorMsgAndErrorIcon("inputName", "Please enter user name.");
+        $("#inputName").focus();
+    } else if (!alphaiputvalidation("inputName")) {
+        setErrorClass("inputName");
+        setSpanErrorMsgAndErrorIcon("inputName", "Name can have only alphabates and space.");
+        $("#inputName").focus();
+    } else {
+        setSuccessClass("inputName");
+        setSuccessFeedbackIcon("inputName");
     }
 }
 
