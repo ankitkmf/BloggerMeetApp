@@ -354,6 +354,56 @@ $(function() {
             $(".blogcommentvalidationpanel").html(msgPanel).removeClass("hidden");
         }
     });
+
+    $("#showallcomments").on("click", function() {
+
+        var selectedBlogIDCmnt = $(this).data("blogid");
+        console.log(selectedBlogIDCmnt);
+
+        if (selectedBlogIDCmnt != "") {
+            LoadCommentHistory(selectedBlogIDCmnt);
+        } else {
+            $(".allcommentdiv").html("");
+        }
+    });
+
+    $(".allcommentdiv").on("click", "span>button", function() {
+        console.log("click");
+        console.log("Click :" + $(this).closest(".commenttable").data("id"));
+        console.log($(this).parent("span").find($("input[type='radio']:checked")).data("type"));
+        console.log("click");
+        var data = {
+            _id: $(this).closest(".commenttable").data("id"),
+            status: $(this).parent("span").find($("input[type='radio']:checked")).data("type")
+        };
+        if (data._id != null && data.status != null) {
+            swal({
+                title: "Are you sure?",
+                text: "Are you sure that you want to update this records?",
+                type: "warning",
+                showCancelButton: true,
+                closeOnConfirm: false,
+                confirmButtonText: "Yes, update it!",
+                confirmButtonColor: "#ec6c62"
+            }, function() {
+                $.ajax({
+                        method: "Post",
+                        url: "/myprofile/updatecomment",
+                        data: data
+                    })
+                    .done(function(result) {
+                        // var selectedBlogIDCmnt = "";
+                        // if ($('#selectedBlogIDCmnt').val() != undefined)
+                        //     selectedBlogIDCmnt = $('#selectedBlogIDCmnt').val();
+
+                        swal("Updated! Comment is successfully updated!", "Success");
+                    })
+                    .error(function(data) {
+                        swal("Oops", "We couldn't connect to the server!", "Error");
+                    });
+            });
+        }
+    });
 });
 
 let validateTopic = () => {
@@ -508,3 +558,35 @@ function hidesuccessmessage(divID) {
         $('.' + divID).html("");
     }, 5000);
 }
+
+let LoadCommentHistory = (selectedBlogID) => {
+    run_waitMe("allcommentdiv");
+    $.when(GetCompiledTemplate("commenthistory"), GetCommentsByBlogID(selectedBlogID))
+        .done(function(template, json) {
+
+            var data = { "commenthistory": json, "selectedBlogID": selectedBlogID };
+            var compiledTemplate = Handlebars.compile(template);
+            var newhtml = compiledTemplate(data);
+            $(".allcommentdiv").html("");
+            $(".allcommentdiv").html(newhtml);
+        });
+    stop_waitMe("allcommentdiv");
+};
+
+let GetCommentsByBlogID = (selectedBlogID) => {
+    //console.log("GetBlogsBySIandUserID : startindex : " + startindex + ", userid : " + userid);
+    var d = $.Deferred();
+
+    $.ajax({
+            method: "get",
+            url: "/viewblog/GetCommentByBlogID/" + selectedBlogID
+        })
+        .done(function(jsonResult) {
+            d.resolve(jsonResult);
+        })
+        .fail(function() {
+            d.reject;
+        })
+        .always(function() {});
+    return d.promise();
+};

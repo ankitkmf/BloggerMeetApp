@@ -7,7 +7,9 @@
                     <!-- Title ,Author ,Date/Time-->
                     <h3 class="h3-responsive"><a href="/viewblog/showdetails/{{blog._id}}">
                     <img border="0" src="/images/article.png" title="article"></a>{{{blog.topic}}}</h3>
-                    <p>Written by <a href="#">{{blog.createdby}}</a>,
+                    <p>Written by 
+                        {{#Compare user._id "==" blog.userid}}
+                        <a href="/myprofile/{{blog.userid}}">{{blog.createdby}}</a>{{else}} {{blog.createdby}} {{/Compare}},
                         <span class="glyphicon glyphicon-time"></span> Posted on {{#CovertISODate blog.creationdate}}{{/CovertISODate}}</p>
 
                     <!--Content-->

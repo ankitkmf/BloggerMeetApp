@@ -56,3 +56,18 @@ span#loadmorecommentbyblogid {
     font-size: 20px;
     cursor: pointer;
 }
+
+.comment-panel-default {
+    border-color: cadetblue;
+    background-color: aliceblue;
+}
+
+.commentstats {
+    float: right;
+}
+
+.commentFooter {
+    background-color: #3498db !important;
+    color: white;
+    padding: 5px 8px;
+}
