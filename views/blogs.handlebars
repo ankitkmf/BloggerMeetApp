@@ -85,10 +85,10 @@
           <div class="showblogdetails_{{this._id}}">
             <strong><span class="blogpostdate glyphicon glyphicon-time"></span> Posted on {{#CovertISODate this.creationdate}}{{/CovertISODate}}</strong>
             <br><br>
-            <span data-toggle="modal" data-blogid="{{this._id}}" data-target="#allComment" id="showallcomments">
-              <a href="#"><u>View all comments</u></a>
-              </span> | 
-              <span data-toggle="modal" data-blogid="{{this._id}}" data-target="#myComment">
+            <span data-toggle="modal" data-blogid="{{this._id}}" data-target="#allComment" class="showallcomments">
+              <a href="#"><u>Validate all Comments</u></a>
+              </span> |
+            <span data-toggle="modal" data-blogid="{{this._id}}" data-target="#myComment" class="showmycomments">
                 <a href="#"><u>View/Edit my comments</u></a>
             </span>
             <hr>
@@ -179,38 +179,22 @@
     <div class="modal-content ">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal"><span class="glyphicon glyphicon-remove-sign"></span></button>
-        <h4 class="modal-title">All Comments</h4>
+        <h4 class="modal-title">Validate Comments</h4>
       </div>
       <div class="modal-body allcommentdiv">
       </div>
     </div>
-</div>
+  </div>
 </div>
 
-<div id="myComment" class="modal fade" role="dialog">
+<div id="myComment" class="modal fade" role="banner">
   <div class="modal-dialog modal-lg">
-    <div class="modal-content">
+    <div class="modal-content ">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal"><span class="glyphicon glyphicon-remove-sign"></span></button>
-        <h4 class="modal-title">View/Edit your comments</h4>
+        <h4 class="modal-title">View/Edit/Validate Comments</h4>
       </div>
-      <div class="modal-body">
-        <form id="addeditblogfrm" class="form-horizontal">
-          <div class="blogsuccesserrorpanel hidden">
-          </div>
-          <div class="form-group">
-            <label class="control-label" for="content">Content</label>
-            <div>
-              <textarea class="input" rows="10" cols="85" maxlength="5000" id="content" name="content" autofocus="autofocus">{{blogs.content}}</textarea>
-            </div>
-          </div>
-          <div class="form-group">
-            <div>
-              <button type="submit" class="btn btn-info btn-sm">Add</button>
-              <button type="reset" class="btn btn-info btn-sm" data-dismiss="modal">Cancel</button>
-            </div>
-          </div>
-        </form>
+      <div class="modal-body mycommentdiv">
       </div>
     </div>
   </div>

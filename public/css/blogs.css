@@ -64,6 +64,7 @@ span#loadmorecommentbyblogid {
 
 .commentstats {
     float: right;
+    padding-bottom: 10px;
 }
 
 .commentFooter {
