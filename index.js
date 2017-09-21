@@ -174,6 +174,12 @@ app.use('/auth', authenticationMiddleware, dashboardCtrl);
 var verifyemail = require('./controllers/verifyemail');
 app.use('/verifyemail', authNotRequired, verifyemail);
 
+var contactus = require('./controllers/contactus');
+app.use('/contactus', authNotRequired, contactus);
+
+// var aboutus = require('./controllers/aboutus');
+// app.use('/aboutus', authNotRequired, aboutus);
+
 //Error handling
 app.get('*', authNotRequired, function(req, res, next) {
     var err = new Error("Failed to load resource");

@@ -1,0 +1,93 @@
+<div class="bs-docs-section">
+    <div class="col-lg-12">
+        <div class="col-lg-2">
+        </div>
+        <div class="col-lg-8 contactus">
+            <div class="well bs-component">
+                <dix class="form-horizontal">
+                    <fieldset>
+                        <legend>Contact us</legend>
+                        <div class="alert alert-dismissible alert-success successPanel hidden">
+                        </div>
+                        <div class="alert alert-dismissible alert-danger ErrorPanel hidden">
+                        </div>
+                        <div class="contactusfrm">
+                            <div class="form-group">
+                                <label for="inputName" class="col-lg-2 control-label">Name</label>
+                                <div class="col-lg-10">
+                                    <div class="input-group">
+                                        <spna class="input-group-addon input-sm">
+                                            <span class="glyphicon glyphicon-user "></span>
+                                        </spna>
+                                        <input type="text" class="form-control input-sm" maxlength="100" id="inputName" placeholder="Name">
+                                    </div>
+                                    <div class="msg"></div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputEmail" class="col-lg-2 control-label">Email</label>
+                                <div class="col-lg-10">
+                                    <div class="input-group">
+                                        <spna class="input-group-addon input-sm">
+                                            <span class="glyphicon glyphicon-envelope "></span>
+                                        </spna>
+                                        <input type="email" class="form-control input-sm" maxlength="100" id="inputEmail" placeholder="Email">
+                                    </div>
+                                    <div class="msg"></div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputMobile" class="col-lg-2 control-label">Phone Number</label>
+                                <div class="col-lg-10">
+                                    <div class="input-group">
+                                        <spna class="input-group-addon input-sm">
+                                            <span class="glyphicon glyphicon-phone"></span>
+                                        </spna>
+                                        <input type="text" class="form-control input-sm" maxlength="15" id="inputMobile" placeholder="Contact number">
+                                    </div>
+                                    <div class="msg">
+                                    </div>
+                                </div>
+                            </div> 
+                            <div class="form-group">
+                                <label for="inputReqType" class="col-lg-2 control-label">Request Type</label>
+                                <div class="col-lg-10">
+                                    <div class="input-group">
+                                        <spna class="input-group-addon input-sm">
+                                            <span class="glyphicon glyphicon-list-alt"></span>
+                                        </spna>
+                                        <select class="form-control dropdown clearmsg input-sm" id="inputReqType" name="inputReqType">
+                                    {{#CreateDropDown "contactusreqtype" "NA"}}{{/CreateDropDown}}
+                                </select>
+                                    </div>
+                                    <div class="msg"></div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputReqData" class="col-lg-2 control-label">Comment</label>
+                                <div class="col-lg-10">
+                                    <div class="input-group">
+                                        <spna class="input-group-addon input-sm">
+                                            <span class="glyphicon glyphicon-edit"></span>
+                                        </spna>
+                                        <textarea class="form-control input-sm" rows="4" maxlength="1000" name="inputReqData" id="inputReqData" required="required"></textarea>
+                                    </div>
+                                    <div class="msg"></div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-lg-10 col-lg-offset-2">
+                                    <button type="reset" class="btn btn-default btn-sm cancel"> <a href="/">Cancel</a></button>
+                                    <button type="submit" class="btn btn-info btn-sm contactusbtn">Submit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-2">
+    </div>
+</div>
+</div>
+ <script type="text/javascript" src="/js/contactus.js"></script> 

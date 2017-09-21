@@ -6,6 +6,7 @@ module.exports = function(selecttype, fieldvalue) {
     var data = "";
     var experience = {};
     var educationyear = [];
+    var contactusreqtype = {};
 
     if (fieldvalue != undefined && selecttype == "qualification") {
 
@@ -93,6 +94,17 @@ module.exports = function(selecttype, fieldvalue) {
         }
 
         _.forEach(educationyear, function(result) {
+            if (result.key == "0")
+                data += "<option value=" + result.key + " selected='selected'>" + result.value + "</option>";
+            else
+                data += "<option value=" + result.key + ">" + result.value + "</option>";
+        });
+        return data;
+    } else if (selecttype == "contactusreqtype") {
+
+        contactusreqtype = require("../../../data/contactusreqtype.json");
+
+        _.forEach(contactusreqtype, function(result) {
             if (result.key == "0")
                 data += "<option value=" + result.key + " selected='selected'>" + result.value + "</option>";
             else

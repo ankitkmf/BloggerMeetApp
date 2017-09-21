@@ -1,0 +1,17 @@
+[{
+        "key": "0",
+        "value": "-- Select Request Type --"
+    },
+    {
+        "key": "1",
+        "value": "Query"
+    },
+    {
+        "key": "2",
+        "value": "Suggession"
+    },
+    {
+        "key": "3",
+        "value": "Complain"
+    }
+]
