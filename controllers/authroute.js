@@ -18,47 +18,53 @@ const serviceURL = config.get("app.restAPIEndpoint.v1ContractPath");
 //     // delete req.session.returnTo;
 // });
 
-// router.post('/login', function(req, res, next) {
-//     passport.authenticate('local', function(err, user, info) {
-//         if (err) {
-//             console.log("Step 1");
-//             next(err);
-//             return
-//         }
-//         // User does not exist
-//         if (!user) {
-//             console.log("Step 2, Invalid email or password");
-//             // req.flash('error', 'Invalid email or password');
-//             res.redirect('/');
-//             return
-//         }        
-//         req.logIn(user, function(err) {
-//             // Invalid password
-//             if (err) {
-//                 console.log("Step 3, Invalid email or password");
-//                 //req.flash('error', 'Invalid email or password');
-//                 next(err);
-//                 return
-//             }
-//             console.log("Step 4");
-//             req.session.user = req.user;
-//             res.redirect(req.session.redirectTo || '/');
-//             return
-//         });
-//     })(req, res, next);
-// });
-
-
-router.post('/login', passport.authenticate('local', { failureRedirect: '/' }), (req, res) => {
-    // if (req.user.isAdmin === true) {
-    //     res.redirect('/admin/gifts?filter=review');
-    // }
-    // if (req.user.isAdmin === false) {
-    //     res.redirect('/dashboard/received');
-    // }
-    req.session.user = req.user;
-    res.redirect(req.session.redirectTo || '/');
+router.post('/login', function(req, res, next) {
+    passport.authenticate('local', function(err, user, info) {
+        if (err) {
+            console.log("Step 1");
+            next(err);
+            return
+        }
+        // User does not exist
+        if (!user) {
+            console.log("Step 2, Invalid email or password");
+            //req.flash('error', 'Invalid email or password');
+            req.flash("error", "Invalid username or password");
+            // res.locals.messages = req.flash("error22", "Invalid username or password");
+            res.redirect('/');
+            return
+        }
+        req.logIn(user, function(err) {
+            // Invalid password
+            if (err) {
+                console.log("Step 3, Invalid email or password");
+                req.flash("error", "Invalid username or password");
+                // req.flash('error', 'Invalid email or password');
+                // req.flash("messages", { "error2": "Invalid username or password" });
+                // req.flash("error", "Invalid username or password");
+                // res.locals.messages = req.flash("messages", { "error": "Invalid username or password" });
+                next(err);
+                return
+            }
+            console.log("Step 4");
+            req.session.user = req.user;
+            res.redirect(req.session.redirectTo || '/');
+            return
+        });
+    })(req, res, next);
 });
+
+
+// router.post('/login', passport.authenticate('local', { failureRedirect: '/', failureFlash: true }), (req, res) => {
+//     // if (req.user.isAdmin === true) {
+//     //     res.redirect('/admin/gifts?filter=review');
+//     // }
+//     // if (req.user.isAdmin === false) {
+//     //     res.redirect('/dashboard/received');
+//     // }
+//     req.session.user = req.user;
+//     res.redirect(req.session.redirectTo || '/');
+// });
 
 // router.post("/login", passport.authenticate('local', {
 //     successRedirect: '/',
@@ -93,9 +99,15 @@ router.get('/google/callback', passport.authenticate('google'), function(req, re
     passportauth.validateGoogleUser(req.user, mapUser).then(function(results) {
         if (results != "") {
             req.session.user = results;
-            console.log("validateGoogleUser success, results:" + JSON.stringify(results));
-        } else
+            if (mapUser != null)
+                req.flash("success", "Your account have been successfully map with your google account. Now you can login through your gmail email id and currect account password ..Enjoy blogging..");
+            console.log("validateGoogleUser success");
+        } else {
+            if (mapUser != null)
+                req.flash("error", "Error to map your current account with google account , Kindly try after some time");
             console.log("validateGoogleUser not success");
+        }
+
 
         var path = mapUser != null ? mapUser.pageURL : req.session.redirectUrl;
         res.redirect(path || '/');

@@ -7,8 +7,9 @@ var bodyparser = require("body-parser");
 var config = require("config");
 var log = require("./modellayer/log");
 var _ = require("lodash");
+var flash = require('connect-flash');
 app.locals.config = config.get('app.restAPIEndpoint.v1ContractPath');
-console.log(app.locals.config);
+//console.log(app.locals.config);
 
 app.use(bodyparser.urlencoded({ extended: true }));
 app.use(bodyparser.json());
@@ -45,6 +46,7 @@ app.use(require('express-session')({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(flash());
 
 // let authenticationMiddleware = function(req, res, next) {
 //     if (req.isAuthenticated()) {
@@ -55,6 +57,12 @@ app.use(passport.session());
 // };
 
 let authenticationMiddleware = function(req, res, next) {
+    res.locals.errorMsg = req.flash('error')[0];
+    res.locals.successMsg = req.flash('success')[0];
+    // if (res.locals.errorMsg != "")
+    //     console.log("**** ErrorMsg found" + JSON.stringify(res.locals.errorMsg));
+    // else
+    //     console.log("****ErrorMsg not found" + JSON.stringify(res.locals.errorMsg));
     // console.log("***req.session.mappingObj :" + JSON.stringify(req.session.mappingObj));
     // console.log("**************start******************");
     // console.log("start req.session.redirectUrl:" + req.session.redirectUrl);
@@ -78,6 +86,16 @@ let authenticationMiddleware = function(req, res, next) {
 };
 
 let authNotRequired = (req, res, next) => {
+    res.locals.errorMsg = req.flash('error')[0];
+    res.locals.successMsg = req.flash('success')[0];
+
+    // if (res.locals.errorMsg != "")
+    //     console.log("---- ErrorMsg found" + JSON.stringify(res.locals.errorMsg));
+    // else
+    //     console.log("----ErrorMsg not found" + JSON.stringify(res.locals.errorMsg));
+    //if (req.flash('messages')[0])
+    //  console.log("----1," + JSON.stringify(req.flash('error')));
+    //  console.log("----2," + JSON.stringify(res.locals.messages));
     //console.log("---req.session.mappingObj :" + JSON.stringify(req.session.mappingObj));
     // req.session.returnTo = req.path;
     //console.log("req.path1:" + req.path);

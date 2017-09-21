@@ -223,17 +223,17 @@ let userHistoryCollection = (data) => {
     var collection = [];
     var innerCoollection = [];
     collection.push(alasql(
-        "SELECT INDEX name,COUNT(*) AS cnt FROM ? GROUP BY name", [data.result]
+        "SELECT INDEX username,COUNT(*) AS cnt FROM ? GROUP BY username", [data.result]
     ));
-    //console.log("stp1:" + JSON.stringify(collection));
+    console.log("stp1:" + JSON.stringify(collection));
     var keys = Object.keys(collection[0]);
     for (var i = 0; i < keys.length; i++) {
         //  console.log(i + " : " + keys[i]);
         innerCoollection.push(alasql(
-            "SELECT count(*) as total, dateTime, '" + keys[i] + "' as text FROM ? where name='" + keys[i] + "' GROUP BY  dateTime ", [data.result]
+            "SELECT count(*) as total, dateTime, '" + keys[i] + "' as text FROM ? where username='" + keys[i] + "' GROUP BY  dateTime ", [data.result]
         ));
     }
-    //console.log("innerCoollection:" + JSON.stringify(innerCoollection));
+    // console.log("innerCoollection:" + JSON.stringify(innerCoollection));
 
     return innerCoollection;
 };
@@ -289,29 +289,46 @@ let GetAllUserCountCollection = data => {
 };
 
 let userGraphCollection = (data) => {
-    var collection = [];
+    //var collection = [];
     // get local user 
-    collection.push(alasql(
-        "SELECT count(*) as total, dateTime, 'Local users' as text FROM ? where authType='local' GROUP BY  dateTime ", [data[0].data.result]
-    ));
+    // collection.push(alasql(
+    //     "SELECT count(*) as total, dateTime, 'Local users' as text FROM ? where authType='local' GROUP BY  dateTime ", [data[0].data.result]
+    // ));
 
-    // get google user 
-    collection.push(alasql(
-        "SELECT count(*) as total, dateTime, 'Google users' as text FROM ? where authType='google' GROUP BY  dateTime ", [data[0].data.result]
-    ));
+    // // get google user 
+    // collection.push(alasql(
+    //     "SELECT count(*) as total, dateTime, 'Google users' as text FROM ? where authType='google' GROUP BY  dateTime ", [data[0].data.result]
+    // ));
 
-    // get facebook user 
+    // // get facebook user 
+    // collection.push(alasql(
+    //     "SELECT count(*) as total, dateTime, 'Facebook users' as text FROM ? where authType='facebook' GROUP BY  dateTime ", [data[0].data.result]
+    // ));
+
+
+
+    //////////////////
+    var collection = [],
+        innerCoollection = [];
     collection.push(alasql(
-        "SELECT count(*) as total, dateTime, 'Facebook users' as text FROM ? where authType='facebook' GROUP BY  dateTime ", [data[0].data.result]
+        "SELECT INDEX authType,COUNT(*) AS cnt FROM ? GROUP BY authType", [data[0].data.result]
     ));
+    // console.log("stp1:" + JSON.stringify(collection));
+    var keys = Object.keys(collection[0]);
+    for (var i = 0; i < keys.length; i++) {
+        //  console.log(i + " : " + keys[i]);
+        innerCoollection.push(alasql(
+            "SELECT count(*) as total, dateTime, '" + keys[i] + "' as text FROM ? where authType='" + keys[i] + "' GROUP BY  dateTime ", [data[0].data.result]
+        ));
+    }
 
     // get Subscribe user 
-    collection.push(alasql(
+    innerCoollection.push(alasql(
         "SELECT count(*) as total, dateTime, 'Subscribe Users' as text FROM ? GROUP BY  dateTime ", [data[1].data.result]
     ));
 
-    // console.log("collection:" + JSON.stringify(collection));
-    return collection;
+    // console.log("innerCoollection:" + JSON.stringify(innerCoollection));
+    return innerCoollection;
 };
 
 let userCommentCollection = (data) => {

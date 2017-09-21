@@ -11,7 +11,7 @@ const serviceURL = config.get("app.restAPIEndpoint.v1ContractPath");
 
 passport.use(new LocalStrategy(function(username, password, done) {
     //log.logger.info("Passport Init : User Name : " + username + " , Password : " + password);
-    console.log("Passport Init : User Name : " + username + " , Password : " + password);
+    // console.log("Passport Init : User Name : " + username + " , Password : " + password);
     var user = {};
     // console.log("Local req.session.reqType :" + req.session.reqType);
     // console.log("Step 1");

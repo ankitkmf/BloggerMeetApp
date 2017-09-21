@@ -1,6 +1,14 @@
 'use strict';
 $(function() {
 
+    console.log($("#hdnErrorMsg").val());
+    if ($("#hdnErrorMsg").val())
+        showErrorFlashMsg($("#hdnErrorMsg").val());
+
+    if ($("#hdnSuccessMsg").val())
+        showSuccessFlashMsg($("#hdnSuccessMsg").val());
+
+
     Handlebars.registerHelper("Compare", function(lvalue, operator, rvalue, options) {
 
         var operators, result;
@@ -67,14 +75,27 @@ $(function() {
             this.style.height = this.scrollHeight + "px";
         });
 
-    //         $("input[type='text']").each(function() {
-    //     $(this).blur(function(e) {
-    //         if (Validate(this.id)) {} else { alert('invalid input'); }
-    //     });
-    // });
-
-
 });
+
+let showErrorFlashMsg = (msg) => {
+    $.bootstrapGrowl(msg, {
+        type: 'danger',
+        align: 'center',
+        width: 'auto',
+        allow_dismiss: false,
+        delay: 3000
+    });
+};
+
+let showSuccessFlashMsg = (msg) => {
+    $.bootstrapGrowl(msg, {
+        type: 'success',
+        align: 'center',
+        width: 'auto',
+        allow_dismiss: false,
+        delay: 6000
+    });
+};
 
 let alphanumericinputvalidation = (evt) => {
     var isValid = false;
