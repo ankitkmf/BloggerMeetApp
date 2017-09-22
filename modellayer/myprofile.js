@@ -156,7 +156,7 @@ router.get('/:_id', function(req, res) {
     // console.log("_id " + userid);
     var collectionCountList = {};
 
-    //   console.log("req.user" + JSON.stringify(req.user));
+    console.log("req.user" + JSON.stringify(req.user));
     if (userid == req.session.user._id && req.session.user.authType == "local") {
         var mappingObj = {
             "page": "profile",
@@ -165,6 +165,8 @@ router.get('/:_id', function(req, res) {
             "pageURL": "/myprofile/" + userid
         };
         req.session.mappingObj = mappingObj;
+        var showGoogleMap = req.user.mapGoogleUser != null ? req.user.mapGoogleUser : "false";
+        console.log("showGoogleMap:" + showGoogleMap);
         Promise.all([
             getaboutme(userid),
             getpersonaldetails(userid),
@@ -180,7 +182,7 @@ router.get('/:_id', function(req, res) {
                 layout: 'default',
                 title: 'My Profile Page',
                 aboutme: aboutme.result,
-                personaldetails: personaldetails.result,
+                showGoogleMap: showGoogleMap,
                 proffessionaldetails: proffessionaldetails.result
                     // bloghistory: bloghistory,
                     // lastbloghistoryid: lastbloghistoryid

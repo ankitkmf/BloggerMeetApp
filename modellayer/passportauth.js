@@ -203,7 +203,7 @@ let mapGoogleUserToLogin = function(googleUser, mapUserAccount) {
             "userImage": googleUser.userImage
                 // "authType": googleUser.authType
         };
-        console.log("mapGoogleUserToLogin mapGoogleAccountData:" + JSON.stringify(mapGoogleAccountData));
+        // console.log("mapGoogleUserToLogin mapGoogleAccountData:" + JSON.stringify(mapGoogleAccountData));
         axios.post(path, mapGoogleAccountData)
             .then(function(response) {
                 if (response.data != null) {

@@ -10,8 +10,8 @@
       <div class="col-md-4 col-sm-4 col-lg-6">
         {{> verifyemail}}
       </div>
-      <div class="col-md-4 col-sm-4 col-lg-2">
-         <a href="/auth/facebook" class="fa fa-facebook" title="link current to facebook account"></a> 
+      <div class="col-md-4 col-sm-4 col-lg-2 hidden mapGoogle" >
+         {{!-- <a href="/auth/facebook" class="fa fa-facebook" title="link current to facebook account"></a>  --}}
         <a href="/auth/google" class="fa fa-google" title="link current to gmail account"></a>
       </div>
     </div>
@@ -193,6 +193,7 @@
 <input type="hidden" name="userid" id="userid" value="{{user._id}}" />
 <input type="hidden" name="username" id="username" value="{{user.username}}" />
 <input type="hidden" id="selectedBlogID">
+<input type="hidden" id="hdnMapGoogle" value="{{showGoogleMap}}">
 <input type="hidden" id="selectedBlogIDCmnt">
 <link rel="stylesheet" href="/css/plugin/imgProgress.css">
 <script type="text/javascript" src="/js/myprofile.js"></script>

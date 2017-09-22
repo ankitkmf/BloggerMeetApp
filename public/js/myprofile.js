@@ -2,6 +2,8 @@
 $(function() {
 
     var lastbloghistoryid = "0";
+    if ($("#hdnMapGoogle").val() == "false")
+        $(".mapGoogle").removeClass("hidden");
 
     // var bloghistoryid = $('#divImageBlogHistory').data("lastbloghistoryid");
     // if (bloghistoryid == "0") $('#divImageBlogHistory').addClass("hidden");
