@@ -287,7 +287,8 @@ span#loadmoreblogbyuserid {
     background: rgba(255, 255, 255, 0.4);
 } */
 
-.commentstats {
+
+/* .commentstats {
     float: right;
 }
 
@@ -295,6 +296,17 @@ span#loadmoreblogbyuserid {
     background-color: #3498db !important;
     color: white;
     padding: 5px 8px
+} */
+
+.commentstats {
+    float: right;
+    padding-bottom: 10px;
+}
+
+.commentFooter {
+    background-color: black !important;
+    color: white;
+    padding: 5px 8px;
 }
 
 .comment-panel-default {

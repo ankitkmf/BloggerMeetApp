@@ -50,7 +50,12 @@
                         <div class="panel-body">
                             {{this.comment}}
                         </div>
-                        <div class="panel-footer text-right">by <i>{{this.username}} 
+                        <div class="panel-footer text-right">by <i>
+                            {{#Compare ../user._id "==" this.userid}}
+                            <a href="/myprofile/{{this.userid}}">{{this.username}}</a>
+                            {{else}}
+                            {{this.username}}
+                            {{/Compare}} 
                             <span class="glyphicon glyphicon-time"></span> Posted on {{#CovertISODate this.creationdate}}{{/CovertISODate}}</i></div>
                     </div>
                     {{/each}} {{/Compare}}{{/if}}

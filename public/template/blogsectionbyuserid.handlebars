@@ -11,12 +11,18 @@
   </h3>
   <div>
     <div class="showblogdetails_{{this._id}}">
-      <span class="blogpostdate glyphicon glyphicon-time"></span> Posted on {{#CovertISODate this.creationdate}}{{/CovertISODate}} 
-      <br/><br/> {{{this.content}}}
+      <strong><span class="blogpostdate glyphicon glyphicon-time"></span> Posted on {{#CovertISODate this.creationdate}}{{/CovertISODate}}</strong>
+      <br/><br/>
+      <span data-toggle="modal" data-blogid="{{this._id}}" data-target="#myComment" class="showmycomments">
+                <a href="#"><u>View/Edit my comments</u></a>
+            </span>
+      <hr>
+      <h4><i>Blog Description</i></h4>
+      {{{this.content}}}
     </div>
     <div class="blogeditform_{{this._id}} hidden">
       <div class="blogeditvalidationpanel hidden">
-            </div>
+      </div>
 
       <div>
         <form id="editblogfrm" class="form-horizontal">
@@ -48,7 +54,7 @@
             </div>
           </div>
 
-          <input type="hidden" id="createdby_{{this._id}}" name="createdby_{{this._id}}" value="{{this.createdby}}" /> 
+          <input type="hidden" id="createdby_{{this._id}}" name="createdby_{{this._id}}" value="{{this.createdby}}" />
           <input type="hidden" id="status_{{this._id}}" name="status" value="{{this.status}}" />
           <input type="hidden" id="index_{{this._id}}" name="index_{{this._id}}" value="{{index}}" />
           <input type="hidden" id="creationdate_{{this._id}}" name="creationdate_{{this._id}}" value="{{this.creationdate}}" />
@@ -73,12 +79,12 @@
 <script src="/ckeditor/ckeditor.js"></script>
 <script>
   $(function () {
-        $('.edit').click(function() {
-        var id = $(this).data("key");
-        console.log(id);
+    $('.edit').click(function () {
+      var id = $(this).data("key");
+      console.log(id);
 
-        $('.showblogdetails_' + id).addClass("hidden");
-        $('.blogeditform_' + id).removeClass("hidden");
+      $('.showblogdetails_' + id).addClass("hidden");
+      $('.blogeditform_' + id).removeClass("hidden");
     });
 
     $(".canceleditblog").on("click", function () {
@@ -88,11 +94,11 @@
       $('.blogeditform_' + id).addClass("hidden");
     });
 
-    $('.remove').on("click", function() {
-        var id = $(this).data("key");
-        console.log("id " + id);
+    $('.remove').on("click", function () {
+      var id = $(this).data("key");
+      console.log("id " + id);
 
-        DeleteBlogByID(id);
+      DeleteBlogByID(id);
     });
   })
 

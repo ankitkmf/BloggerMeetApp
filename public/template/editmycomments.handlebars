@@ -4,32 +4,32 @@
   <div data-id="{{this._id}}" class="panel panel-default comment-panel-default commenttable">
     <div class="panel-body">
       {{#Compare ../loggedinuserid "!=" this.userid}}
-      <div class="row">  
+      <div class="row">
         <div class="col-lg-12">
           <span class="commentstats">
           <label class="radio-inline">            
            {{#Compare "1" this.status}}
-             <input type="radio" name="blogGroup_{{@index}}" checked="checked" data-type="approve" value="1"/>
+             <input type="radio" name="blogGroup_{{this._id}}" checked="checked" data-type="approve" value="1"/>
            {{else}} 
-         <input type="radio" name="blogGroup_{{@index}}" data-type="approve" value="1"/>
+         <input type="radio" name="blogGroup_{{this._id}}" data-type="approve" value="1"/>
           {{/Compare}}
           Approve
         </label>
 
           <label class="radio-inline">            
            {{#Compare "2" this.status}}
-             <input type="radio" name="blogGroup_{{@index}}" data-type="reject" checked="checked" value="2"/>
+             <input type="radio" name="blogGroup_{{this._id}}" data-type="reject" checked="checked" value="2"/>
            {{else}} 
-         <input type="radio" name="blogGroup_{{@index}}" data-type="reject" value="2"/>
+         <input type="radio" name="blogGroup_{{this._id}}" data-type="reject" value="2"/>
           {{/Compare}}
           Reject
         </label>
 
           <label class="radio-inline">            
            {{#Compare "0" this.status}}
-             <input type="radio" name="blogGroup_{{@index}}" data-type="pending" checked="checked" value="3"/>
+             <input type="radio" name="blogGroup_{{this._id}}" data-type="pending" checked="checked" value="3"/>
            {{else}} 
-         <input type="radio" name="blogGroup_{{@index}}" data-type="pending" value="3"/>
+         <input type="radio" name="blogGroup_{{this._id}}" data-type="pending" value="3"/>
           {{/Compare}}
           Pending
         </label>
@@ -38,54 +38,55 @@
           </span>
         </div>
       </div>
-      <hr>
-       {{/Compare}}
+      <hr> {{/Compare}}
       <div class="row">
         {{#Compare ../loggedinuserid "==" this.userid}}
+        <div class="blogcommentvalidationpanel_{{this._id}} hidden">
+        </div>
         <div class="blogcommentsection">
-          <form id="blogcommentfrm">                   
+          <form id="blogcommentfrm">
 
-          <div class="form-group col-lg-12">
-                    <span class="commentstats">
+            <div class="form-group col-lg-12">
+              <span class="commentstats">
           <label class="radio-inline">            
            {{#Compare "1" this.status}}
-             <input type="radio" name="blogGroup_{{@index}}" checked="checked" data-type="approve" value="1"/>
+             <input type="radio" name="blogGroup_{{this._id}}" checked="checked" data-type="approve" value="1"/>
            {{else}} 
-         <input type="radio" name="blogGroup_{{@index}}" data-type="approve" value="1"/>
+         <input type="radio" name="blogGroup_{{this._id}}" data-type="approve" value="1"/>
           {{/Compare}}
           Approve
         </label>
 
           <label class="radio-inline">            
            {{#Compare "2" this.status}}
-             <input type="radio" name="blogGroup_{{@index}}" data-type="reject" checked="checked" value="2"/>
+             <input type="radio" name="blogGroup_{{this._id}}" data-type="reject" checked="checked" value="2"/>
            {{else}} 
-         <input type="radio" name="blogGroup_{{@index}}" data-type="reject" value="2"/>
+         <input type="radio" name="blogGroup_{{this._id}}" data-type="reject" value="2"/>
           {{/Compare}}
           Reject
         </label>
 
           <label class="radio-inline">            
            {{#Compare "0" this.status}}
-             <input type="radio" name="blogGroup_{{@index}}" data-type="pending" checked="checked" value="3"/>
+             <input type="radio" name="blogGroup_{{this._id}}" data-type="pending" checked="checked" value="3"/>
            {{else}} 
-         <input type="radio" name="blogGroup_{{@index}}" data-type="pending" value="3"/>
+         <input type="radio" name="blogGroup_{{this._id}}" data-type="pending" value="3"/>
           {{/Compare}}
           Pending
         </label>
 
           {{!-- <button type="button" class="btn btn-info btn-xs commentDataColumn">Save</button> --}}
-          <button type="button" data-index="{{@index}}" id="saveblogcomment_{{@index}}" 
-          name="saveblogcomment_{{@index}}" class="btn btn-info btn-xs saveblogcomment">Update</button>
+          <button type="button" data-index="{{this._id}}" id="saveblogcomment_{{this._id}}" 
+          name="saveblogcomment_{{this._id}}" class="btn btn-info btn-xs saveblogcomment">Update</button>
           </span>
 
-            <textarea class="form-control" rows="4" name="blogcomment_{{@index}}" id="blogcomment_{{@index}}" required="required">{{{this.comment}}}</textarea>
-            <input type="hidden" value="{{this._id}}" name="commentid_{{@index}}" id="commentid_{{@index}}" />
-            <input type="hidden" id="username_{{@index}}" name="username_{{@index}}" value={{this.username}} />
-            <input type="hidden" id="userid_{{@index}}" name="userid_{{@index}}" value={{this.userid}} />
-          
+              <textarea class="form-control" rows="4" name="blogcomment_{{this._id}}" id="blogcomment_{{this._id}}" required="required">{{{this.comment}}}</textarea>
+              <input type="hidden" value="{{this._id}}" name="commentid_{{this._id}}" id="commentid_{{this._id}}" />
+              <input type="hidden" id="username_{{this._id}}" name="username_{{this._id}}" value={{this.username}} />
+              <input type="hidden" id="userid_{{this._id}}" name="userid_{{this._id}}" value={{this.userid}} />
 
-        </div>
+
+            </div>
           </form>
         </div>
         {{else}}
@@ -94,7 +95,12 @@
       </div>
     </div>
 
-    <div class="panel-footer commentFooter"><strong>by {{this.username}}</strong>
+    <div class="panel-footer commentFooter"><strong>by </strong>
+      {{#Compare ../loggedinuserid "==" this.userid}}
+        <a href="/myprofile/{{this.userid}}">{{this.username}}</a>
+      {{else}}
+        {{this.username}}
+      {{/Compare}}
       <span class="blogpostdate glyphicon glyphicon-time"></span> on {{#CovertISODate this.creationdate}}{{/CovertISODate}}
     </div>
   </div>

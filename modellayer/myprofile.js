@@ -393,6 +393,7 @@ function getFileExtension(filename) {
 
 router.post("/updatecomment", function(req, res) {
     if (req.body._id != null && req.body.status != null) {
+
         let path = serviceURL + "/updatecomment/";
         var status = "";
         switch (req.body.status) {
@@ -408,10 +409,19 @@ router.post("/updatecomment", function(req, res) {
             default:
                 status = "0";
         }
-        var result = {
-            "_id": req.body._id,
-            "status": status
-        };
+        var result = "";
+        if (req.body.comment != undefined && req.body.comment != null) {
+            result = {
+                "comment": req.body.comment,
+                "_id": req.body._id,
+                "status": status
+            };
+        } else {
+            result = {
+                "_id": req.body._id,
+                "status": status
+            };
+        }
         console.log("updatecomment collection:" + JSON.stringify(result));
         axios.post(path, result)
             .then(function(response) {

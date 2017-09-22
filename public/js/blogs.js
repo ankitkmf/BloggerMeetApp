@@ -267,8 +267,11 @@ $(function() {
                         $('.blogeditform_' + _id).addClass("hidden");
 
                         $('.showblogdetails_' + _id).html("");
-                        $('.showblogdetails_' + _id).html("<span class = 'blogpostdate glyphicon glyphicon-time' ></span> Posted on " +
-                            creationdate + " " + content);
+
+                        $('.showblogdetails_' + _id).html("<strong><span class='blogpostdate glyphicon glyphicon-time'></span> Posted on " +
+                            creationdate + "</strong><br/><br/>" +
+                            "<span data-toggle='modal' data-blogid=" + _id + " data-target='#myComment' class='showmycomments'>" +
+                            "<a href='#'><u>View/Edit my comments</u></a></span><hr><h4><i>Blog Description</i></h4>" + content);
 
                         $('.blogheader_' + _id).html("");
                         $('.blogheader_' + _id).html(topic);
@@ -417,36 +420,87 @@ $(function() {
     });
 
     $(".mycommentdiv").on("click", "span>button", function() {
+        console.log()
         console.log("click");
         console.log("Click :" + $(this).closest(".commenttable").data("id"));
         console.log($(this).parent("span").find($("input[type='radio']:checked")).data("type"));
+        console.log($("#blogcomment_" + $(this).closest(".commenttable").data("id")).val());
         console.log("click");
-        var data = {
-            _id: $(this).closest(".commenttable").data("id"),
-            status: $(this).parent("span").find($("input[type='radio']:checked")).data("type")
-        };
-        if (data._id != null && data.status != null) {
-            swal({
-                title: "Are you sure?",
-                text: "Are you sure that you want to update this records?",
-                type: "warning",
-                showCancelButton: true,
-                closeOnConfirm: false,
-                confirmButtonText: "Yes, update it!",
-                confirmButtonColor: "#ec6c62"
-            }, function() {
-                $.ajax({
-                        method: "Post",
-                        url: "/myprofile/updatecomment",
-                        data: data
-                    })
-                    .done(function(result) {
-                        swal("Updated! Comment is successfully updated!", "Success");
-                    })
-                    .error(function(data) {
-                        swal("Oops", "We couldn't connect to the server!", "Error");
-                    });
-            });
+
+        var commentid = $(this).closest(".commenttable").data("id");
+        var comments = $("#blogcomment_" + commentid).val();
+        var status = $(this).parent("span").find($("input[type='radio']:checked")).data("type");
+        var data = "";
+
+        $(".blogcommentvalidationpanel_" + commentid).html("");
+        $(".blogcommentvalidationpanel_" + commentid).addClass("hidden");
+
+        if (comments != undefined) {
+            data = {
+                comment: comments,
+                _id: commentid,
+                status: status
+            };
+
+            if (data.comment != "" && data._id != null && data.status != null) {
+                swal({
+                    title: "Are you sure?",
+                    text: "Are you sure that you want to update this records?",
+                    type: "warning",
+                    showCancelButton: true,
+                    closeOnConfirm: false,
+                    confirmButtonText: "Yes, update it!",
+                    confirmButtonColor: "#ec6c62"
+                }, function() {
+                    $.ajax({
+                            method: "Post",
+                            url: "/myprofile/updatecomment",
+                            data: data
+                        })
+                        .done(function(result) {
+                            swal("Updated! Comment is successfully updated!", "Success");
+                        })
+                        .error(function(data) {
+                            swal("Oops", "We couldn't connect to the server!", "Error");
+                        });
+                });
+            } else {
+                var msgPanel = $("<div></div>");
+                msgPanel.append(
+                    ErrorMessage("<strong>Warning!</strong> Comment cannot be empty.")
+                );
+                $(".blogcommentvalidationpanel_" + commentid).html(msgPanel).removeClass("hidden");
+            }
+
+        } else {
+            data = {
+                _id: commentid,
+                status: status
+            };
+
+            if (data._id != null && data.status != null) {
+                swal({
+                    title: "Are you sure?",
+                    text: "Are you sure that you want to update this records?",
+                    type: "warning",
+                    showCancelButton: true,
+                    closeOnConfirm: false,
+                    confirmButtonText: "Yes, update it!",
+                    confirmButtonColor: "#ec6c62"
+                }, function() {
+                    $.ajax({
+                            method: "Post",
+                            url: "/myprofile/updatecomment",
+                            data: data
+                        })
+                        .done(function(result) {
+                            swal("Updated! Comment is successfully updated!", "Success");
+                        })
+                        .error(function(data) {
+                            swal("Oops", "We couldn't connect to the server!", "Error");
+                        });
+                });
+            }
         }
     });
 });
