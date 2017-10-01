@@ -176,16 +176,14 @@ router.get('/:_id', function(req, res) {
             var aboutme = data[0].data;
             var personaldetails = data[1].data;
             var proffessionaldetails = data[2].data;
-            console.log(JSON.stringify(aboutme.result));
             log.logger.info("Successfully retrive my-profile data");
             res.render("myprofile", {
                 layout: 'default',
                 title: 'My Profile Page',
                 aboutme: aboutme.result,
                 showGoogleMap: showGoogleMap,
+                personaldetails: personaldetails.result,
                 proffessionaldetails: proffessionaldetails.result
-                    // bloghistory: bloghistory,
-                    // lastbloghistoryid: lastbloghistoryid
             });
 
         }).catch(function(err) {
