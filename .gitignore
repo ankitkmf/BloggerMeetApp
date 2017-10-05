@@ -8,3 +8,4 @@ config/
 npm-debug.log
 public/template/blogsectionbyuserid_trumbowyg.handlebars
 public/js/blogs_trumbowyg.js
+app.json
