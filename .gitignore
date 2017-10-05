@@ -6,3 +6,5 @@ logs/*
 node_modules/
 config/
 npm-debug.log
+public/template/blogsectionbyuserid_trumbowyg.handlebars
+public/js/blogs_trumbowyg.js

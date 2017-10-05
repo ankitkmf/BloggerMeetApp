@@ -115,7 +115,8 @@ $(function() {
         var userid = $("#userid").val();
         var actiontype = $("#actiontype").val();
         var topic = $("#topic").val();
-        var content = CKEDITOR.instances['content'].getData();
+        //var content = CKEDITOR.instances['content'].getData();
+        var content = $("#content").summernote('code');
         var category = $("#category").val();
 
         if (topic.trim() == "" || topic == undefined) {
@@ -139,6 +140,8 @@ $(function() {
                 ErrorMessage("<strong>Warning!</strong> Please add blog content.")
             );
             $("#content").focus();
+        } else {
+            content = "<p>" + content + "</p>";
         }
 
         var data = {};
@@ -154,10 +157,13 @@ $(function() {
             run_waitMe("addeditblogfrm");
             $(".blogsuccesserrorpanel").html("");
 
+            //console.log(JSON.stringify(data));
+
             $.ajax({
                 url: "/blogs/savedata/add",
                 data: data,
                 method: "POST",
+                //contentType: 'multipart/form-data',
                 success: function(data) {
                     msgPanel.append(
                         SuccessMessage("<strong>Thank You!</strong> New Blog is added.")
@@ -204,7 +210,8 @@ $(function() {
         var userid = $("#userid").val();
         var actiontype = $("#actiontype_" + _id).val();
         var topic = $("#topic_" + _id).val();
-        var content = CKEDITOR.instances['content_' + _id].getData();
+        //var content = CKEDITOR.instances['content_' + _id].getData();
+        var content = $('#content_' + _id).summernote('code');
         var category = $("#category_" + _id).val();
         var creationdate = $("#creationdate_" + _id).val();
 
@@ -228,6 +235,9 @@ $(function() {
                 ErrorMessage("<strong>Warning!</strong> Please add blog content.")
             );
         }
+        // else {
+        //     content = "<p>" + content + "</p>";
+        // }
 
         var datacollection = {};
         datacollection = {
@@ -241,7 +251,7 @@ $(function() {
             "userid": userid
         }
 
-        console.log("datacollection " + JSON.stringify(datacollection));
+        //console.log("datacollection " + JSON.stringify(datacollection));
 
         if (isValid) {
             $(".blogeditvalidationpanel").html("");

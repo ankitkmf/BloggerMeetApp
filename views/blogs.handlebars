@@ -1,3 +1,6 @@
+<link href="/summernote/dist/summernote.css" rel="stylesheet">
+<script src="/summernote/dist/summernote.js"></script>
+
 <div class="bs-docs-section">
   <div class="row">
     <div id="myModal" class="modal fade" role="dialog">
@@ -19,10 +22,11 @@
               </div>
               <div class="form-group">
                 <label class="control-label" for="content">Content</label>
-                <div>
-                  <textarea class="input" rows="10" cols="85" maxlength="5000" id="content" name="content" autofocus="autofocus">{{blogs.content}}</textarea>
+                {{!-- <div> --}}
+                  <div id="content" name="content">{{blogs.content}}</div>
+                  {{!-- <textarea class="input" rows="10" cols="85" maxlength="5000" id="content" name="content" autofocus="autofocus">{{blogs.content}}</textarea>                  --}}
                 </div>
-              </div>
+              {{!-- </div> --}}
               <div class="form-group">
                 <label class="control-label" for="category">Blog Category</label>
                 <div>
@@ -54,9 +58,25 @@
               </div>
             </form>
           </div>
-          <script src="/ckeditor/ckeditor.js"></script>
+
           <script>
-            CKEDITOR.replace('content');
+            $(document).ready(function () {
+              $('#content').summernote({
+                toolbar: [
+                  ['style', ['style']],
+                  //[ 'font', [ 'bold', 'italic', 'underline', 'strikethrough', 'superscript', 'subscript', 'clear'] ],
+                  ['font', ['bold', 'italic', 'underline']],
+                  ['fontname', ['fontname']],
+                  ['fontsize', ['fontsize']],
+                  ['color', ['color']],
+                  ['para', ['ol', 'ul', 'paragraph', 'height']],
+                  //[ 'table', [ 'table' ] ],
+                  ['insert', ['link', 'picture']],
+                  //[ 'view', [ 'undo', 'redo', 'fullscreen', 'codeview', 'help' ] ]
+                  ['view', ['undo', 'redo', 'fullscreen', 'codeview']]
+                ]
+              });
+            });
           </script>
         </div>
       </div>
@@ -84,7 +104,7 @@
         <div>
           <div class="showblogdetails_{{this._id}}">
             <strong><span class="blogpostdate glyphicon glyphicon-time"></span> Posted on {{#CovertISODate this.creationdate}}{{/CovertISODate}}</strong>
-            <br><br>
+            <br><br> 
             {{!-- <span data-toggle="modal" data-blogid="{{this._id}}" data-target="#allComment" class="showallcomments"> --}}
               {{!-- <a href="#"><u>Validate all Comments</u></a>
               </span> | --}}
@@ -110,9 +130,11 @@
                 </div>
                 <div class="form-group">
                   <label class="control-label" for="content_{{this._id}}">Content</label>
-                  <div>
-                    <textarea class="input" rows="10" cols="85" maxlength="5000" id="content_{{this._id}}" name="content_{{this._id}}" autofocus="autofocus">{{{this.content}}}</textarea>
-                  </div>
+                  {{!-- <div> --}}
+                    {{!-- <textarea class="input" rows="10" cols="85" maxlength="5000" id="content_{{this._id}}" name="content_{{this._id}}" autofocus="autofocus">{{{this.content}}}</textarea> --}}
+                  {{!-- </div> --}}
+                  <textarea class="hidden" maxlength="5000" id="txt_{{this._id}}" name="txt_{{this._id}}">{{this.content}}</textarea>
+                  <div id="content_{{this._id}}" name="content_{{this._id}}" autofocus="autofocus"></div>
                 </div>
                 <div class="form-group">
                   <label class="control-label" for="category_{{this._id}}">Blog Category</label>
@@ -145,10 +167,28 @@
               </form>
             </div>
 
-            <script src="/ckeditor/ckeditor.js"></script>
             <script>
-              CKEDITOR.replace('content_{{this._id}}');
+              $(document).ready(function () {
+                var id = "#content_{{this._id}}";
+                $(id).html($("#txt_{{this._id}}").val());
+                $(id).summernote({
+                  toolbar: [
+                    ['style', ['style']],
+                    //[ 'font', [ 'bold', 'italic', 'underline', 'strikethrough', 'superscript', 'subscript', 'clear'] ],
+                    ['font', ['bold', 'italic', 'underline']],
+                    ['fontname', ['fontname']],
+                    ['fontsize', ['fontsize']],
+                    ['color', ['color']],
+                    ['para', ['ol', 'ul', 'paragraph', 'height']],
+                    //[ 'table', [ 'table' ] ],
+                    ['insert', ['link', 'picture']],
+                    //[ 'view', [ 'undo', 'redo', 'fullscreen', 'codeview', 'help' ] ]
+                    ['view', ['undo', 'redo', 'fullscreen', 'codeview']]
+                  ]
+                });
+              });
             </script>
+
           </div>
         </div>
       </div>

@@ -1,3 +1,6 @@
+<link href="/summernote/dist/summernote.css" rel="stylesheet">
+<script src="/summernote/dist/summernote.js"></script>
+
 {{#each blogs.result}}
 <div class="group blog_{{this._id}}">
   <h3>
@@ -69,137 +72,154 @@
       </div>
 
       <script>
-        CKEDITOR.replace('content_{{this._id}}');
+              $(document).ready(function () {
+                var id = "#content_{{this._id}}";
+                $(id).html($("#txt_{{this._id}}").val());
+                $(id).summernote({
+                  toolbar: [
+                    ['style', ['style']],
+                    //[ 'font', [ 'bold', 'italic', 'underline', 'strikethrough', 'superscript', 'subscript', 'clear'] ],
+                    ['font', ['bold', 'italic', 'underline']],
+                    ['fontname', ['fontname']],
+                    ['fontsize', ['fontsize']],
+                    ['color', ['color']],
+                    ['para', ['ol', 'ul', 'paragraph', 'height']],
+                    //[ 'table', [ 'table' ] ],
+                    ['insert', ['link', 'picture']],
+                    //[ 'view', [ 'undo', 'redo', 'fullscreen', 'codeview', 'help' ] ]
+                    ['view', ['undo', 'redo', 'fullscreen', 'codeview']]
+                  ]
+                });
+              });
+            
       </script>
     </div>
   </div>
 </div>
-{{/each}} {{!--
-<script src="/js/blogs.js"></script> --}}
-<script src="/ckeditor/ckeditor.js"></script>
+{{/each}}
 <script>
-  $(function () {
-    $('.edit').click(function () {
-      var id = $(this).data("key");
-      console.log(id);
+                $(function () {
+                  $('.edit').click(function () {
+                    var id = $(this).data("key");
+                    console.log(id);
 
-      $('.showblogdetails_' + id).addClass("hidden");
-      $('.blogeditform_' + id).removeClass("hidden");
-    });
+                    $('.showblogdetails_' + id).addClass("hidden");
+                    $('.blogeditform_' + id).removeClass("hidden");
+                  });
 
-    $(".canceleditblog").on("click", function () {
-      var id = $(this).data("key");
+                  $(".canceleditblog").on("click", function () {
+                    var id = $(this).data("key");
 
-      $('.showblogdetails_' + id).removeClass("hidden");
-      $('.blogeditform_' + id).addClass("hidden");
-    });
+                    $('.showblogdetails_' + id).removeClass("hidden");
+                    $('.blogeditform_' + id).addClass("hidden");
+                  });
 
-    $('.remove').on("click", function () {
-      var id = $(this).data("key");
-      console.log("id " + id);
+                  $('.remove').on("click", function () {
+                    var id = $(this).data("key");
+                    console.log("id " + id);
 
-      DeleteBlogByID(id);
-    });
+                    DeleteBlogByID(id);
+                  });
 
-        $(".showmycomments").on("click", function() {
+                  $(".showmycomments").on("click", function () {
 
-        var selectedBlogIDCmnt = $(this).data("blogid");
+                    var selectedBlogIDCmnt = $(this).data("blogid");
 
-        var loggedinuserid = $("#userid").val();
+                    var loggedinuserid = $("#userid").val();
 
-        console.log("blogid : " + selectedBlogIDCmnt + " , loggedinuserid : " + loggedinuserid);
+                    console.log("blogid : " + selectedBlogIDCmnt + " , loggedinuserid : " + loggedinuserid);
 
-        if (selectedBlogIDCmnt != "") {
-            LoadCommentHistoryV1(selectedBlogIDCmnt, loggedinuserid);
-        } else {
-            $(".mycommentdiv").html("");
-        }
-    });
+                    if (selectedBlogIDCmnt != "") {
+                      LoadCommentHistoryV1(selectedBlogIDCmnt, loggedinuserid);
+                    } else {
+                      $(".mycommentdiv").html("");
+                    }
+                  });
 
-    $(".mycommentdiv").on("click", "span>button", function() {
-        console.log()
-        console.log("click");
-        console.log("Click :" + $(this).closest(".commenttable").data("id"));
-        console.log($(this).parent("span").find($("input[type='radio']:checked")).data("type"));
-        console.log($("#blogcomment_" + $(this).closest(".commenttable").data("id")).val());
-        console.log("click");
+                  $(".mycommentdiv").on("click", "span>button", function () {
+                    console.log()
+                    console.log("click");
+                    console.log("Click :" + $(this).closest(".commenttable").data("id"));
+                    console.log($(this).parent("span").find($("input[type='radio']:checked")).data("type"));
+                    console.log($("#blogcomment_" + $(this).closest(".commenttable").data("id")).val());
+                    console.log("click");
 
-        var commentid = $(this).closest(".commenttable").data("id");
-        var comments = $("#blogcomment_" + commentid).val();
-        var status = $(this).parent("span").find($("input[type='radio']:checked")).data("type");
-        var data = "";
+                    var commentid = $(this).closest(".commenttable").data("id");
+                    var comments = $("#blogcomment_" + commentid).val();
+                    var status = $(this).parent("span").find($("input[type='radio']:checked")).data("type");
+                    var data = "";
 
-        $(".blogcommentvalidationpanel_" + commentid).html("");
-        $(".blogcommentvalidationpanel_" + commentid).addClass("hidden");
+                    $(".blogcommentvalidationpanel_" + commentid).html("");
+                    $(".blogcommentvalidationpanel_" + commentid).addClass("hidden");
 
-        if (comments != undefined) {
-            data = {
-                comment: comments,
-                _id: commentid,
-                status: status
-            };
+                    if (comments != undefined) {
+                      data = {
+                        comment: comments,
+                        _id: commentid,
+                        status: status
+                      };
 
-            if (data.comment != "" && data._id != null && data.status != null) {
-                swal({
-                    title: "Are you sure?",
-                    text: "Are you sure that you want to update this records?",
-                    type: "warning",
-                    showCancelButton: true,
-                    closeOnConfirm: false,
-                    confirmButtonText: "Yes, update it!",
-                    confirmButtonColor: "#ec6c62"
-                }, function() {
-                    $.ajax({
+                      if (data.comment != "" && data._id != null && data.status != null) {
+                        swal({
+                          title: "Are you sure?",
+                          text: "Are you sure that you want to update this records?",
+                          type: "warning",
+                          showCancelButton: true,
+                          closeOnConfirm: false,
+                          confirmButtonText: "Yes, update it!",
+                          confirmButtonColor: "#ec6c62"
+                        }, function () {
+                          $.ajax({
                             method: "Post",
                             url: "/myprofile/updatecomment",
                             data: data
-                        })
-                        .done(function(result) {
-                            swal("Updated! Comment is successfully updated!", "Success");
-                        })
-                        .error(function(data) {
-                            swal("Oops", "We couldn't connect to the server!", "Error");
+                          })
+                            .done(function (result) {
+                              swal("Updated! Comment is successfully updated!", "Success");
+                            })
+                            .error(function (data) {
+                              swal("Oops", "We couldn't connect to the server!", "Error");
+                            });
                         });
-                });
-            } else {
-                var msgPanel = $("<div></div>");
-                msgPanel.append(
-                    ErrorMessage("<strong>Warning!</strong> Comment cannot be empty.")
-                );
-                $(".blogcommentvalidationpanel_" + commentid).html(msgPanel).removeClass("hidden");
-            }
+                      } else {
+                        var msgPanel = $("<div></div>");
+                        msgPanel.append(
+                          ErrorMessage("<strong>Warning!</strong> Comment cannot be empty.")
+                        );
+                        $(".blogcommentvalidationpanel_" + commentid).html(msgPanel).removeClass("hidden");
+                      }
 
-        } else {
-            data = {
-                _id: commentid,
-                status: status
-            };
+                    } else {
+                      data = {
+                        _id: commentid,
+                        status: status
+                      };
 
-            if (data._id != null && data.status != null) {
-                swal({
-                    title: "Are you sure?",
-                    text: "Are you sure that you want to update this records?",
-                    type: "warning",
-                    showCancelButton: true,
-                    closeOnConfirm: false,
-                    confirmButtonText: "Yes, update it!",
-                    confirmButtonColor: "#ec6c62"
-                }, function() {
-                    $.ajax({
+                      if (data._id != null && data.status != null) {
+                        swal({
+                          title: "Are you sure?",
+                          text: "Are you sure that you want to update this records?",
+                          type: "warning",
+                          showCancelButton: true,
+                          closeOnConfirm: false,
+                          confirmButtonText: "Yes, update it!",
+                          confirmButtonColor: "#ec6c62"
+                        }, function () {
+                          $.ajax({
                             method: "Post",
                             url: "/myprofile/updatecomment",
                             data: data
-                        })
-                        .done(function(result) {
-                            swal("Updated! Comment is successfully updated!", "Success");
-                        })
-                        .error(function(data) {
-                            swal("Oops", "We couldn't connect to the server!", "Error");
+                          })
+                            .done(function (result) {
+                              swal("Updated! Comment is successfully updated!", "Success");
+                            })
+                            .error(function (data) {
+                              swal("Oops", "We couldn't connect to the server!", "Error");
+                            });
                         });
-                });
-            }
-        }
-    });
-  })
+                      }
+                    }
+                  });
+                })
 
 </script>

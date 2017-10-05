@@ -72,3 +72,18 @@ span#loadmorecommentbyblogid {
     color: white;
     padding: 5px 8px;
 }
+
+div#myModal {
+    /* display: block; */
+    /* display: inline-block !important; */
+    height: 100%;
+    overflow: scroll;
+}
+
+.note-group-select-from-files {
+    display: none;
+}
+
+button.note-btn.btn.btn-default.btn-sm {
+    BACKGROUND-COLOR: BLACK;
+}
