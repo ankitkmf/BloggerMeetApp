@@ -3,22 +3,24 @@ $(function() {
 
     var categorytype = "all";
     var lastblogid = "0";
+    var userid = "";
 
     var blogid = $('#divImage').data("lastblogid");
     if (blogid == "0") $('#divImage').addClass("hidden");
 
     $('#divImage').on("click", function() {
         lastblogid = $(this).data("lastblogid");
+        userid = $(this).data("userid");
 
-        console.log(lastblogid + " , " + categorytype);
+        // console.log("divImage clicked");
 
-        GetBlogsInfo(lastblogid, categorytype);
+        GetBlogsInfo(lastblogid, categorytype, userid);
     });
 
     $('.blogcategory').on("click", ".blogctid", function() {
         categorytype = $(this).data("key");
         console.log(categorytype);
-        GetBlogsInfo("0", categorytype);
+        GetBlogsInfo("0", categorytype, userid);
     })
 
     limitBlogLength();
@@ -42,12 +44,14 @@ let limitBlogLength = () => {
     });
 };
 
-let GetBlogsInfo = (lastblogid, categorytype) => {
+let GetBlogsInfo = (lastblogid, categorytype, userid) => {
     run_waitMe("blogdata");
     $.when(GetCompiledTemplate("blogsection"), GetBlogsByStartIndex(lastblogid, categorytype))
         .done(function(template, json) {
 
-            var data = { "lastblogid": json.lastblogid, "blogs": json.blogs };
+            //console.log("User ID : " + userid);
+
+            var data = { "lastblogid": json.lastblogid, "blogs": json.blogs, "userid": userid };
 
             var compiledTemplate = Handlebars.compile(template);
             var newhtml = compiledTemplate(data);

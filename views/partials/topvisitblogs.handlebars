@@ -1,0 +1,12 @@
+<!-- Recent blogs Widget Well -->
+{{#Compare topvisit.count ">" 0}}
+<div class="panel panel-info">
+  <div class="panel-heading">
+    <h3 class="panel-title">Top Visit</h3>
+  </div>
+  <div class="list-group  panel-body">
+    {{#each topvisit.result}}
+        <a class="list-group-item" href="/viewblog/showdetails/{{this.blogid}}">{{this.blogtopic}}</a> {{/each}}
+  </div>
+</div>
+{{/Compare}}

@@ -71,14 +71,17 @@
         <div class="col-lg-4">
             <div class="bs-component">
                 <!-- Top Visited Side Widget Well -->
-                {{#Compare topvisit.count ">" 0}}
-                <div>
+                {{!-- {{#Compare topvisit.count ">" 0}} --}}
+                {{!-- <div>
                     <div class="list-group">
                         <h4 class="list-group-item active">Top Visit</h4>
                         <a href="#" class="list-group-item">display the top visited blogs.</a>
                     </div>
-                </div>
-                {{/Compare}}
+                </div> --}}
+                {{#if topvisit}} 
+                    {{> topvisitblogs topvisit=topvisit }} 
+                {{/if}}
+                {{!-- {{/Compare}} --}}
 
                 <!-- Top Visited Side Widget Well -->
                 {{#if mostrecentblogs}} {{> recentblogs mostrecentblogs=mostrecentblogs }} {{/if}}

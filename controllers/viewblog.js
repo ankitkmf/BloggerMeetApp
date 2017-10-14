@@ -18,12 +18,13 @@ router.get('/showdetails/:blogid', function(req, res) {
     Promise.all([
         blogger.getblogbyblogid(blogid),
         blogger.getblogcommentbyblogid(blogid, "0"),
-        blogger.viewrecentblogs()
+        blogger.viewrecentblogs(),
+        blogger.viewtopvisitblogs()
     ]).then(data => {
         var blog = data[0].data;
         var comments = data[1].data;
         var mostrecentblogs = data[2].data;
-        var topvisit = { "result": [], "count": 0 };
+        var topvisit = data[3].data; //{ "result": [], "count": 0 };
 
         var lastCommentId = "0";
         _.forEach(comments.result, function(result) {
@@ -31,7 +32,9 @@ router.get('/showdetails/:blogid', function(req, res) {
             lastCommentId = result._id;
         });
 
-        log.logger.info("Successfully retrive blog's data");
+        log.logger.info("Successfully retrive blog's data ");
+
+        //console.log("topvisit : " + JSON.stringify(topvisit));
 
         res.render("viewblog", {
             layout: 'default',

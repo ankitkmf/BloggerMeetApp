@@ -84,6 +84,26 @@ exports.getblogbyblogid = function(blogid) {
     });
 }
 
+exports.viewtopvisitblogs = function() {
+    let path = serviceURL + "/gettopvisitblogs";
+    //console.log("path:" + path);
+    log.logger.info("Model layer : viewtopvisitblogs : service call : " + path);
+    //console.log("viewtopvisitblogs 1114");
+    return new Promise(function(resolve, reject) {
+        axios.get(path).then(function(response) {
+                //console.log("viewtopvisitblogs 21 ");
+                log.logger.info("Model layer : viewtopvisitblogs : service call : success");
+                resolve(response);
+            })
+            .catch(function(error) {
+                //console.log("viewtopvisitblogs 31");
+                var err = { "Error": error };
+                log.logger.error("Model layer : viewtopvisitblogs : service call : error : " + error);
+                reject(err);
+            });
+    });
+}
+
 exports.deleteblogbyblogid = function(_id, userid) {
     let path = serviceURL + "/deleteblogbyblogid/" + _id + "/" + userid;
     //console.log("path:" + path);
